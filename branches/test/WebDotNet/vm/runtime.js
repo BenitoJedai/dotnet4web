@@ -27,10 +27,10 @@ function Call(args, code, assembly)
 	}
 }
  
-var f = [ alert, ["message(future may be most)"], 0 /*zero type is void*/]
+var f = [ function(args) { alert(args[0]); }, ["message(future may be most)"], 0 /*zero type is void*/];
 
 
-var c = new Call([1,[[12],0]], [[1,0],[114,0],[2, 0],[15,1],[114,0],[42,0]], ["constante", f]);
+var c = new Call([1,[[12],0]], [[1,0],[114,0],[2, 0],[15,1],[114,0],[42,1],[42,0]], ["constante", f]);
 
 c.run();
 
