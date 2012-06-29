@@ -80,6 +80,7 @@
     <Content Include="vm\set\0x23-ldc.r8.js" />
     <Content Include="vm\set\0x25-dup.js" />
     <Content Include="vm\set\0x26-pop.js" />
+    <Content Include="vm\set\0x28-call.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
