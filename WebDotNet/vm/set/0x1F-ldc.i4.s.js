@@ -1,1 +1,1 @@
-push(operand);
+pop();
