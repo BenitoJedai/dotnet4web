@@ -1,5 +1,5 @@
 
-function Call(args, code)
+function Call(args, code, assembly)
 {
 	var locals = [];
 	var stack = [];
@@ -21,7 +21,7 @@ function Call(args, code)
 		for(; !exit; ip++)
 		{
 			debug();
-			cil[code[ip][0]](push,pop, goto,locals, args,ret,{}, code[ip][1]);
+			cil[code[ip][0]](push,pop, goto,locals, args,ret,assembly, code[ip][1]);
 		}
 		debug();
 	}
@@ -29,6 +29,6 @@ function Call(args, code)
 }
 
 
-var c = new Call([1,[[12],0]], [[1,0],[114,"lala"],[2, 0],[15,1],[42,0]]);
+var c = new Call([1,[[12],0]], [[1,0],[114,0],[2, 0],[15,1],[42,0]], ["constante"]);
 
 c.run();
