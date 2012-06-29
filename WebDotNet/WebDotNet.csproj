@@ -63,6 +63,8 @@
     <Content Include="vm\set\0x12-ldloca.s.js" />
     <Content Include="vm\set\0x13-stloc.s.js" />
     <Content Include="vm\set\0x14-ldnull.js" />
+    <Content Include="vm\set\0x16-ldc.i4.m1.js" />
+    <Content Include="vm\set\0x17-ldc.i4.M1.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
