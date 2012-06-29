@@ -29,6 +29,6 @@ function Call(args, code)
 }
 
 
-var c = new Call([1,2], [[1,0],[114,"lala"],[2, 0],[15,12],[42,0]]);
+var c = new Call([1,[[12],0]], [[1,0],[114,"lala"],[2, 0],[15,1],[42,0]]);
 
 c.run();
