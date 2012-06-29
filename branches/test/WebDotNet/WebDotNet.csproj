@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{012DAE40-4D2E-474E-8FF3-49291031DF02}</ProjectGuid>
+    <ProjectTypeGuids>{349C5851-65DF-11DA-9384-00065B846F21};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>WebDotNet</RootNamespace>
+    <AssemblyName>WebDotNet</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Services" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="web.config" />
+    <Content Include="Default.ashx" />
+    <Content Include="vm\runtime.js" />
+    <Content Include="vm\set\0x2A-ret.js" />
+    <Content Include="vm\set\0x72-ldstr.js" />
+    <Content Include="vm\set\0x02-ldarg.0.js" />
+    <Content Include="vm\set\0x03-ldarg.1.js" />
+    <Content Include="vm\set\0x04-ldarg.2.js" />
+    <Content Include="vm\set\0x05-ldarg.3.js" />
+    <Content Include="vm\set\0x06-ldloc.0.js" />
+    <Content Include="vm\set\0x07-ldloc.1.js" />
+    <Content Include="vm\set\0x08-ldloc.2.js" />
+    <Content Include="vm\set\0x09-ldloc.3.js" />
+    <Content Include="vm\set\0x0A-stloc.0.js" />
+    <Content Include="vm\set\0x0C-stloc.2.js" />
+    <Content Include="vm\set\0x0B-stloc.1.js" />
+    <Content Include="vm\set\0x00-nop.js" />
+    <Content Include="vm\set\0x01-break.js" />
+    <Content Include="vm\set\0x0E-ldarg.s.js" />
+    <Content Include="vm\set\0x0D-stloc.3.js" />
+    <Content Include="vm\set\0x0F-ldarga.s.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Default.ashx.cs">
+      <DependentUpon>Default.ashx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties VerifyCodeBehindFields="true" VerifyCodeBehindEvents="true">
+        <XspParameters Port="8080" Address="127.0.0.1" SslMode="None" SslProtocol="Default" KeyType="None" CertFile="" KeyFile="" PasswordOptions="None" Password="" Verbose="true" />
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="vm\" />
+    <Folder Include="vm\set\" />
+  </ItemGroup>
+</Project>
