@@ -25,10 +25,9 @@ function Call(args, code, assembly)
 		}
 		debug();
 	}
-	
 }
 
 
-var c = new Call([1,[[12],0]], [[1,0],[114,0],[2, 0],[15,1],[42,0]], ["constante"]);
+var c = new Call([1,[[12],0]], [[1,0],[114,0],[2, 0],[15,1],[114,0],[42,0]], ["constante"]);
 
 c.run();
