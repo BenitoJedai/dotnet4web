@@ -3,7 +3,7 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="WebDotNet/vm/runtime.js">
     <Files>
       <File FileName="WebDotNet/Default.ashx.cs" Line="39" Column="2" />
-      <File FileName="WebDotNet/vm/runtime.js" Line="32" Column="60" />
+      <File FileName="WebDotNet/vm/runtime.js" Line="25" Column="4" />
       <File FileName="WebDotNet/vm/set/0x0A-stloc.0.js" Line="1" Column="19" />
       <File FileName="WebDotNet/vm/set/0x0B-stloc.1.js" Line="1" Column="9" />
       <File FileName="WebDotNet/vm/set/0x0C-stloc.2.js" Line="1" Column="9" />
