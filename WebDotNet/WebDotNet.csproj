@@ -63,8 +63,16 @@
     <Content Include="vm\set\0x12-ldloca.s.js" />
     <Content Include="vm\set\0x13-stloc.s.js" />
     <Content Include="vm\set\0x14-ldnull.js" />
-    <Content Include="vm\set\0x16-ldc.i4.m1.js" />
-    <Content Include="vm\set\0x17-ldc.i4.M1.js" />
+    <Content Include="vm\set\0x15-ldc.i4.m1.js" />
+    <Content Include="vm\set\0x16-ldc.i4.0.js" />
+    <Content Include="vm\set\0x17-ldc.i4.1.js" />
+    <Content Include="vm\set\0x18-ldc.i4.2.js" />
+    <Content Include="vm\set\0x19-ldc.i4.3.js" />
+    <Content Include="vm\set\0x1A-ldc.i4.4.js" />
+    <Content Include="vm\set\0x1B-ldc.i4.5.js" />
+    <Content Include="vm\set\0x1C-ldc.i4.6.js" />
+    <Content Include="vm\set\0x1D-ldc.i4.7.js" />
+    <Content Include="vm\set\0x1E-ldc.i4.8.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
