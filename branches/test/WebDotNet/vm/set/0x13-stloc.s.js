@@ -1,0 +1,2 @@
+
+locals[operand] = pop();
