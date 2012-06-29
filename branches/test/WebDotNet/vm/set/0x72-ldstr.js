@@ -1,2 +1,2 @@
 
-push(operand);
+push(assembly[operand]);
