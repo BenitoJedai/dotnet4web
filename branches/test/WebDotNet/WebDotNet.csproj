@@ -73,6 +73,11 @@
     <Content Include="vm\set\0x1C-ldc.i4.6.js" />
     <Content Include="vm\set\0x1D-ldc.i4.7.js" />
     <Content Include="vm\set\0x1E-ldc.i4.8.js" />
+    <Content Include="vm\set\0x1F-ldc.i4.s.js" />
+    <Content Include="vm\set\0x20-ldc.i4.js" />
+    <Content Include="vm\set\0x21-ldc.i8.js" />
+    <Content Include="vm\set\0x22-ldc.r4.js" />
+    <Content Include="vm\set\0x23-ldc.r8.js" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Global.asax.cs">
