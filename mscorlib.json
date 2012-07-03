@@ -1,0 +1,34 @@
+{
+    "references":[],
+    "types":[
+        {
+            "name":"String",
+            "namespace":"System",
+            "scope":null
+        },
+        {
+            "name":"Console",
+            "namespace":"System",
+            "scope":null
+        }
+    ],
+    "methods":[
+        {
+            "name":"op_Inequality",
+            "type":2,
+            "parameters":[null, null],
+            "returns":"Bool",
+            "declaring":0,
+            "body":["str1","str2","return str1 == str2;"]
+        },
+        {
+            "name":"WriteLine",
+            "type":2,
+            "parameters":[null],
+            "returns":null,
+            "body":["message","if(console.debug) { console.debug(message); }"],
+            "declaring":1
+        }
+    ],
+    "constants":[]
+}

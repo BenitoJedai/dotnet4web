@@ -1,0 +1,196 @@
+<script>(function(){
+
+var MethodType = { Cil:0, Ref:1, Native:2 };
+
+
+function Runtime()
+{
+    this._modules = {};
+}
+
+Runtime.prototype.getModule = function(name)
+{
+    if(!this._modules[name])
+        this._modules[name] = new Module(name);
+    return this._modules[name]
+}
+
+
+
+function Module(name)
+{
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", name + ".json", false);
+    xhr.send();
+    var data = eval("(" + xhr.responseText + ")");
+    xhr = null;
+    
+    this._references = [];
+    for(var i = 0; i < data.references.length; i++)
+        this._references.push(new Module(data.references[i]));    
+        
+    this._types = [];
+    for(var i = 0; i < data.types.length; i++)
+    {
+        var type = data.types[i];
+        if(type.scope == null)
+            this._types.push(new Type(this, data.types[i]));
+        else
+            this._types.push(this._references[type.scope].getType(type.namespace, type.name));
+    }
+    
+    this._methods = [];
+    for(var i = 0; i < data.methods.length; i++)
+    {
+        var method = data.methods[i];
+        if(method.type == MethodType.Cil || method.type == MethodType.Native)
+        {
+            this._methods.push(new Method(this, method));
+        }
+        else if(method.type == MethodType.Ref)
+        {
+            this._methods.push(this._types[method.declaring].getMethod(method.name));
+        }
+
+    }
+    this._constants = data.constants;
+    
+    this._entry = data.entry;
+    
+    this.name = name;
+}
+
+Module.prototype.main = function(args)
+{
+    this._methods[this._entry].invoke(args);
+}
+
+Module.prototype.getType = function(namespace, name)
+{
+    for(var i = 0; i < this._types.length; i++)
+    {
+        if(this._types[i].name == name  && this._types[i].namespace == namespace)
+            return this._types[i];
+    }
+    throw new Error("Clase referenciada no encontrada");
+}
+
+
+function Type(module, info)
+{
+    this._module = module;
+    this.name = info.name;
+    this.namespace = info.namespace;
+}
+
+Type.prototype.getMethod = function(name)
+{
+    for(var i = 0; i < this._module._methods.length; i++)
+    {
+        var m = this._module._methods[i];
+        if(m._type == this && m._name == name)
+            return m;
+    }
+    throw new Error("Metodo referenciado no encontrado");
+}
+
+function Method(module, info)
+{
+    this._module = module;
+    this._type = module._types[info.declaring];
+    this._name = info.name;
+    this._native = info.type == 2;
+    this.parameters = info.parameters;
+    this.returns = info.returns;
+    
+    if(this._native)
+        info.body = Function.prototype.constructor.apply({}, info.body);
+    this._body = info.body;
+}
+  
+Method.prototype.invoke = function(args)
+{
+    if(this._native)
+    {
+        return this._body.apply(this, args);
+    }
+    else
+    {
+        var c = new Call(args, this._body, this._module);
+        console.debug("Ejecuando codigo CIL");
+        return c.run();
+    }
+}
+    
+var cil = [];
+
+cil[114] = function(push,pop, goto,locals, args,ret,assembly, operand)
+{
+    push(assembly._constants[operand]);
+}
+
+cil[40] = function(push,pop, goto,locals, args,ret,assembly, operand)
+{
+    var f = assembly._methods[operand];
+
+    var a = [];
+    for(var i  = 0; i < f.parameters.length; i++)
+        a.push(pop());
+        
+    
+    
+    var rv = f.invoke(a);   
+ 
+    
+    if(f.returns != null)
+         push(rv);
+}
+
+cil[42] = function(push,pop, goto,locals, args,ret,assembly, operand)
+{
+    ret();
+}
+
+
+function Call(args, code, assembly)
+{
+    var locals = [];
+    var stack = [];
+    var ip = 0;
+    var exit = false;
+    var ip = 0;
+    var push = function(value) { stack.push(value); };
+    var pop = function() { return stack.pop(); };
+    var goto = function(index) { ip = index - 1; };
+    var ret = function() { exit = true; };
+    
+    var debug = function()
+    {
+        console.debug({"stack":stack.slice(), "locals": locals.slice(), ip:ip});
+    }
+    
+    this.run = function()
+    {
+        for(; !exit; ip++)
+        {
+            debug();
+            cil[code[ip][0]](push,pop, goto,locals, args,ret,assembly, code[ip][1]);
+        }
+        debug();
+    }
+}
+     
+
+Runtime = new Runtime();
+
+(function(){
+    var request = decodeURIComponent(location.href.split("?")[1]);
+    var part = request.split(" ");
+    var exename = part.shift();
+    var main = Runtime.getModule(exename);
+    main.main();
+}());
+
+
+    
+}());</script>
