@@ -1,0 +1,19 @@
+ 
+.class public auto ansi abstract sealed beforefieldinit JsNet.ExampleProject.MainClass
+  extends [mscorlib]System.Object
+{
+  // Methods
+  .method public hidebysig static 
+    void Main () cil managed 
+  {
+    // Method begins at RVA 0x20ec
+    // Code size 11 (0xb)
+    .maxstack 8
+    .entrypoint
+
+    IL_0000: ldstr "Hello world!!!"
+    IL_0005: call void [JsNet.W3C]JsNet.W3C.Window::Alert(string)
+    IL_000a: ret
+  } // end of method MainClass::Main
+
+} // end of class JsNet.ExampleProject.MainClass
