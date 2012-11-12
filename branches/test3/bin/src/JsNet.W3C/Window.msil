@@ -1,0 +1,28 @@
+ .class public auto ansi abstract sealed beforefieldinit JsNet.W3C.Window
+  extends [mscorlib]System.Object
+{
+  // Methods
+  .method public hidebysig static 
+    void Alert (
+      string message
+    ) cil managed 
+  {
+    // Method begins at RVA 0x20ec
+    // Code size 32 (0x20)
+    .maxstack 8
+
+    IL_0000: call class [JsNet.CoreLib]System.InteropBrowser.Javascript [JsNet.CoreLib]System.InteropBrowser.Javascript::get_Global()
+    IL_0005: ldstr "alert"
+    IL_000a: ldc.i4.1
+    IL_000b: newarr [JsNet.CoreLib]System.InteropBrowser.Javascript
+    IL_0010: dup
+    IL_0011: ldc.i4.0
+    IL_0012: ldarg.0
+    IL_0013: call class [JsNet.CoreLib]System.InteropBrowser.Javascript [JsNet.CoreLib]System.InteropBrowser.Javascript::op_Explicit(string)
+    IL_0018: stelem.ref
+    IL_0019: callvirt instance class [JsNet.CoreLib]System.InteropBrowser.Javascript [JsNet.CoreLib]System.InteropBrowser.Javascript::Call(string, class [JsNet.CoreLib]System.InteropBrowser.Javascript[])
+    IL_001e: pop
+    IL_001f: ret
+  } // end of method Window::Alert
+
+} // end of class JsNet.W3C.Window
