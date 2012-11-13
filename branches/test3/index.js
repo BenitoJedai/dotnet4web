@@ -17,10 +17,10 @@ var typeType = [undefined, "Type"];
 typeType[0] = typeType;
 
 var BuiltinTypes = {
-  String:[undefined,"String"],
+  String:[typeType,"String"],
   Int32:[typeType, "Int32"],
   Array:[typeType, "Array"],
-  Type:typeType,
+  Type:typeType
 }
 
 //Type
@@ -47,6 +47,20 @@ var JavascriptInterop = {
   }
 };
 
+//Metodos nativos de la corelib
+var CorelibMethod = {
+  Thread_Sleep:function()
+  {
+    this.pause();
+
+    window.setTimeout((function(){ 
+      
+      this.run(); 
+      
+      
+    }).bind(this),this.stack.pop()[1]);
+  }
+};
 
 //Metodo alert()
 var other = [
@@ -66,6 +80,8 @@ var other = [
 
 //Metodo main
 var code = [
+  [PseudoOpcodes.Const, BuiltinTypes.Int32, 1000],
+  [PseudoOpcodes.NativeCall, CorelibMethod.Thread_Sleep],
   [PseudoOpcodes.Const, BuiltinTypes.String, "Hello world!!!"],
   [PseudoOpcodes.Call, other, 1],
   [PseudoOpcodes.Return, false]
@@ -103,7 +119,7 @@ Exec.prototype.restore = function()
   this.ip = prev.ip;
 }
 
-function pause()
+Exec.prototype.pause = function()
 {
   this.stoped = true;
 }
