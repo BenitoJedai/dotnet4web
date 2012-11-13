@@ -103,8 +103,14 @@ Exec.prototype.restore = function()
   this.ip = prev.ip;
 }
 
+function pause()
+{
+  this.stoped = true;
+}
+
 Exec.prototype.run = function()
 {
+  this.stoped = false;
   while(true)
   {
     var current = this.code[this.ip];
@@ -162,6 +168,8 @@ Exec.prototype.run = function()
         throw new Error("Invalid pseudo instruction code: " + current[0]);
     }
     this.ip++;
+    if(this.stoped)
+      return;
   }
 }
 
