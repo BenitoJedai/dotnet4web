@@ -7,22 +7,43 @@ var PseudoOpcodes = {
   Call:3,
   Return:4,
   NativeCall:5,
-  NewArray:6
+  NewArray:6,
+  Duplicate:7,
+  SetIndex:8,
+  Pop:9
 }
+
+var typeType = [undefined, "Type"];
+typeType[0] = typeType;
 
 var BuiltinTypes = {
-  String:[],
-  Int32:[],
-  Array:[]
+  String:[undefined,"String"],
+  Int32:[typeType, "Int32"],
+  Array:[typeType, "Array"],
+  Type:typeType,
 }
 
-var JavascriptInteropType = [];
+//Type
+//0: Referencia al tipo typeType
+//1: Nombre del tipo
+var JavascriptInteropType = [BuiltinTypes.Type, "Javascript"];
   
 //Metodos javascript nativos
 var JavascriptInterop = {
   get_Window:function()
   {
     this.stack.push([JavascriptInteropType, window]);
+  },
+  Javascript_from_string:function()
+  {
+    this.stack.push(this.stack.pop()[1].toString());
+  },
+  Call:function()
+  {
+    var params = this.stack.pop()[2];
+    var mname = this.stack.pop()[1];
+    var instance = this.stack.pop()[1];
+    this.stack.push([JavascriptInteropType, instance[mname].apply(instance, params)]);
   }
 };
 
@@ -33,6 +54,13 @@ var other = [
   [PseudoOpcodes.Const, BuiltinTypes.String, "alert"],
   [PseudoOpcodes.Const, BuiltinTypes.Int32, 1],
   [PseudoOpcodes.NewArray, BuiltinTypes.JavascriptInteropType],
+  [PseudoOpcodes.Duplicate],
+  [PseudoOpcodes.Const, BuiltinTypes.Int32, 0],
+  [PseudoOpcodes.Load, 0],
+  [PseudoOpcodes.NativeCall, JavascriptInterop.Javascript_from_string],
+  [PseudoOpcodes.SetIndex],
+  [PseudoOpcodes.NativeCall, JavascriptInterop.Call],
+  [PseudoOpcodes.Pop],
   [PseudoOpcodes.Return, false]
 ];
 
@@ -86,6 +114,9 @@ Exec.prototype.run = function()
       case 0x00:
         this.stack.push([current[1], current[2]]);
         break;
+      case 0x02:
+        this.stack.push(this.vars[current[1]]);
+        break;
       //Call(1:code, 2:argcount)
       case 0x03:
         this.save();
@@ -113,9 +144,19 @@ Exec.prototype.run = function()
         current[1].call(this);
         break;
       case 0x06:
-        debugger;
-        var toremove = this.stack.pop();
-        this.stack.push([BuiltinTypes.Array, current[1], this.stack.splice(this.stack.length - toremove, toremove)]);
+        this.stack.push([BuiltinTypes.Array, current[1], new Array(this.stack.pop()[1])]);
+        break;
+      case 0x07:
+        this.stack.push(this.stack[this.stack.length - 1]);
+        break;
+      case 0x08:
+        var value = this.stack.pop();
+        var index = this.stack.pop();
+        var array = this.stack.pop();
+        array[2][index[1]] = value;
+        break;
+      case 0x09:
+        this.stack.pop();
         break;
       default:
         throw new Error("Invalid pseudo instruction code: " + current[0]);
