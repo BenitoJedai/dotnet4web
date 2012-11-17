@@ -122,6 +122,9 @@
                 case 0x00:
                     this.stack.push([current[1], current[2]]);
                     break;
+                case 0x01:
+                    this.vars[current[1]] = stack.pop();
+                    break;
                 case 0x02:
                     this.stack.push(this.vars[current[1]]);
                     break;
