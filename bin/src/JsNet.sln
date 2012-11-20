@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsNet.CoreLib", "JsNet.CoreLib\JsNet.CoreLib.csproj", "{400B97AD-4ECB-4E4D-8DB2-5CC043A168B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsNet.Interop", "JsNet.CoreLib\JsNet.Interop.csproj", "{400B97AD-4ECB-4E4D-8DB2-5CC043A168B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsNet.ExampleProject", "JsNet.ExampleProject\JsNet.ExampleProject.csproj", "{E4D37C9D-1CDD-43F7-8175-A677E25EF5DE}"
 EndProject
