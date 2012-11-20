@@ -40,9 +40,9 @@
       <Project>{33FA4CF0-F894-42CE-95AB-F947050634D7}</Project>
       <Name>JsNet.W3C</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JsNet.CoreLib\JsNet.CoreLib.csproj">
+    <ProjectReference Include="..\JsNet.CoreLib\JsNet.Interop.csproj">
       <Project>{400B97AD-4ECB-4E4D-8DB2-5CC043A168B7}</Project>
-      <Name>JsNet.CoreLib</Name>
+      <Name>JsNet.Interop</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,4 @@
-using System;
-using System.InteropBrowser;
+using System.Runtime.InteropServices.WebBrowser;
 
 namespace JsNet.W3C
 {
@@ -7,7 +6,7 @@ namespace JsNet.W3C
 	{
 		public static void Alert(string message)
 		{
-			Javascript.Global.Call("alert", (Javascript) message);
+			Object.Global.Call("alert", (Object) message);
 		}
 	}
 }
