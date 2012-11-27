@@ -141,9 +141,28 @@
         	return bits;
         }
         
-        //var metadataoffset = 0x308;
-        var metadataoffset = 0x35c;
+        offset = 0x264;
         
+        //mscorlib    35c 215c
+        //n4w.interop 304 2104
+        //Org.W3C     314 2114
+        
+        var netdir = struct(
+          ["cb", dword],
+          ["MajorRuntimeVersion", word],
+          ["MinorRuntimeVersion", word],
+          ["MetadataRVA", dword],
+          ["MetadataSize", dword],
+          ["Flags", flags(4,{})],
+          ["EntryPointTojen", dword],
+          ["ResourcesRVA", dword],
+          ["ResourcesSize", dword],
+          ["StrongNameSignatureRVA", dword],
+          ["StrongNameSignatureSize", dword]
+        )();
+       
+        var metadataoffset = netdir.MetadataRVA - 0x1e00;
+       
         offset = metadataoffset;
 
         
@@ -388,23 +407,40 @@
         var blob = buffer.slice(metadataoffset + root.Streams.Blob.Offset,
             metadataoffset + root.Streams.Blob.Offset+root.Streams.Blob.Size);
         
-        var final = {Version:root.Version,Tables:tables,Strings:us,Blob:blob};
-        console.debug(final);
+        return {Version:root.Version,Tables:tables,Strings:us,Blob:blob};
+        
     }
+    
+    function realLoad(path,name, callback)
+    {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", path + name, true);
+      xhr.responseType = "arraybuffer";
+      xhr.send();
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4) {
+              callback(name, readMetadata(xhr.response));
+          }
+      };
+    }
+    
 
     //Se obtiene la lista de modulos que se van a cargar
     var modules = document.getElementsByTagName("script");
-    modules = modules[modules.length - 1].getAttribute("load").split(";");
+    modules = modules[modules.length - 1];
+    var path = modules.getAttribute("path");
+    modules = modules.getAttribute("load").split(";");
 
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", modules[0], true);
-    xhr.responseType = "arraybuffer";
-    xhr.send();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState == 4) {
-            readMetadata(xhr.response);
-        }
-    };
+    var final = {};
+    var j = modules.length;
+    for(var i = 0; i < modules.length; i++) {
+      realLoad(path, modules[i], function(name, data) {
+        final[name] = data;
+        j--;
+        if(j == 0)
+          console.debug(final);
+      });
+    }
 
 
 })();
