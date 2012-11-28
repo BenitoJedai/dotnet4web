@@ -35,8 +35,8 @@
     <Folder Include="System\Runtime\" />
     <Folder Include="System\Collections\" />
     <Folder Include="System\Runtime\InteropServices\" />
-    <Folder Include="System\Runtime\InteropServices\WebIntegration\" />
     <Folder Include="System\Threading\" />
+    <Folder Include="System\Runtime\CompilerServices\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="System\Array.cs" />
@@ -73,6 +73,8 @@
     <Compile Include="System\Collections\IEnumerator.cs" />
     <Compile Include="System\Runtime\InteropServices\OutAttribute.cs" />
     <Compile Include="System\Threading\Thread.cs" />
+    <Compile Include="System\Runtime\CompilerServices\MethodImpl.cs" />
+    <Compile Include="System\Runtime\CompilerServices\MethodImplOptions.cs" />
     <Compile Include="System\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
   </ItemGroup>
   <ProjectExtensions>

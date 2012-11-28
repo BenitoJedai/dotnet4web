@@ -296,7 +296,8 @@
                 "Permission","Property","Event","StandAloneSig","ModuleRef",
                 "TypeSpec","Assembly","AssemblyRef","File","ExportedType",
                 "ManifestResource"]),
-            HasSemantics:ind(1, ["Property","Event"])
+            HasSemantics:ind(1, ["Property","Event"]),
+            HasConstant:ind(2, ["FieldDef","ParamDef","Property"])
         };
         
         
@@ -323,7 +324,14 @@
             ),
             "MethodDef":struct(
                 ["RVA",dword],
-                ["ImplFlags", word],
+                ["ImplFlags", flags(2,{
+                        InternalCall:12,
+                        Syncronized:4,
+                        Managed:2,
+                        NoInlining:3,
+                        PreserveSig:6
+                        
+                    })],
                 ["Flags", word],
                 ["Name", nstring],
                 ["Signature", nblob],
@@ -384,6 +392,12 @@
               ["Flags",flags(2, {})],
               ["Name", nstring],
               ["Signature", nblob]
+            ),
+            "Constant":struct(
+                ["Type", byte],
+                ["Reserved", reserved(byte,0)],
+                ["Parent", Index.HasConstant],
+                ["Value", nblob]
             )
             
  
@@ -473,11 +487,23 @@
           for(var i = 0; i < tables.MethodDef.length; i++) {
             var current = tables.MethodDef[i];
             var backup = offset;
+            
+            if(current.RVA == 0)
+            {
+                delete current.RVA;
+                continue;
+            }
+         
+            
             offset = RVA + current.RVA;
+            
+            
             
             var code = [];
             var limit;
+            
             var b = byte();
+            
             
   
             if(b & 3 == 3) {
