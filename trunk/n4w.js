@@ -735,6 +735,25 @@
            }
         }
       }
+      //Meto cada metodo implementado en su correspondiente tipo
+      
+      for(var i in assemblies)
+      {
+        var assembly = assemblies[i];
+        
+        if(assembly.Module.meta.Tables.TypeDef)
+        {
+           for(var j = 0; j < assembly.Module.meta.Tables.TypeDef.length; j++)
+           {
+             var type = assembly.Module.meta.Tables.TypeDef[j];
+             
+             var newml = [];
+             if(type.MethodList) {
+                //if(!assembly.Module.meta.Tables[Method])
+             }
+           }
+        }
+      }
       
       console.debug(domain);
     }
