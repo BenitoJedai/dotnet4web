@@ -398,6 +398,9 @@
                 ["Reserved", reserved(byte,0)],
                 ["Parent", Index.HasConstant],
                 ["Value", nblob]
+            ),
+            "StandAloneSig":struct(
+                ["Signature", nblob]
             )
             
  
@@ -533,6 +536,8 @@
             params[0x2A] = noparam;
             params[0x6F] = TreeAndOneByte;
             params[0x72] = function(b) { return [b, us[dword() & 0xFFFFFF ]]; };
+            params[0x73] = TreeAndOneByte;
+            
             params[0x7B] = TreeAndOneByte;
             
             params[0x7D] = TreeAndOneByte;
@@ -741,16 +746,33 @@
       {
         var assembly = assemblies[i];
         
+        var last = -1;
+        var relations = {};
+        
+        var currentinit = null;
+        var currentcount = null;
+        
         if(assembly.Module.meta.Tables.TypeDef)
         {
            for(var j = 0; j < assembly.Module.meta.Tables.TypeDef.length; j++)
            {
              var type = assembly.Module.meta.Tables.TypeDef[j];
              
-             var newml = [];
-             if(type.MethodList) {
-                //if(!assembly.Module.meta.Tables[Method])
+             if(j == 0)
+             {
+               relations[j] = null;
+               continue;
              }
+             
+             var newml = [];
+             
+             if(type.MethodList > last)
+             {
+               //Se incrementa para el proximo y se toma la lista de argumentos
+               last = j;
+             }
+             
+             
            }
         }
       }
