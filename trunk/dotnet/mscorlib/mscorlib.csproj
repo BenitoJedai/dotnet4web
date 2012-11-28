@@ -73,6 +73,7 @@
     <Compile Include="System\Collections\IEnumerator.cs" />
     <Compile Include="System\Runtime\InteropServices\OutAttribute.cs" />
     <Compile Include="System\Threading\Thread.cs" />
+    <Compile Include="System\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
