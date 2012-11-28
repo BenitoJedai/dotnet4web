@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 
 namespace System.Runtime.InteropServices.WebIntegration
 {
@@ -8,21 +9,17 @@ namespace System.Runtime.InteropServices.WebIntegration
 		{
 		}
 
-		public static JavascriptObject Global {
-			get {
-				return default(JavascriptObject);
-			}
+
+		public extern static JavascriptObject Global {
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
 		}
 
-		public JavascriptObject Call(string name, params JavascriptObject[] arguments)
-		{
-			return default(JavascriptObject);
-		}
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		extern public JavascriptObject Call(string name, params JavascriptObject[] arguments);
 
-		public static implicit operator JavascriptObject (string value)
-		{
-			return default(JavascriptObject);
-		}
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		extern public static implicit operator JavascriptObject (string value);
 	}
 }
 
