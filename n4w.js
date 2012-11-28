@@ -12,6 +12,13 @@
             return rv;
         }
         
+        function sdword() {
+            var rv = dataview.getInt32(offset, true);
+            offset += 4;
+            return rv;
+        }
+        
+        
         function decr(type) {
             return function() {
                 return type() - 1; 
@@ -142,11 +149,7 @@
         }
         
         offset = 0x264;
-        
-        //mscorlib    35c 215c
-        //n4w.interop 304 2104
-        //Org.W3C     314 2114
-        
+       
         var netdir = struct(
           ["cb", dword],
           ["MajorRuntimeVersion", word],
@@ -160,8 +163,10 @@
           ["StrongNameSignatureRVA", dword],
           ["StrongNameSignatureSize", dword]
         )();
-       
-        var metadataoffset = netdir.MetadataRVA - 0x1e00;
+        
+        var RVA = -0x1e00;
+        
+        var metadataoffset = RVA + netdir.MetadataRVA;
        
         offset = metadataoffset;
 
@@ -407,7 +412,105 @@
         var blob = buffer.slice(metadataoffset + root.Streams.Blob.Offset,
             metadataoffset + root.Streams.Blob.Offset+root.Streams.Blob.Size);
         
-        return {Version:root.Version,Tables:tables,Strings:us,Blob:blob};
+        
+        function noparam(opcode)
+        {
+          return opcode;
+        }
+        
+        function wordparam(opcode)
+        {
+          return [opcode, word()];
+        }
+        
+        
+        function sdwordparam(opcode)
+        {
+          return [opcode, sdword()];
+        }
+        
+         function dwordparam(opcode)
+        {
+          return [opcode, dword()];
+        } 
+        
+        function tribyteparam(opcode)
+        {
+          offset--;
+          var x = dword();
+          return [opcode, x >> 8]
+        }
+        
+        function TreeAndOneByte(opcode) {
+           var data =  dword();
+           return [opcode, invertids[data >> 24], data & 0xFFFFFF];
+           
+        }
+        
+        
+            
+            
+        if(tables.MethodDef) {
+          for(var i = 0; i < tables.MethodDef.length; i++) {
+            var current = tables.MethodDef[i];
+            var backup = offset;
+            offset = RVA + current.RVA;
+            
+            var code = [];
+            var limit;
+            var b = byte();
+            
+  
+            if(b & 3 == 3) {
+              throw new Error("Metodos gordos no implementados");
+            } else {
+              
+              var size = b >> 2;
+              limit = offset + (b >> 2);
+            }
+            
+            
+            
+
+            var params = [];
+            params[0] = noparam;
+            params[0x02] = noparam;
+            params[0x06] = noparam;
+            params[0x0A] = noparam;
+            params[0x14] = noparam;
+            params[0x16] = noparam;
+            params[0x17] = noparam;
+            params[0x20] = sdwordparam;
+            params[0x25] = noparam;
+            params[0x26] = noparam;
+            params[0x28] = TreeAndOneByte;
+            params[0x2A] = noparam;
+            params[0x6F] = TreeAndOneByte;
+            params[0x72] = function(b) { return [b, us[dword() & 0xFFFFFF ]]; };
+            params[0x8D] = TreeAndOneByte;
+            params[0xA2] = noparam;
+            //0x2a
+            
+            while(offset < limit) {
+              
+              var opcode = byte();    
+              
+             
+              
+              if(!params[opcode])
+                throw new Error("0x" + opcode.toString(16));
+              else
+                code.push(params[opcode](opcode));
+            }
+
+            delete current.RVA;
+            current.Code = code;
+            
+            offset = backup;
+          }
+        }
+        
+        return {Version:root.Version,Tables:tables,Blob:blob};
         
     }
     
@@ -424,6 +527,8 @@
       };
     }
     
+    
+    
 
     //Se obtiene la lista de modulos que se van a cargar
     var modules = document.getElementsByTagName("script");
@@ -438,9 +543,84 @@
         final[name] = data;
         j--;
         if(j == 0)
-          console.debug(final);
+          startTypesResolutions(final);
       });
     }
 
+    
+    function Domain()
+    {
+      this.Assemblies = {};
+      this.Modules = {};
+    }
 
+    function Module(tok, name, domain)
+    {
+      this.meta= tok;
+      this.Domain = domain;
+      this.Name = name;
+    }
+
+    function Assembly(tok, module)
+    {
+      this.Module = module;
+      for(var i in tok)
+        this[i] = tok[i];
+    }
+
+    function Type(tok, module)
+    {
+      this.Module = module;
+      for(var i in tok)
+        this[i] = tok[i];
+    }
+
+    function Method(tok, module)
+    {
+      this.Module = module;
+      for(var i in tok)
+        this[i] = tok[i];
+    }
+
+    
+    function startTypesResolutions(meta)
+    {
+      var domain = new Domain();
+      var assemblies = {};
+     
+      //Resuelve todas las definiciones de modulos
+      for(var i in meta)
+      {
+        var mod = new Module(meta[i], i, domain);
+        domain.Modules[i] = mod;
+        
+        var tables = {"Assembly":Assembly,"TypeDef":Type,"MethodDef":Method};
+        
+        for(var l in tables)
+        {
+          if(meta[i].Tables[l]) {
+            for(var j = 0; j < meta[i].Tables[l].length; j++)
+            {
+              meta[i].Tables[l][j] = new tables[l](meta[i].Tables[l][j], mod);
+              if(l == "Assembly")
+                assemblies[meta[i].Tables[l][j].Name] = meta[i].Tables[l][j];
+            }
+          }
+        }
+      }
+      
+      for(var i in domain.Modules)
+      {
+        var mod = domain.Modules[i];
+        
+        for(var j = 0; mod.meta.Tables.AssemblyRef && j < mod.meta.Tables.AssemblyRef.length; j++) {
+          mod.meta.Tables.AssemblyRef[j] = assemblies[mod.meta.Tables.AssemblyRef[j].Name];
+        }
+      }
+      console.debug(domain);
+
+    }
+    
+    
+    
 })();
