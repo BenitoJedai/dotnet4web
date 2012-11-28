@@ -379,9 +379,22 @@
                 ["Semantics", flags(2,{})],
                 ["Method", decr(word)],
                 ["Association", Index.HasSemantics]
+            ),
+            "Field":struct(
+              ["Flags",flags(2, {})],
+              ["Name", nstring],
+              ["Signature", nblob]
             )
+            
  
         };
+        
+        
+        /*
+    Flags (a 2-byte bit mask of type FieldAttributes).
+    Name (index into String heap).
+    Signature (index into Blob heap).
+*/
         
         var tables = {};
         for(var i = 0; i < invertids.length; i++) {
@@ -390,7 +403,13 @@
                 var aux = [];
                 for(var j = 0; j < current; j++) {
 
+                    try{
                     aux.push(Tables[invertids[i]]());
+                    }
+                    catch(e)
+                    {
+                        throw new Error(i);
+                    }
                 }
                 tables[invertids[i]] = aux;
             }
@@ -475,6 +494,7 @@
             var params = [];
             params[0] = noparam;
             params[0x02] = noparam;
+            params[0x03] = noparam;
             params[0x06] = noparam;
             params[0x0A] = noparam;
             params[0x14] = noparam;
@@ -487,8 +507,12 @@
             params[0x2A] = noparam;
             params[0x6F] = TreeAndOneByte;
             params[0x72] = function(b) { return [b, us[dword() & 0xFFFFFF ]]; };
+            params[0x7B] = TreeAndOneByte;
+            
+            params[0x7D] = TreeAndOneByte;
             params[0x8D] = TreeAndOneByte;
             params[0xA2] = noparam;
+            
             //0x2a
             
             while(offset < limit) {
@@ -566,8 +590,20 @@
       this.Module = module;
       for(var i in tok)
         this[i] = tok[i];
+      this.Types = new Array();
     }
 
+    Assembly.prototype.getType = function(namespace, name) {
+      for(var i = 0; i < this.Types.length; i++)
+      {
+        if(this.Types[i].TypeName == name && this.Types[i].TypeNamespace == namespace)
+        {
+          return this.Types[i];
+        }
+      }
+      throw new Error("Type " + name + " of " + namespace + " not found in " + this.Name);
+    };
+    
     function Type(tok, module)
     {
       this.Module = module;
@@ -602,13 +638,18 @@
             for(var j = 0; j < meta[i].Tables[l].length; j++)
             {
               meta[i].Tables[l][j] = new tables[l](meta[i].Tables[l][j], mod);
-              if(l == "Assembly")
-                assemblies[meta[i].Tables[l][j].Name] = meta[i].Tables[l][j];
+              switch(l)
+              {
+                case "Assembly":
+                  assemblies[meta[i].Tables[l][j].Name] = meta[i].Tables[l][j];
+                  break;
+              }
             }
           }
         }
       }
       
+      //Reemplaza todos los assemblyref por Assembly reales
       for(var i in domain.Modules)
       {
         var mod = domain.Modules[i];
@@ -617,8 +658,59 @@
           mod.meta.Tables.AssemblyRef[j] = assemblies[mod.meta.Tables.AssemblyRef[j].Name];
         }
       }
+      
+      //Lleno la lista de tipos de cada ensamblado
+      for(var i in assemblies)
+      {
+        var assembly = assemblies[i];
+        
+        if(assembly.Module.meta.Tables.TypeDef)
+        {
+           for(var j = 0; j < assembly.Module.meta.Tables.TypeDef.length; j++)
+           {
+             assembly.Types.push(assembly.Module.meta.Tables.TypeDef[j]);
+           }
+        }
+      }
+      
+      //lleno todas los typeref con sus correspondientes typedef
+      //FIXME: No se que mierda para con los tipos dentro de tipos
+       for(var i in assemblies)
+      {
+        var assembly = assemblies[i];
+        
+        if(assembly.Module.meta.Tables.TypeRef)
+        {
+           for(var j = 0; j < assembly.Module.meta.Tables.TypeRef.length; j++)
+           {
+             var ref = assembly.Module.meta.Tables.TypeRef[j];
+             var module = assembly.Module.meta.Tables[ref.ResolutionScope[0]][ref.ResolutionScope[1]];
+             assembly.Module.meta.Tables.TypeRef[j] = module.getType(ref.TypeNamespace, ref.TypeName);
+           }
+        }
+      }
+      
+      //Lleno las referencias a las clases padre
+      //FIXME: falta instanciar TypeSpec y TypeDef
+      for(var i in assemblies)
+      {
+        var assembly = assemblies[i];
+        
+        if(assembly.Module.meta.Tables.TypeDef)
+        {
+           for(var j = 0; j < assembly.Module.meta.Tables.TypeDef.length; j++)
+           {
+             var type = assembly.Module.meta.Tables.TypeDef[j];
+             
+             if(type.Extends != null)
+             {
+               type.Extends = assembly.Module.meta.Tables[type.Extends[0]][type.Extends[1]];
+             }
+           }
+        }
+      }
+      
       console.debug(domain);
-
     }
     
     

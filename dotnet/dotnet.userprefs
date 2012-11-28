@@ -1,11 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="n4w.ExampleProject/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="mscorlib/System/Runtime/CompilerServices/RuntimeCompatibilityAttribute.cs">
     <Files>
       <File FileName="mscorlib/System/Threading/Thread.cs" Line="13" Column="1" />
-      <File FileName="n4w.interop/System/Runtime/InteropServices/WebIntegration/JavascriptObject.cs" Line="17" Column="10" />
-      <File FileName="Org.W3C/Org/W3C/Window.cs" Line="10" Column="51" />
-      <File FileName="n4w.ExampleProject/Main.cs" Line="15" Column="2" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="16" Column="1" />
+      <File FileName="mscorlib/System/Runtime/CompilerServices/RuntimeCompatibilityAttribute.cs" Line="11" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
