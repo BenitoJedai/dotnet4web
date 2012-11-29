@@ -826,17 +826,11 @@
         }
         //Meto cada metodo implementado en su correspondiente tipo
 
-        for (var i in assemblies)
+        /*for (var i in assemblies)
         {
             var assembly = assemblies[i];
 
-            var last = -1;
-            var relations = {};
-
-            var currentinit = null;
-            var currentcount = null;
-
-            if (assembly.Module.meta.Tables.TypeDef)
+            if (assembly.Module.meta.Tables.TypeDef && assembly.Module.meta.Tables.MethodDef)
             {
                 var methods = assembly.Module.meta.Tables.MethodDef;
                 var lastMethod = methods.length;
@@ -857,9 +851,45 @@
                       newml[k].DeclaringType = type;
                 }
             }
-        }
+        }*/
+        
+        
+        function replacelist(master, slave, reason, reverse)  {
+        
+          for (var i in assemblies)
+          {
+              var assembly = assemblies[i];
 
-        for (var i in assemblies)
+              if (assembly.Module.meta.Tables[master] && assembly.Module.meta.Tables[slave])
+              {
+                  var methods = assembly.Module.meta.Tables[slave];
+                  var lastMethod = methods.length;
+                  for (var j = assembly.Module.meta.Tables[master].length - 1; j >= 0; j--)
+                  {
+                      var type = assembly.Module.meta.Tables[master][j];
+
+                      var newml = [];
+                      if (type[reason] != lastMethod)
+                      {
+                          newml = methods.slice(type[reason], lastMethod);
+                          lastMethod = type[reason];
+                      }
+
+                      type[reason] = newml;
+                      
+                      for(var k = 0; k < newml.length; k++)
+                        newml[k][reverse] = type;
+                  }
+              }
+          }
+        }
+        
+        replacelist("TypeDef","MethodDef","MethodList", "DeclaringType");
+        replacelist("MethodDef","Param","ParamList", "DeclaringMethod");
+        replacelist("TypeDef","Field","FieldList", "DeclaringType");
+        
+
+       /*for (var i in assemblies)
         {
             var assembly = assemblies[i];
 
@@ -873,7 +903,7 @@
                     refs[j] = assembly.Module.meta.Tables[ refs[j].Class[0] ][ refs[j].Class[1] ].getMethod(  refs[j].Name );
                 }
             }
-        }
+        }*/
 
         
         console.debug(domain);
