@@ -681,7 +681,9 @@
             final[name] = data;
             j--;
             if (j == 0)
+              window.setTimeout(function(){
                main(startTypesResolutions(final));
+              },0);
         });
     }
 
@@ -695,7 +697,7 @@
     function Module(tok, name, domain)
     {
         this.meta = tok;
-        this.Domain = domain;
+        //this.Domain = domain;
         this.Name = name;
     }
 
@@ -719,9 +721,8 @@
         throw new Error("Type " + name + " of " + namespace + " not found in " + this.Name);
     };
 
-    function Type(tok, module)
+    function Type(tok)
     {
-        this.Module = module;
         for (var i in tok)
             this[i] = tok[i];
     }
@@ -748,7 +749,6 @@
 
     function Method(tok, module)
     {
-        this.Module = module;
         for (var i in tok)
             this[i] = tok[i];
     }
@@ -805,7 +805,9 @@
             {
                 for (var j = 0; j < assembly.Module.meta.Tables.TypeDef.length; j++)
                 {
-                    assembly.Types.push(assembly.Module.meta.Tables.TypeDef[j]);
+                    var type = assembly.Module.meta.Tables.TypeDef[j];
+                    type.Assembly = assembly;
+                    assembly.Types.push(type);
                 }
             }
         }
@@ -966,20 +968,29 @@
                 
             }
         }
-        console.warn("ESTO ESTA CHANCHO");
-        domain.CoreTypes = {
-          array:domain.Modules["mscorlib.dll"].meta.Tables.TypeDef[1],
-          string:domain.Modules["mscorlib.dll"].meta.Tables.TypeDef[23],
-          int:domain.Modules["mscorlib.dll"].meta.Tables.TypeDef[13]
+        
+        var realdomain = {Assemblies:{}};
+        for(var i in domain.Modules)
+        {
+          var asm = domain.Modules[i].meta.Tables.Assembly[0];
+          realdomain.Assemblies[asm.Name] = asm;
+          delete asm.Module.meta;
         }
-        return domain;
+        
+       realdomain.CoreTypes = {
+         int:realdomain.Assemblies.mscorlib.getType("System","Int32"),
+         string:realdomain.Assemblies.mscorlib.getType("System","String"),
+         array:realdomain.Assemblies.mscorlib.getType("System","Array")
+       };
+        
+       return realdomain;
     }
 
     
-    function Thread(method)
+    function Thread(domain,method)
     {
       this.stack = [];
-      this.domain = method.Module.Domain;
+      this.domain = domain;
       this.locals = [];
       this.arguments = [];
       this.method = method;
@@ -1200,7 +1211,8 @@
 
     function main(domain)
     {
-      var entrythread = new Thread(domain.Modules["n4w.ExampleProject.exe"].meta.Tables.MethodDef[1]);
+      console.debug(domain);
+      var entrythread = new Thread(domain,domain.Assemblies["n4w.ExampleProject"].getType("n4w.ExampleProject","MainClass").getMethod("Main"));
       entrythread.start();
     }
     
