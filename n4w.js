@@ -702,6 +702,26 @@
         for (var i in tok)
             this[i] = tok[i];
     }
+    
+    Type.prototype.getMethod = function(name, signature)
+    {
+      var match = [];
+      for(var i = 0; i < this.MethodList.length; i++)
+      {
+        if(this.MethodList[i].Name == name)
+          match.push(this.MethodList[i]);
+      }
+      
+      if(match.length > 1)
+      {
+        console.warn("Sobrecarga no implementada en el metodo '" + name+ "' del tipo '" + this.TypeNamespace +"." + this.TypeName + "'");
+      }
+      
+      if(match.length == 0)
+        throw new Error("Metodo '" + name+ "' no encontrado en el tipo '" + this.TypeName + "'");
+      
+      return match[0];
+    }
 
     function Method(tok, module)
     {
@@ -839,6 +859,23 @@
             }
         }
 
+        for (var i in assemblies)
+        {
+            var assembly = assemblies[i];
+
+            if (assembly.Module.meta.Tables.MemberRef)
+            {
+                var refs = assembly.Module.meta.Tables.MemberRef;
+                
+                
+                for (var j = 0; j < refs.length; j++)
+                {
+                    refs[j] = assembly.Module.meta.Tables[ refs[j].Class[0] ][ refs[j].Class[1] ].getMethod(  refs[j].Name );
+                }
+            }
+        }
+
+        
         console.debug(domain);
     }
 
