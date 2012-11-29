@@ -824,35 +824,6 @@
                 }
             }
         }
-        //Meto cada metodo implementado en su correspondiente tipo
-
-        /*for (var i in assemblies)
-        {
-            var assembly = assemblies[i];
-
-            if (assembly.Module.meta.Tables.TypeDef && assembly.Module.meta.Tables.MethodDef)
-            {
-                var methods = assembly.Module.meta.Tables.MethodDef;
-                var lastMethod = methods.length;
-                for (var j = assembly.Module.meta.Tables.TypeDef.length - 1; j >= 0; j--)
-                {
-                    var type = assembly.Module.meta.Tables.TypeDef[j];
-
-                    var newml = [];
-                    if (type.MethodList != lastMethod)
-                    {
-                        newml = methods.slice(type.MethodList, lastMethod);
-                        lastMethod = type.MethodList;
-                    }
-
-                    type.MethodList = newml;
-                    
-                    for(var k = 0; k < newml.length; k++)
-                      newml[k].DeclaringType = type;
-                }
-            }
-        }*/
-        
         
         function replacelist(master, slave, reason, reverse)  {
         
@@ -889,7 +860,7 @@
         replacelist("TypeDef","Field","FieldList", "DeclaringType");
         
 
-       /*for (var i in assemblies)
+       for (var i in assemblies)
         {
             var assembly = assemblies[i];
 
@@ -903,9 +874,48 @@
                     refs[j] = assembly.Module.meta.Tables[ refs[j].Class[0] ][ refs[j].Class[1] ].getMethod(  refs[j].Name );
                 }
             }
-        }*/
+        }
 
+        var toresolve = [0x28,0x2A,0x6F,0x72,0x73,0x7B,0x7D,0x8D];
         
+        //Resuelvo el bytecode
+        for (var i in assemblies)
+        {
+            var assembly = assemblies[i];
+
+            if (assembly.Module.meta.Tables.MethodDef)
+            {
+                var methods = assembly.Module.meta.Tables.MethodDef;
+
+                for(var j = 0; j < methods.length; j++)
+                {
+                  
+                  var method = methods[j];
+                  
+                  if(method.Code)
+                  {
+                    for(var k = 0; k < method.Code.length; k++)
+                    {
+                      var line = method.Code[k];
+                      
+                      if(line.length == 3 && toresolve.indexOf(line[0]) != -1)
+                      {
+                        var index = line.pop();
+                        var table = line.pop();
+
+                          method.Code[k] = [line[0], assembly.Module.meta.Tables[table][index]];
+
+                      }
+                    }
+                  }
+                  
+                }
+                
+            }
+        }
+ 
+ 
+ 
         console.debug(domain);
     }
 
