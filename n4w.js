@@ -701,6 +701,23 @@
         this.Module = module;
         for (var i in tok)
             this[i] = tok[i];
+      this.MethodList = [];
+    }
+    
+    Type.prototype.getMethod = function(name, signature)
+    {
+      var matchs = [];
+      for(var i = 0; i < this.MethodList.length; i++)
+      {
+        if(this.MethodList[i].Name == name && true)
+        {
+          matchs.push(this.MethodList[i]);
+        }
+      }
+      if(matchs.length > 1)
+      {
+        throw new Error("La comprobacion sobrecarga de metodos todavia no esta emplementada");
+      }
     }
 
     function Method(tok, module)
@@ -803,6 +820,7 @@
                 }
             }
         }
+
         //Meto cada metodo implementado en su correspondiente tipo
 
         for (var i in assemblies)
