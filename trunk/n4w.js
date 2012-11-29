@@ -22,6 +22,14 @@
             return boxvalue.value;
           }
         }
+      },
+      'System.Threading':{
+        "Thread":{
+          Sleep:function(milliseconds)
+          {
+            return {type:this.method.DeclaringType,value:this.sleep(milliseconds.value)};
+          }
+        }
       }
     }
 
@@ -917,6 +925,9 @@
                   
                   var method = methods[j];
                   
+                  if(method.Name == "Sleep")
+                      method.ImplFlags.InternalCall = true;
+                  
                   if(method.ImplFlags.InternalCall)
                   {
                     method.Code = natives
@@ -1053,7 +1064,11 @@
       {
         var backup = this.method;
         this.method = operand;
-        this.stack.push(operand.Code.apply(this, args));
+        var rv = operand.Code.apply(this, args);
+        
+        if(!this.sleeped) {
+          this.stack.push(rv);
+        }
         this.method = backup;
         this.ip++;
       }
@@ -1124,6 +1139,12 @@
             this.ip++;
             break;
           
+          //ldc.i4 <int32 (num)>: carga un Int32 con el valor indicado en el operando
+          case 0x20:
+            this.stack.push(this._int(operand));
+            this.ip++;
+            break;
+            
           //ldc.i4.1: Carga un Int32 de valor 1 en la pila
           case 0x17:
             this.stack.push(this._int(1));
@@ -1166,7 +1187,7 @@
           
           //callvit <method>: Llama a un metodo asociado a un determinada instancia
           case 0x6F:
-            console.warn("Polimorfismo no implementado, llamando al metodo sin comprobaciones");
+            console.warn("Polimorfismo no implementado, llamando al metodo sin comrobar la tabla virtual");
             this._call(operand);
             break;
             
@@ -1204,14 +1225,18 @@
     }
     
     
-    Thread.prototype.sleep = function()
+    Thread.prototype.sleep = function(time)
     {
+      this.sleeped = true;
+      window.setTimeout(function() { 
+        this.sleeped = false;
+        this._exec();        
+      }.bind(this), time);
     }
     
 
     function main(domain)
-    {
-      console.debug(domain);
+    {     
       var entrythread = new Thread(domain,domain.Assemblies["n4w.ExampleProject"].getType("n4w.ExampleProject","MainClass").getMethod("Main"));
       entrythread.start();
     }
