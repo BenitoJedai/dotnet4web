@@ -784,6 +784,7 @@
             }
         }
 
+        
         //Lleno las referencias a las clases padre
         //FIXME: falta instanciar TypeSpec y TypeDef
         for (var i in assemblies)
@@ -831,6 +832,9 @@
                     }
 
                     type.MethodList = newml;
+                    
+                    for(var k = 0; k < newml.length; k++)
+                      newml[k].DeclaringType = type;
                 }
             }
         }
