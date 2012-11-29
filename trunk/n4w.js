@@ -3,6 +3,29 @@
 
     "use strict";
 
+    
+    
+    var natives = {
+      'System.Runtime.InteropServices.WebIntegration':{
+        "JavascriptObject":{
+          get_Global:function() {
+            return {type:this.method.DeclaringType, value:window}
+          },
+          Call:function(instance, methodname, args) {
+            return {
+              type:this.method.DeclaringType,
+              value:instance.value[methodname.value].apply(instance.value,args.value)
+            }
+         },
+          op_Implicit:function(boxvalue)
+          {
+            return boxvalue.value;
+          }
+        }
+      }
+    }
+
+    
     function readMetadata(buffer)
     {
         var dataview = new DataView(buffer);
@@ -376,7 +399,7 @@
                     PreserveSig: 6
 
                 })],
-                ["Flags", word],
+                ["Flags", flags(2,{IsStatic:4})],
                 ["Name", nstring],
                 ["Signature", nblob],
                 ["ParamList", decr(word)]
@@ -501,7 +524,7 @@
 
         function noparam(opcode)
         {
-            return opcode;
+            return [opcode];
         }
 
         function wordparam(opcode)
@@ -530,7 +553,7 @@
         function TreeAndOneByte(opcode)
         {
             var data = dword();
-            return [opcode, invertids[data >> 24], data & 0xFFFFFF];
+            return [opcode, data >> 24, data & 0xFFFFFF];
 
         }
 
@@ -658,7 +681,7 @@
             final[name] = data;
             j--;
             if (j == 0)
-                startTypesResolutions(final);
+               main(startTypesResolutions(final));
         });
     }
 
@@ -876,7 +899,7 @@
             }
         }
 
-        var toresolve = [0x28,0x2A,0x6F,0x72,0x73,0x7B,0x7D,0x8D];
+        var toresolve = [0x28,0x8D,0x6f];
         
         //Resuelvo el bytecode
         for (var i in assemblies)
@@ -892,7 +915,14 @@
                   
                   var method = methods[j];
                   
-                  if(method.Code)
+                  if(method.ImplFlags.InternalCall)
+                  {
+                    method.Code = natives
+                      [method.DeclaringType.TypeNamespace]
+                      [method.DeclaringType.TypeName]
+                      [method.Name];
+                  }
+                  else
                   {
                     for(var k = 0; k < method.Code.length; k++)
                     {
@@ -903,7 +933,30 @@
                         var index = line.pop();
                         var table = line.pop();
 
-                          method.Code[k] = [line[0], assembly.Module.meta.Tables[table][index]];
+                        if(table == 6) {
+                          table = "MethodDef";
+                        } else if(table == 10) {
+                          table = "MemberRef";
+                        } else if(table == 1) {
+                          table = "TypeDef";
+                          index++;
+                        } else {
+                          debugger;
+                        }
+                  
+                        
+                        try
+                        {
+                        
+                        
+                        method.Code[k] = [line[0], assembly.Module.meta.Tables[table][index-1]];
+                        }
+                        catch(ex)
+                        
+                        {
+                          debugger;
+                          console.debug("a");
+                        }
 
                       }
                     }
@@ -913,12 +966,243 @@
                 
             }
         }
- 
- 
- 
-        console.debug(domain);
+        console.warn("ESTO ESTA CHANCHO");
+        domain.CoreTypes = {
+          array:domain.Modules["mscorlib.dll"].meta.Tables.TypeDef[1],
+          string:domain.Modules["mscorlib.dll"].meta.Tables.TypeDef[23],
+          int:domain.Modules["mscorlib.dll"].meta.Tables.TypeDef[13]
+        }
+        return domain;
     }
 
+    
+    function Thread(method)
+    {
+      this.stack = [];
+      this.domain = method.Module.Domain;
+      this.locals = [];
+      this.arguments = [];
+      this.method = method;
+      this.ip = 0;
+      this.sleeped = false;
+      this.started = false;
+      this.calls = [];
+    }
+    
+    Thread.prototype.start = function(parameter)
+    {
+      if(this.started)
+        throw new Error("El hilo ya se encuentra iniciado");
+      
+      if(parameter)
+        this.arguments.push(parameter);
+  
+      this._exec();
+    }
+    
+    Thread.prototype.suspend = function()
+    {
+    }
+    
+    
+    Thread.prototype.resume = function()
+    {
+      
+    }
+    
+    Thread.prototype._throwoperr = function(opcode, operand)
+    {
+      //Formateo el codigo de la instruccion
+      opcode = opcode.toString(16);
+      if(opcode.length == 1) {
+        opcode = "0" + opcode;
+      }
+      var message = "El codigo de instruccion '" + opcode + "' es invalido o aun no esta implementado";
+      
+      
+      console.debug(this);
+      //En caso de que no halla operando
+      if(typeof operand != "undefined") {
+        console.error("Operand:", operand );
+      } 
+      
+      //Lanzo la excepcion
+      throw new Error(message);
+    }
+    
+    Thread.prototype._call = function(operand)
+    {
+      var argc = operand.ParamList.length;
+      if(!operand.Flags.IsStatic)
+        argc++;
+      
+      var args = this.stack.splice(-argc, argc);
+      
+      if(operand.ImplFlags.InternalCall)
+      {
+        var backup = this.method;
+        this.method = operand;
+        this.stack.push(operand.Code.apply(this, args));
+        this.method = backup;
+        this.ip++;
+      }
+      else
+      {
+        this.calls.push({
+          stack:this.stack,
+          locals:this.locals,
+          arguments:this.arguments,
+          method:this.method,
+          ip:this.ip
+        });
+        this.arguments = args;
+        this.stack = [];
+        this.ip = 0;
+        this.locals = [];
+        this.method = operand;
+      }
+    }
+    
+    Thread.prototype._ret = function()
+    {
+      var backup = this.calls.pop();
+      if(this.stack.length > 0)
+        backup.stack.push(this.stack.pop());
+      this.stack = backup.stack;
+      this.ip = backup.ip + 1;
+      this.arguments = backup.arguments;
+      this.locals = backup.locals;
+      this.method = backup.method;
+    }
+    
+    Thread.prototype._int = function(number)
+    {
+      return {type:this.domain.CoreTypes.int,value:number};
+    }
+    
+    Thread.prototype._string = function(number)
+    {
+      return {type:this.domain.CoreTypes.string,value:number};
+    }
+    
+    Thread.prototype._exec = function()
+    {
+      while(true) {
+        
+        //Comprueba que no se alla exedido el limite del sector de codigo
+        if(this.ip >= this.method.Code.length) {
+          throw new Error("Se supero el limite de las instrucciones");
+        }
+        
+        //Obtiene la instruccion actual a correr y su parametro
+        var opcode = this.method.Code[this.ip][0];
+        var operand = this.method.Code[this.ip][1];
+        
+        //Realiza la operacion necesaria dependiendo del operador
+        switch(opcode) {
+          
+          //ldarg.0: Carga el primer argumento en la pila
+          case 0x02:
+            this.stack.push(this.arguments[0]);
+            this.ip++;
+            break;
+          
+          //ldc.i4.1: Carga un Int32 de valor 0 en la pila
+          case 0x16:
+            this.stack.push(this._int(0));
+            this.ip++;
+            break;
+          
+          //ldc.i4.1: Carga un Int32 de valor 1 en la pila
+          case 0x17:
+            this.stack.push(this._int(1));
+            this.ip++;
+            break;
+            
+          //dup: Duplica el elemento de la cima de la pila
+          case 0x25:
+            this.stack.push(this.stack[this.stack.length -1]);
+            this.ip++;
+            break;
+            
+          //pop: Quita el elemento de la cima de la pila
+          case 0x26:
+            this.stack.pop();
+            this.ip++;
+            break;
+            
+          //call <method>: Llama a un metodo por su referencia. como es largo
+          //lo implemento en un metodo de thread
+          case 0x28:
+            this._call(operand);
+            break;
 
+          //ret: Termina le ejecuciion de un metodo posiblemente con un valor de retorno
+          //FIXME: Como no tengo la firma de los metodos asumo que si la pila
+          //tiene elementos es que tiene valor de retorno OJO
+          case 0x2A:
+            if(this.calls.length == 0) {
+              if(this.stack.length == 0) {
+                console.info("Hilo finalizado sin valor de retorno");
+              } else {
+                console.info("Hilo finalizado con valor de retorno", this.stack.pop());
+              }
+              return;
+            }
+            
+            this._ret(operand);
+            break;
+          
+          //callvit <method>: Llama a un metodo asociado a un determinada instancia
+          case 0x6F:
+            console.warn("Polimorfismo no implementado, llamando al metodo sin comprobaciones");
+            this._call(operand);
+            break;
+            
+          //ldstr: Carga una cadena literal en la cima de la pila
+          case 0x72:
+            this.stack.push(this._string(operand));
+            this.ip++;
+            break;
+            
+          //newarr <type>: Crea un array del tipo especificado sacando el tamaño de la pila
+          case 0x8D:
+            this.stack.push({type:this.domain.CoreTypes.array,elemtype:operand, value:new Array(this.stack.pop().value)});
+            this.ip++;
+            break;
+            
+          //stelem.ref:
+          case 0xA2:
+            var value = this.stack.pop(), index = this.stack.pop().value, array = this.stack.pop().value;
+            array[index] = value;
+            value = null; array = null; index = null;
+            this.ip++;
+            break;
+            
+          //En caso de no reconocer el operador
+          default:
+            this._throwoperr(opcode, operand);
+        }
+        
+        operand = null;
+        //si se detuvo el hilo se termina la ejecucion
+        if(this.sleeped) {
+          return;
+        }
+      }
+    }
+    
+    
+    Thread.prototype.sleep = function()
+    {
+    }
+    
 
+    function main(domain)
+    {
+      var entrythread = new Thread(domain.Modules["n4w.ExampleProject.exe"].meta.Tables.MethodDef[1]);
+      entrythread.start();
+    }
+    
+    
 })();
