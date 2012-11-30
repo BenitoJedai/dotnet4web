@@ -42,10 +42,13 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Org\" />
-    <Folder Include="Org\W3C\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Org\W3C\Window.cs" />
+    <Compile Include="DOM\DocumentFragment.cs" />
+    <Compile Include="Window.cs" />
+    <Compile Include="DOM\DOMImplementation.cs" />
+    <Compile Include="DOM\DOMException.cs" />
+    <Compile Include="DOM\Document.cs" />
+    <Compile Include="DOM\Node.cs" />
+    <Compile Include="DOM\NodeList.cs" />
+    <Compile Include="DOM\NamedNodeMap.cs" />
   </ItemGroup>
 </Project>
