@@ -10,6 +10,7 @@ namespace n4w.ExampleProject
 		{
 			Window.Alert("Hello world!!!");
 			Thread.Sleep(1000);
+			Window.Alert("Otro alert");
 		}
 	}
 }

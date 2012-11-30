@@ -930,10 +930,18 @@
                   
                   if(method.ImplFlags.InternalCall)
                   {
+                  try{
                     method.Code = natives
                       [method.DeclaringType.TypeNamespace]
                       [method.DeclaringType.TypeName]
                       [method.Name];
+                  }catch(e){
+                    method.Code = function()
+                    {
+                        throw new Error("Metodo nativo faltante");
+                    }
+                  }
+                      
                   }
                   else
                   {
