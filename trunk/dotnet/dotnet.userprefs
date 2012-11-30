@@ -1,31 +1,24 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Org.W3C/DOM/Document.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="n4w.ExampleProject/Main.cs">
     <Files>
-      <File FileName="mscorlib/System/Threading/Thread.cs" Line="6" Column="3" />
-      <File FileName="n4w.ExampleProject/Main.cs" Line="17" Column="1" />
-      <File FileName="n4w.interop/System/Runtime/InteropServices/WebIntegration/JavascriptObject.cs" Line="15" Column="8" />
-      <File FileName="mscorlib/System/Runtime/CompilerServices/MethodImpl.cs" Line="11" Column="2" />
+      <File FileName="mscorlib/System/Threading/Thread.cs" Line="8" Column="1" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="14" Column="25" />
+      <File FileName="n4w.interop/System/Runtime/InteropServices/WebIntegration/JavascriptObject.cs" Line="13" Column="6" />
+      <File FileName="mscorlib/System/Runtime/CompilerServices/MethodImpl.cs" Line="5" Column="25" />
       <File FileName="mscorlib/System/Runtime/CompilerServices/MethodImplOptions.cs" Line="5" Column="2" />
       <File FileName="mscorlib/System/Runtime/CompilerServices/RuntimeCompatibilityAttribute.cs" Line="7" Column="3" />
       <File FileName="mscorlib/System/Array.cs" Line="9" Column="1" />
-      <File FileName="Org.W3C/DOM/DOMImplementation.cs" Line="15" Column="1" />
-      <File FileName="Org.W3C/DOM/DocumentFragment.cs" Line="6" Column="38" />
-      <File FileName="Org.W3C/DOM/Document.cs" Line="56" Column="2" />
-      <File FileName="Org.W3C/DOM/DOMException.cs" Line="11" Column="3" />
-      <File FileName="Org.W3C/DOM/Node.cs" Line="34" Column="8" />
-      <File FileName="Org.W3C/Window.cs" Line="9" Column="3" />
-      <File FileName="Org.W3C/DOM/NodeList.cs" Line="18" Column="4" />
+      <File FileName="mscorlib/System/Boolean.cs" Line="8" Column="1" />
+      <File FileName="mscorlib/System/Threading/Thread.cs" Line="8" Column="1" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="14" Column="4" />
+      <File FileName="n4w.interop/System/Runtime/InteropServices/WebIntegration/JavascriptObject.cs" Line="13" Column="6" />
+      <File FileName="mscorlib/System/Runtime/CompilerServices/MethodImpl.cs" Line="5" Column="25" />
+      <File FileName="mscorlib/System/Runtime/CompilerServices/MethodImplOptions.cs" Line="5" Column="2" />
+      <File FileName="mscorlib/System/Runtime/CompilerServices/RuntimeCompatibilityAttribute.cs" Line="7" Column="3" />
+      <File FileName="mscorlib/System/Array.cs" Line="9" Column="1" />
+      <File FileName="mscorlib/System/Boolean.cs" Line="8" Column="1" />
     </Files>
-    <Pads>
-      <Pad Id="ProjectPad">
-        <State expanded="True">
-          <Node name="mscorlib" expanded="True" selected="True">
-            <Node name="System" expanded="True" />
-          </Node>
-        </State>
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />

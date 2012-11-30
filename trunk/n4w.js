@@ -652,6 +652,7 @@
             }
         }
 
+        
         return { Version: root.Version, Tables: tables, Blob: blob };
 
     }
@@ -1244,7 +1245,8 @@
     
 
     function main(domain)
-    {     
+    { 
+      console.debug(domain);
       var entrythread = new Thread(domain,domain.Assemblies["n4w.ExampleProject"].getType("n4w.ExampleProject","MainClass").getMethod("Main"));
       entrythread.start();
     }
