@@ -6,11 +6,15 @@ namespace n4w.ExampleProject
 {
 	public class MainClass
 	{
-		public static void Main (string[] args)
+		public MainClass()
 		{
-			Window.Alert("Hello world!!!");
-			Thread.Sleep(1000);
-			Window.Alert("Otro alert");
+
+		}
+
+		public static void Main ()
+		{
+			Window.Alert("Hola mundo");
+
 		}
 	}
 }

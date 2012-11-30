@@ -3,7 +3,10 @@
 
     "use strict";
 
-    
+    function toJsName(str)
+    {
+    	return str[0].toLowerCase() + str.substring(1);
+    }
     
     var natives = {
       'System.Runtime.InteropServices.WebIntegration':{
@@ -910,7 +913,7 @@
             }
         }
 
-        var toresolve = [0x28,0x8D,0x6f];
+        var toresolve = [0x28,0x8D,0x6f,0x73];
         
         //Resuelvo el bytecode
         for (var i in assemblies)
@@ -939,8 +942,24 @@
                   }catch(e){
                     method.Code = function()
                     {
-                        throw new Error("Metodo nativo faltante");
-                    }
+                    	var args = [];
+                    	
+                    	for(var i = 0; i < arguments.length; i++)
+                    		args.push(arguments[i].value)
+                    	
+                    	var instance = this.Flags.IsStatic ?
+                    		window[toJsName( this.DeclaringType.TypeName)] :
+                    		args.shift();
+         
+         				if(this.Name.substring(0,4) == "get_")
+         				{
+         					return {type:null, value:instance[toJsName(this.Name.substring(4))]};
+         				}
+         				else
+         				{
+                           	instance[toJsName(this.Name)].apply(instance, args);
+                        }
+                    }.bind(method);
                   }
                       
                   }
@@ -1206,6 +1225,12 @@
             this.ip++;
             break;
             
+          //newobj <ctor>: Crea una instancia indicada por el tipo del constructor
+          case 0x73:
+          	this.stack.push({name:operand.DeclaringType});
+          	this._call(operand);
+          	break;
+            
           //newarr <type>: Crea un array del tipo especificado sacando el tamaño de la pila
           case 0x8D:
             this.stack.push({type:this.domain.CoreTypes.array,elemtype:operand, value:new Array(this.stack.pop().value)});
@@ -1246,7 +1271,6 @@
 
     function main(domain)
     { 
-      console.debug(domain);
       var entrythread = new Thread(domain,domain.Assemblies["n4w.ExampleProject"].getType("n4w.ExampleProject","MainClass").getMethod("Main"));
       entrythread.start();
     }
