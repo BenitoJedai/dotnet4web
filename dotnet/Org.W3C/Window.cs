@@ -1,15 +1,19 @@
 using System;
-using System.Runtime.InteropServices.WebIntegration;
 
 //http://www.w3.org/TR/2000/WD-DOM-Level-1-20000929/java-language-binding.html
+using System.Runtime.CompilerServices;
 
 namespace Org.W3C
 {
 	public static class Window
 	{
-		public static void Alert(string message)
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern static void Alert(string message);
+
+		public extern static DOM.Document Document
 		{
-			JavascriptObject.Global.Call("alert", message);
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
 		}
 	}
 }
