@@ -32,8 +32,8 @@ namespace Org.W3C.DOM
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern DocumentFragment CreateDocumentFragment();
 
-		/*[MethodImpl(MethodImplOptions.InternalCall)]
-		public extern Text CreateTextNode(string data);*/
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern Text CreateTextNode(string data);
 
 		/*[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern Comment CreateComment();*/

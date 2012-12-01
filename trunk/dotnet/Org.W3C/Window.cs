@@ -10,7 +10,7 @@ namespace Org.W3C
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern static void Alert(string message);
 
-		public extern static DOM.Document Document
+		public extern static DOM.HTMLDocument Document
 		{
 			[MethodImpl(MethodImplOptions.InternalCall)]
 			get;
