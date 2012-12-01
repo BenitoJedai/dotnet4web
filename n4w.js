@@ -944,8 +944,8 @@
                     {
                     	var args = [];
                     	
-                    	for(var i = 0; i < arguments.length; i++)
-                    		args.push(arguments[i].value)
+                    	for(var l = 0; l < arguments.length; l++)
+                    		args.push(arguments[l].value)
                     	
                     	var instance = this.Flags.IsStatic ?
                     		window[toJsName( this.DeclaringType.TypeName)] :
@@ -957,7 +957,7 @@
          				}
          				else
          				{
-                           	instance[toJsName(this.Name)].apply(instance, args);
+                           	return {type:null, value:instance[toJsName(this.Name)].apply(instance, args)};
                         }
                     }.bind(method);
                   }

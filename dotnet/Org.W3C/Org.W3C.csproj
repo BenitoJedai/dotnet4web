@@ -46,5 +46,10 @@
     <Compile Include="DOM\Node.cs" />
     <Compile Include="DOM\NodeList.cs" />
     <Compile Include="DOM\NamedNodeMap.cs" />
+    <Compile Include="DOM\HTMLDocument.cs" />
+    <Compile Include="DOM\HTMLElement.cs" />
+    <Compile Include="DOM\Element.cs" />
+    <Compile Include="DOM\Text.cs" />
+    <Compile Include="DOM\CharecterData.cs" />
   </ItemGroup>
 </Project>

@@ -1,11 +1,17 @@
 using System;
 using System.Threading;
 using Org.W3C;
+using Org.W3C.DOM;
 
 namespace n4w.ExampleProject
 {
 	public class MainClass
 	{
+		private static Text Create ()
+		{
+			return Window.Document.CreateTextNode("Hello world!!!");
+		}
+
 		public MainClass()
 		{
 
@@ -13,8 +19,7 @@ namespace n4w.ExampleProject
 
 		public static void Main ()
 		{
-			Window.Alert("Hola mundo");
-
+			Window.Document.Body.AppendChild(Create());
 		}
 	}
 }
