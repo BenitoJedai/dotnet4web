@@ -1,12 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Org.W3C/DOM/Document.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="n4w.ExampleProject/Main.cs">
     <Files>
       <File FileName="mscorlib/System/Threading/Thread.cs" Line="8" Column="1" />
-      <File FileName="../n4w.js" Line="922" Column="1" />
-      <File FileName="n4w.ExampleProject/Main.cs" Line="14" Column="23" />
-      <File FileName="Org.W3C/Window.cs" Line="2" Column="1" />
-      <File FileName="Org.W3C/DOM/Document.cs" Line="1" Column="1" />
+      <File FileName="../n4w.js" Line="955" Column="15" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="25" Column="2" />
+      <File FileName="Org.W3C/Window.cs" Line="20" Column="1" />
+      <File FileName="Org.W3C/DOM/Document.cs" Line="28" Column="3" />
+      <File FileName="Org.W3C/DOM/HTMLDocument.cs" Line="11" Column="33" />
+      <File FileName="Org.W3C/DOM/HTMLElement.cs" Line="13" Column="1" />
+      <File FileName="Org.W3C/DOM/Element.cs" Line="13" Column="1" />
+      <File FileName="Org.W3C/DOM/DOMException.cs" Line="1" Column="1" />
+      <File FileName="Org.W3C/DOM/DocumentFragment.cs" Line="1" Column="1" />
+      <File FileName="Org.W3C/DOM/Node.cs" Line="19" Column="41" />
+      <File FileName="Org.W3C/DOM/Text.cs" Line="1" Column="1" />
+      <File FileName="Org.W3C/DOM/CharecterData.cs" Line="14" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
