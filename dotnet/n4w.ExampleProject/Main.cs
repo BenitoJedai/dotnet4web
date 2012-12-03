@@ -12,11 +12,6 @@ namespace n4w.ExampleProject
 			return Window.Document.CreateTextNode("Hello world!!!");
 		}
 
-		public MainClass()
-		{
-
-		}
-
 		public static void Main ()
 		{
 			Window.Document.Body.AppendChild(Create());
