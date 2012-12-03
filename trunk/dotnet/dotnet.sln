@@ -196,5 +196,15 @@ Global
 		$32.MessageStyle = $33
 		$33.LineAlign = 0
 		$32.inheritsSet = Mono
+		$0.TextStylePolicy = $34
+		$34.inheritsSet = null
+		$34.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $35
+		$35.inheritsSet = Mono
+		$35.inheritsScope = text/x-csharp
+		$35.scope = text/x-csharp
+		$0.StandardHeader = $36
+		$36.Text = 
+		$36.IncludeInNewFiles = True
 	EndGlobalSection
 EndGlobal

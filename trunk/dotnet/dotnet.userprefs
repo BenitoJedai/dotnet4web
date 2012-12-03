@@ -1,10 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="n4w.ExampleProject/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="../n4w.js">
     <Files>
       <File FileName="mscorlib/System/Threading/Thread.cs" Line="8" Column="1" />
-      <File FileName="../n4w.js" Line="955" Column="15" />
-      <File FileName="n4w.ExampleProject/Main.cs" Line="24" Column="3" />
+      <File FileName="../n4w.js" Line="952" Column="9" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="14" Column="1" />
       <File FileName="Org.W3C/Window.cs" Line="20" Column="1" />
       <File FileName="Org.W3C/DOM/Document.cs" Line="28" Column="3" />
       <File FileName="Org.W3C/DOM/HTMLDocument.cs" Line="11" Column="33" />
