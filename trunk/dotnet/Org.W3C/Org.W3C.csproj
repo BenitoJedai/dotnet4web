@@ -31,18 +31,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="DOM\DocumentFragment.cs" />
     <Compile Include="Window.cs" />
-    <Compile Include="DOM\DOMImplementation.cs" />
-    <Compile Include="DOM\DOMException.cs" />
-    <Compile Include="DOM\Document.cs" />
-    <Compile Include="DOM\Node.cs" />
-    <Compile Include="DOM\NodeList.cs" />
-    <Compile Include="DOM\NamedNodeMap.cs" />
     <Compile Include="DOM\HTMLDocument.cs" />
     <Compile Include="DOM\HTMLElement.cs" />
-    <Compile Include="DOM\Element.cs" />
-    <Compile Include="DOM\Text.cs" />
-    <Compile Include="DOM\CharecterData.cs" />
+    <Compile Include="DOM\all.cs" />
   </ItemGroup>
 </Project>
