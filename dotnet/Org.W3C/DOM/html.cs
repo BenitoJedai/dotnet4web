@@ -14,5 +14,11 @@ namespace Org.W3C.DOM
 			get;
 		}
 	}
+
+	public class HTMLElement : Element
+	{
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		internal extern HTMLElement();
+	}
 }
 

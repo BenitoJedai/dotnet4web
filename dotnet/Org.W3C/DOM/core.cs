@@ -184,23 +184,18 @@ namespace Org.W3C.DOM
     internal extern NamedNodeMap();
     
     
-    /*
-    ????????????
+
     [MethodImpl(MethodImplOptions.InternalCall)]
-    public extern Node GetNamedItem(  Node oldChild);
+    public extern Node GetNamedItem(string name);
     
     [MethodImpl(MethodImplOptions.InternalCall)]
-    public extern Node getNamedItem(  Node arg);
+    public extern Node SetNamedItem(string name, Node arg);
     
     [MethodImpl(MethodImplOptions.InternalCall)]
-    public extern Node RemoveNamedItem(  Node oldChild);
+    public extern Node RemoveNamedItem(string name);
     
     [MethodImpl(MethodImplOptions.InternalCall)]
-    public extern Node Item(  Node oldChild);*/
-    
-    [MethodImpl(MethodImplOptions.InternalCall)]
-    public extern Node RemoveChild(  Node oldChild);
-    
+    public extern Node Item(uint index);
     
     
     public extern uint Length
@@ -208,18 +203,16 @@ namespace Org.W3C.DOM
       [MethodImpl(MethodImplOptions.InternalCall)]
       get;
     }
-    /*
-    ??????????
-    // Introduced in DOM Level 2:
-    Node               getNamedItemNS(in DOMString namespaceURI, 
-                                      in DOMString localName);
-    // Introduced in DOM Level 2:
-    Node               setNamedItemNS(in Node arg)
-                                        raises(DOMException);
-    // Introduced in DOM Level 2:
-    Node               removeNamedItemNS(in DOMString namespaceURI, 
-                                         in DOMString localName)
-                                        raises(DOMException);*/
+
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Node GetNamedItemNS(string namespaceURI, string qualifiedName);
+    
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Node SetNamedItemNS(Node arg);
+    
+    [MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Node RemoveNamedItem(string namespaceURI,string localName);
+    
   };
 
   public class CharacterData : Node {
@@ -239,27 +232,22 @@ namespace Org.W3C.DOM
       [MethodImpl(MethodImplOptions.InternalCall)]
       get;
     }
-    
-    
-    
+
      [MethodImpl(MethodImplOptions.InternalCall)]
-	public extern Node SubstringData(uint offset, uint count);
+	public extern string SubstringData(uint offset, uint count);
     
-    /*DOMString          substringData(in unsigned long offset, 
-                                     in unsigned long count)
-                                        raises(DOMException);
-    void               appendData(in DOMString arg)
-                                        raises(DOMException);
-    void               insertData(in unsigned long offset, 
-                                  in DOMString arg)
-                                        raises(DOMException);
-    void               deleteData(in unsigned long offset, 
-                                  in unsigned long count)
-                                        raises(DOMException);
-    void               replaceData(in unsigned long offset, 
-                                   in unsigned long count, 
-                                   in DOMString arg)
-                                        raises(DOMException);*/
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	public extern void AppendData(string arg);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	public extern void InsertData(uint offset, string arg);
+	
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	public extern void DeleteData(uint offset, uint count);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+	public extern void ReplaceData(uint offset, uint count, string arg);
   };
 
   public class Attr : Node {
@@ -301,52 +289,60 @@ public extern string Value
       get;
     }
     
-    
-    /*DOMString          getAttribute(in DOMString name);
-    void               setAttribute(in DOMString name, 
-                                    in DOMString value)
-                                        raises(DOMException);
-    void               removeAttribute(in DOMString name)
-                                        raises(DOMException);
-    Attr               getAttributeNode(in DOMString name);
-    Attr               setAttributeNode(in Attr newAttr)
-                                        raises(DOMException);
-    Attr               removeAttributeNode(in Attr oldAttr)
-                                        raises(DOMException);
-    NodeList           getElementsByTagName(in DOMString name);
-    // Introduced in DOM Level 2:
-    DOMString          getAttributeNS(in DOMString namespaceURI, 
-                                      in DOMString localName);
-    // Introduced in DOM Level 2:
-    void               setAttributeNS(in DOMString namespaceURI, 
-                                      in DOMString qualifiedName, 
-                                      in DOMString value)
-                                        raises(DOMException);
-    // Introduced in DOM Level 2:
-    void               removeAttributeNS(in DOMString namespaceURI, 
-                                         in DOMString localName)
-                                        raises(DOMException);
-    // Introduced in DOM Level 2:
-    Attr               getAttributeNodeNS(in DOMString namespaceURI, 
-                                          in DOMString localName);
-    // Introduced in DOM Level 2:
-    Attr               setAttributeNodeNS(in Attr newAttr)
-                                        raises(DOMException);
-    // Introduced in DOM Level 2:
-    NodeList           getElementsByTagNameNS(in DOMString namespaceURI, 
-                                              in DOMString localName);
-    // Introduced in DOM Level 2:
-    boolean            hasAttribute(in DOMString name);
-    // Introduced in DOM Level 2:
-    boolean            hasAttributeNS(in DOMString namespaceURI, 
-                                      in DOMString localName);*/
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern string GetAttribute(string name);
+
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern void SetAttribute(string name, string value);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern void RemoveAttribute(string name);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Attr GetAttributeNode(string name);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Attr SetAttributeNode(Attr newAttr);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Attr RemoveAttributeNode(Attr oldAttr);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern NodeList GetElementsByTagName(string name);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern string GetAttributeNS(string namespaceURI, string localName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern void SetAttributeNS(string namespaceURI,string quialifiedName, string value);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern void RemoveAttributeNS(string namespaceURI, string localName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Attr GetAttributeNodeNS(string namespaceURI, string localName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Attr SetAttributeNodeNS(Attr newAttr);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern NodeList GetElementsByTagNameNS(string namespaceURI, string localName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern bool HasAttribute(string name);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern bool HasAttributeNS(string namespaceURI, string localName);
   };
 
   public class Text : CharacterData {
     [MethodImpl(MethodImplOptions.InternalCall)]
     internal extern Text();
-    /*Text               splitText(in unsigned long offset)
-                                        raises(DOMException);*/
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Text SplitText(uint offset);
   };
 
   public class Comment : CharacterData {
@@ -462,7 +458,7 @@ public extern string Value
       [MethodImpl(MethodImplOptions.InternalCall)]
       set;
     }
-                                        // raises(DOMException) on setting
+                                      
 
   };
 
@@ -490,44 +486,49 @@ public extern string Value
       [MethodImpl(MethodImplOptions.InternalCall)]
       get;
     }
-    
-    /*Element            createElement(in DOMString tagName)
-                                        raises(DOMException);
-    DocumentFragment   createDocumentFragment();*/
+  
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Element CreateElement(string tagName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern DocumentFragment CreateDocumentFragment();
+
 
 	[MethodImpl(MethodImplOptions.InternalCall)]
     public extern Text CreateTextNode(string data);
 
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Comment CreateComment(string data);
 
-		/*
-    Comment            createComment(in DOMString data);
-    CDATASection       createCDATASection(in DOMString data)
-                                        raises(DOMException);
-    ProcessingInstruction createProcessingInstruction(in DOMString target, 
-                                                      in DOMString data)
-                                        raises(DOMException);
-    Attr               createAttribute(in DOMString name)
-                                        raises(DOMException);
-    EntityReference    createEntityReference(in DOMString name)
-                                        raises(DOMException);
-    NodeList           getElementsByTagName(in DOMString tagname);
-    // Introduced in DOM Level 2:
-    Node               importNode(in Node importedNode, 
-                                  in boolean deep)
-                                        raises(DOMException);
-    // Introduced in DOM Level 2:
-    Element            createElementNS(in DOMString namespaceURI, 
-                                       in DOMString qualifiedName)
-                                        raises(DOMException);
-    // Introduced in DOM Level 2:
-    Attr               createAttributeNS(in DOMString namespaceURI, 
-                                         in DOMString qualifiedName)
-                                        raises(DOMException);
-    // Introduced in DOM Level 2:
-    NodeList           getElementsByTagNameNS(in DOMString namespaceURI, 
-                                              in DOMString localName);
-    // Introduced in DOM Level 2:
-    Element            getElementById(in DOMString elementId);*/
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern CDATASection CreateCDATASection(string data);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern ProcessingInstruction CreateProcessingInstruction(string target, string data);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern CDATASection CreateAttribute(string name);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern EntityReference CreateEntityReference(string name);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern NodeList GetElementsByTagName(string tagname);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Node ImportNode(Node importedNode, bool deep);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Element CreateElementNS(string namespaceURI, string quialifiedName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Attr CreateAttributeNS(string namespaceURI, string quialifiedName);
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern NodeList GetElementsByTagNameNS(string namespaceURI, string localName);
+	
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern Element GetElementById(string elementId);
   };
 };
 

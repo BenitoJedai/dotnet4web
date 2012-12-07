@@ -12,7 +12,7 @@ namespace n4w.ExampleProject
 
 		}
 
-		private static Text Create ()
+		private static Node Create ()
 		{
 			return Window.Document.CreateTextNode("Hello world!!!");
 		}
