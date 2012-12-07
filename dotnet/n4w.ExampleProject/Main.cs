@@ -7,6 +7,11 @@ namespace n4w.ExampleProject
 {
 	public class MainClass
 	{
+		public static void pruebaGenerico<T> ()
+		{
+
+		}
+
 		private static Text Create ()
 		{
 			return Window.Document.CreateTextNode("Hello world!!!");

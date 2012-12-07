@@ -296,7 +296,7 @@
             StandAloneSig: 17, EventMap: 18, Event: 20, PropertyMap: 21, Property: 23,
             MethodSemantics: 24, MethodImpl: 25, ModuleRef: 26, TypeSpec: 27,
             ImplMap: 28, FieldRVA: 29, Assembly: 32, AssemblyProcessor: 33,
-            AssemblyOS: 34, AssemblyRef: 35, AssemblyRefProcessor: 36,
+            AssemblyOS: 34, AssemblyRef: 35, AssemblyRefProcessor: 36, MethodSpec:37,
             AssemblyRefOS: 37, File: 38, ExportedType: 39, ManifestResource: 40,
             NestedClass: 41, GenericParam: 42, GenericParamConstraint: 44
         };
@@ -411,7 +411,9 @@
                 "TypeSpec", "Assembly", "AssemblyRef", "File", "ExportedType",
                 "ManifestResource"]),
             HasSemantics: ind(1, ["Property", "Event"]),
-            HasConstant: ind(2, ["FieldDef", "ParamDef", "Property"])
+            HasConstant: ind(2, ["FieldDef", "ParamDef", "Property"]),
+            TypeOrMethodDef: ind(1,["TypeDef","MethodDef"])/*,
+            MethodDefOrRef:ind(1, ["MethodDef","MemberRef"])*/
         };
 
 
@@ -515,7 +517,18 @@
             ),
             "StandAloneSig": struct(
                 ["Signature", nblob]
-            )
+            ),
+            "GenericParam":struct(
+            	["Number", word],
+            	["Flags", flags(2,{})],
+            	["Owner", Index.TypeOrMethodDef],
+            	["Name", nstring]
+            )/*,
+            "MethodSpec":struct(
+              ["Method", Index.MethodDefOrMemberRef],
+              ["Instantiation", nblob]
+            )*/
+            
 
 
         };
@@ -803,6 +816,7 @@
 
     function startTypesResolutions(meta)
     {
+      console.debug(meta);
         var domain = new Domain();
         var assemblies = {};
 
@@ -1306,6 +1320,7 @@
 
     function main(domain)
     { 
+      
       var entrythread = new Thread(domain,domain.Assemblies["n4w.ExampleProject"].getType("n4w.ExampleProject","MainClass").getMethod("Main"));
       entrythread.start();
     }
