@@ -62,6 +62,13 @@
           }
         }
       },
+      'System':{
+        "Action":{
+            ".ctor":function(instance, method) {
+                debugger;
+            }
+        }
+      },
       'System.Threading':{
         "Thread":{
           Sleep:function(milliseconds)
@@ -525,7 +532,11 @@
             	["Flags", flags(2,{})],
             	["Owner", Index.TypeOrMethodDef],
             	["Name", nstring]
-            )/*,
+            ),
+            "TypeSpec":struct(
+                ["Signature", nblob]
+                       )
+ /*,
             "MethodSpec":struct(
               ["Method", Index.MethodDefOrMemberRef],
               ["Instantiation", nblob]
@@ -558,6 +569,7 @@
                     }
                     catch (e)
                     {
+                        debugger;
                         throw new Error(i);
                     }
                 }
@@ -698,6 +710,8 @@
                 params[0x8D] = TreeAndOneByte;
                 params[0xA2] = noparam;
 
+                params[0xFE06] = TreeAndOneByte;
+                
                 //0x2a
 
                 while (offset < limit)
@@ -705,10 +719,15 @@
 
                     var opcode = byte();
 
-
+                    if(opcode == 0xFE)
+                    {
+                        opcode = 0xFE00 + byte();
+                    }
 
                     if (!params[opcode])
+                    {
                         throw new Error("0x" + opcode.toString(16));
+                    }
                     else
                         code.push(params[opcode](opcode));
                 }
@@ -907,9 +926,37 @@
             }
         }
 
+        //Pongo los typespec con basurrrrraaaa
+        //FIXME esto es basurisima. SOLO SIRVE PARA EL ACTION'1::.ctor
+        for (var i in assemblies)
+        {
+            var assembly = assemblies[i];
+
+            if (assembly.Module.meta.Tables.TypeSpec)
+            {
+                for (var j = 0; j < assembly.Module.meta.Tables.TypeSpec.length; j++)
+                {
+                    var t= new Type();
+                    t.MethodList = [{Name:".ctor", ParamList:[1,1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(instance, method) {
+                        
+
+                        return {type:"METODO JS", value:function() {
+                            
+                            new Thread(this.domain,method.value).start();
+                        }.bind(this)};
+                        
+                        
+                    }}];
+
+                    
+                    assembly.Module.meta.Tables.TypeSpec[j] = t;
+                }
+            }
+        }
+        
         
         //Lleno las referencias a las clases padre
-        //FIXME: falta instanciar TypeSpec y TypeDef
+        //FIXME: falta instanciar TypeSpec
         for (var i in assemblies)
         {
             var assembly = assemblies[i];
@@ -979,7 +1026,7 @@
             }
         }
 
-        var toresolve = [0x28,0x8D,0x6f,0x73];
+        var toresolve = [0x28,0x8D,0x6f,0x73, 0xFE06];
         
         //Resuelvo el bytecode
         for (var i in assemblies)
@@ -1236,6 +1283,13 @@
             this.locals[0] = this.stack.pop();
             this.ip++;
             break;
+            
+          //ldnull: Carga un null en la pila
+          case 0x14:
+            this.stack.push({value:null});
+            this.ip++;
+            break;
+            
           //ldc.i4.1: Carga un Int32 de valor 0 en la pila
           case 0x16:
             this.stack.push(this._int(0));
@@ -1271,6 +1325,7 @@
           case 0x28:
             this._call(operand);
             break;
+
 
           //ret: Termina le ejecuciion de un metodo posiblemente con un valor de retorno
           //FIXME: Como no tengo la firma de los metodos asumo que si la pila
@@ -1319,6 +1374,14 @@
             value = null; array = null; index = null;
             this.ip++;
             break;
+         
+            
+          //ldftn <method>: Pone la referencia a una funcion javascript que
+          //ejecute un metodo .net
+          case 0xFE06:
+              this.stack.push({type:"METODOLOCO",value:operand});
+              this.ip++;
+              break;
             
           //En caso de no reconocer el operador
           default:

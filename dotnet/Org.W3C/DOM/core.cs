@@ -1,6 +1,7 @@
 
 
 using System.Runtime.CompilerServices;
+using System;
 
 namespace Org.W3C.DOM
 {
@@ -39,6 +40,10 @@ namespace Org.W3C.DOM
     public const ushort DOCUMENT_TYPE_NODE = 10;
     public const ushort DOCUMENT_FRAGMENT_NODE = 11;
     public const ushort NOTATION_NODE = 12;
+
+
+	[MethodImpl(MethodImplOptions.InternalCall)]
+    public extern void AddEventListener(string name, Action<object> listener, bool useCapture);
 
     public extern string NodeName
     {
@@ -177,6 +182,8 @@ namespace Org.W3C.DOM
       [MethodImpl(MethodImplOptions.InternalCall)]
       get;
     }
+
+
   };
 
   public class NamedNodeMap {
