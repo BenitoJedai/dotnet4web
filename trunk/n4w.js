@@ -646,16 +646,20 @@
 
                 if (b & 3 == 3)
                 {
-                    throw new Error("Metodos gordos no implementados");
+                    //FIXME me estoy salteando cabeceras
+                    var end = offset + ((byte() >> 4) * 4) - 1;
+                    word(); //Stack size
+                    var size = dword();
+                    dword();
+                    offset = end;
+                    limit = offset + size;
+                    
                 } else
                 {
 
                     var size = b >> 2;
                     limit = offset + (b >> 2);
                 }
-
-
-
 
                 var params = [];
                 params[0] = noparam;
