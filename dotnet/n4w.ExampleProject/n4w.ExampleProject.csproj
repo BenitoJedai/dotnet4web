@@ -48,5 +48,9 @@
       <Project>{BF7B0298-D2B6-488F-9E67-E6C8FA666C67}</Project>
       <Name>Org.W3C</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Net.Bindows\Net.Bindows.csproj">
+      <Project>{01E64EB3-93DD-4A86-99F0-4259C1AD9698}</Project>
+      <Name>Net.Bindows</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

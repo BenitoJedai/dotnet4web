@@ -1055,6 +1055,8 @@
                   }catch(e){
                     method.Code = function()
                     {
+                       
+                        
                     	var args = [];
                     	
                     	for(var l = 0; l < arguments.length; l++)
@@ -1068,9 +1070,15 @@
          				{
          					return {type:null, value:instance[toJsName(this.Name.substring(4))]};
          				}
+         				else if(this.Name == ".ctor")
+                       {
+                           
+                            return {type:null,value:new (window[this.DeclaringType.TypeName])() };
+                       }
          				else
          				{
-                           	return {type:null, value:instance[toJsName(this.Name)].apply(instance, args)};
+                           
+                           return {type:null, value:instance[toJsName(this.Name)].apply(instance, args)};
                         }
                     }.bind(method);
                   }
@@ -1357,6 +1365,7 @@
             
           //newobj <ctor>: Crea una instancia indicada por el tipo del constructor
           case 0x73:
+            debugger;
           	this.stack.push({name:operand.DeclaringType});
           	this._call(operand);
           	break;
