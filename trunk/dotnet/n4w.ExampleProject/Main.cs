@@ -9,7 +9,11 @@ namespace n4w.ExampleProject
 	{
 		public static void Main ()
 		{
-			Window.Document.Body.AppendChild(Window.Document.CreateTextNode("Hello world!!!"));
+			var button = Window.Document.CreateElement("button");
+			button.AppendChild(Window.Document.CreateTextNode("Clickeame"));
+			Window.Document.Body.AppendChild(button);
+			Thread.Sleep(500);
+			Window.Alert("Hola mundo!!!");
 		}
 	}
 }

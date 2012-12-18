@@ -35,7 +35,7 @@
     <Externalconsole>true</Externalconsole>
     <CustomCommands>
       <CustomCommands>
-        <Command type="Execute" command="kwebapp http://localhost/d4w/example.html" />
+        <Command type="Execute" command="kwebapp http://dotnet4web/example.html" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
