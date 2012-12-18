@@ -19,6 +19,32 @@ namespace Org.W3C.DOM
 	{
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		internal extern HTMLElement();
+
+		public extern HTMLElement Id
+		{
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
+		}
+		public extern HTMLElement Title
+		{
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
+		}
+		public extern HTMLElement Lang
+		{
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
+		}
+		public extern HTMLElement Dir
+		{
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
+		}
+		public extern HTMLElement ClassName
+		{
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
+		}
 	}
 }
 

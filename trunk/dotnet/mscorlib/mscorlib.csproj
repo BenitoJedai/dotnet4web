@@ -78,6 +78,7 @@
     <Compile Include="System\Runtime\CompilerServices\MethodImplOptions.cs" />
     <Compile Include="System\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
     <Compile Include="System\Reflection\DefaultMemberAttribute.cs" />
+    <Compile Include="System\Action_1.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
