@@ -7,8 +7,15 @@ namespace n4w.ExampleProject
 {
 	public class MainClass
 	{
+		public MainClass()
+		{
+			Window.Alert("jajaja");
+		}
+
 		public static void Main ()
 		{
+			new MainClass();
+
 			var button = Window.Document.CreateElement("button");
 
 			button.AppendChild(Window.Document.CreateTextNode("Clickeame"));
@@ -17,14 +24,17 @@ namespace n4w.ExampleProject
 
 			Window.Document.Body.AppendChild(button);
 
-			Thread.Sleep(500);
+			Thread.Sleep(1000);
 
 			Window.Alert("Hola mundo!!!");
 		}
 
 		public static void CuandoClickee(object param) 
 		{
-			Window.Alert("Clickeaste");
+			var xhr = new XMLHttpRequest();
+			xhr.Open("GET", "test.txt",false, null, null);
+			xhr.Send(null);
+			Window.Alert(xhr.ResponseText);
 		}
 	}
 }
