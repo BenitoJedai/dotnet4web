@@ -132,13 +132,15 @@
             {
                 var len = lreader();
                 var rv = new Array();
-                for (var i = 0; i < len; i++)
+                for (var i = 0; i < (len - plus); i++)
                 {
                     var c = creader();
                     rv.push(c == 0 ? "" : String.fromCharCode(c));
                     i += plus;
                 }
+                
                 return rv.join("");
+                
             };
         }
 
@@ -564,13 +566,24 @@
         }
 
         offset = root.Streams.US.Offset + metadataoffset;
-        var us = [];
+        var us = {};
 
+        var init = offset;
+        
         while (offset < root.Streams.US.Offset + metadataoffset + root.Streams.US.Size)
         {
-
-            us.push(sstring(byte, word, 1)());
+            var ind  = offset-init;
+            
+            var str = sstring(byte, word, 1)();
+            us[ind] = str;
+     
+            if(str.length != 0)
+                offset++;
+            
+            
         }
+        
+        console.debug(us);
 
         for (var i = 0; i < tables.MethodDef.length; i++)
         {
@@ -1213,7 +1226,16 @@
             this.stack.push(this.arguments[0]);
             this.ip++;
             break;
-          
+          //ldloc.0: Carga la primer local en la pila
+          case 0x06:
+              this.stack.push(this.locals[0]);
+              this.ip++;
+              break;
+          //stloc.0: Guarda la cima de la pila en la local 0
+          case 0x0A:
+            this.locals[0] = this.stack.pop();
+            this.ip++;
+            break;
           //ldc.i4.1: Carga un Int32 de valor 0 en la pila
           case 0x16:
             this.stack.push(this._int(0));
