@@ -691,7 +691,12 @@
                 params[0x02] = noparam;
                 params[0x03] = noparam;
                 params[0x06] = noparam;
+                params[0x07] = noparam;
+                params[0x08] = noparam;
                 params[0x0A] = noparam;
+                 params[0x0B] = noparam;
+                params[0x0C] = noparam;               
+             
                 params[0x14] = noparam;
                 params[0x16] = noparam;
                 params[0x17] = noparam;
@@ -709,6 +714,7 @@
                 params[0x7D] = TreeAndOneByte;
                 params[0x8D] = TreeAndOneByte;
                 params[0xA2] = noparam;
+
 
                 params[0xFE06] = TreeAndOneByte;
                 
@@ -1286,12 +1292,31 @@
               this.stack.push(this.locals[0]);
               this.ip++;
               break;
-          //stloc.0: Guarda la cima de la pila en la local 0
+          //ldloc.1: Carga la segunda local en la pila
+          case 0x07:
+              this.stack.push(this.locals[1]);
+              this.ip++;
+              break;
+          //ldloc.2: Carga la tercer local en la pila
+          case 0x08:
+              this.stack.push(this.locals[2]);
+              this.ip++;
+              break;
+          //stloc.0: Guarda la cima de la pila en la primer local
           case 0x0A:
             this.locals[0] = this.stack.pop();
             this.ip++;
             break;
-            
+          //stloc.0: Guarda la cima de la pila en la segunda local
+          case 0x0B:
+            this.locals[1] = this.stack.pop();
+            this.ip++;
+            break;  
+          //stloc.0: Guarda la cima de la pila en la tercer local
+          case 0x0C:
+            this.locals[2] = this.stack.pop();
+            this.ip++;
+            break; 
           //ldnull: Carga un null en la pila
           case 0x14:
             this.stack.push({value:null});
@@ -1365,7 +1390,6 @@
             
           //newobj <ctor>: Crea una instancia indicada por el tipo del constructor
           case 0x73:
-            debugger;
           	this.stack.push({name:operand.DeclaringType});
           	this._call(operand);
           	break;
