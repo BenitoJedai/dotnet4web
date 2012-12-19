@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using Org.W3C;
 using Org.W3C.DOM;
+using Net.Bindows;
 
 namespace n4w.ExampleProject
 {
@@ -34,7 +35,20 @@ namespace n4w.ExampleProject
 			var xhr = new XMLHttpRequest();
 			xhr.Open("GET", "test.txt",false, null, null);
 			xhr.Send(null);
+
+			var b = new BiButton();
+			var w = new BiWindow();
+
+			b.SetHtml("<b>Estoy en negrita</b>");
+
+			w.GetContentPane().Add(b);
+
+			Application.GetWindow().Add(w);
+
 			Window.Alert(xhr.ResponseText);
+
+
+
 		}
 	}
 }

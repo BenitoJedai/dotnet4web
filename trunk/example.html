@@ -3,8 +3,17 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>dotnet4web example</title>
+		
+		<!--para bindows -->
+		<link type="text/css" rel="StyleSheet" href="/bindows/html/css/bimain.css">
+        <script type="text/javascript" src="/bindows/html/js/application.js"></script>
+		
 		<script src="n4w.js" path="dotnet/bin/" load="mscorlib.dll;Org.W3C.dll;Net.Bindows.dll;n4w.ExampleProject.exe" main="JsNet.ExampleProject"></script>
 	</head>
 	<body>
+	
+        <!--tambien para bindows -->
+        <script type="text/javascript">application.start("/bindows/html", "BindowsApp.xml");</script>
+	
 	</body>
 </html>

@@ -13,7 +13,7 @@ namespace Net.Bindows
 		public extern BiComponent GetContentPane();
 	}
 
-	public class BiButton
+	public class BiButton : BiComponent
 	{
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern BiButton();
@@ -30,4 +30,15 @@ namespace Net.Bindows
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern void Add(BiComponent newChild);
 	}
+
+	public class Application
+	{
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern static BiApplicationWindow GetWindow();
+	}
+
+	public class BiApplicationWindow : BiComponent
+	{
+	}
+
 }
