@@ -65,7 +65,7 @@
       'System':{
         "Action":{
             ".ctor":function(instance, method) {
-                debugger;
+              
             }
         }
       },
@@ -514,7 +514,7 @@
                 ["Association", Index.HasSemantics]
             ),
             "Field": struct(
-              ["Flags", flags(2, {})],
+              ["Flags", flags(2, {Public:7,Static:11})],
               ["Name", nstring],
               ["Signature", nblob]
             ),
@@ -617,6 +617,12 @@
         }
 
 
+        function byteparam(opcode)
+        {
+            return [opcode, byte()];
+        }
+
+        
         function sdwordparam(opcode)
         {
             return [opcode, sdword()];
@@ -700,6 +706,7 @@
                 params[0x14] = noparam;
                 params[0x16] = noparam;
                 params[0x17] = noparam;
+                params[0x1F] = byteparam;
                 params[0x20] = sdwordparam;
                 params[0x25] = noparam;
                 params[0x26] = noparam;
@@ -708,8 +715,10 @@
                 params[0x6F] = TreeAndOneByte;
                 params[0x72] = function (b) { return [b, us[dword() & 0xFFFFFF]]; };
                 params[0x73] = TreeAndOneByte;
-
+                params[0x7D] = TreeAndOneByte;
+                
                 params[0x7B] = TreeAndOneByte;
+                params[0x7D] = TreeAndOneByte;
 
                 params[0x7D] = TreeAndOneByte;
                 params[0x8D] = TreeAndOneByte;
@@ -1032,7 +1041,7 @@
             }
         }
 
-        var toresolve = [0x28,0x8D,0x6f,0x73, 0xFE06];
+        var toresolve = [0x28,0x8D,0x6f,0x73, 0xFE06,0x7D,0x7B];
         
         //Resuelvo el bytecode
         for (var i in assemblies)
@@ -1061,8 +1070,6 @@
                   }catch(e){
                     method.Code = function()
                     {
-                       if(this.DeclaringType.TypeName == "BiEventListener")
-                           debugger;
                         
                     	var args = [];
                     	
@@ -1089,7 +1096,6 @@
                            }
                            else if(args.length == 2)
                            {
-                              debugger;
                                 return {type:null,value:new (window[this.DeclaringType.TypeName])(args[0], args[1]) };
                            }
                            else
@@ -1112,6 +1118,7 @@
                   {
                     for(var k = 0; k < method.Code.length; k++)
                     {
+                      var minus = 0;
                       var line = method.Code[k];
                       
                       if(line.length == 3 && toresolve.indexOf(line[0]) != -1)
@@ -1126,6 +1133,11 @@
                         } else if(table == 1) {
                           table = "TypeDef";
                           index++;
+                         }else if(table == 4) {
+                          
+                          table = "Field";
+                          index++;
+                          minus = 1;
                         } else {
                           debugger;
                         }
@@ -1135,12 +1147,12 @@
                         {
                         
                         
-                        method.Code[k] = [line[0], assembly.Module.meta.Tables[table][index-1]];
+                        method.Code[k] = [line[0], assembly.Module.meta.Tables[table][index-1 - minus]];
                         }
                         catch(ex)
                         
                         {
-                          debugger;
+                         
                           console.debug("a");
                         }
 
@@ -1352,6 +1364,12 @@
             this.ip++;
             break;
           
+          //ldc.i4.s <int8 (num)> Carga un Int32 del argumento como int8
+          case 0x1F:
+            this.stack.push(this._int(operand));
+            this.ip++;
+            break;
+            
           //ldc.i4 <int32 (num)>: carga un Int32 con el valor indicado en el operando
           case 0x20:
             this.stack.push(this._int(operand));
@@ -1413,9 +1431,31 @@
             
           //newobj <ctor>: Crea una instancia indicada por el tipo del constructor
           case 0x73:
-          	this.stack.push({name:operand.DeclaringType});
+          	this.stack.push({name:operand.DeclaringType, value:{"$":[]}});
           	this._call(operand);
           	break;
+            
+         
+          case 0x7B:
+              debugger;
+              //this.stack.push(this.stack.pop().value[operand.Name]);
+              this.stack.push({type:"Que tiPO",value:"Que valor"});
+              console.warn("Solo estan funcionando campos publicos de instancia");
+            this.ip++;
+            break;
+            
+          case 0x7D:
+              debugger;
+             
+            console.warn("Solo estan funcionando campos publicos de instancia");
+            var val = this.stack.pop();
+            var obj = this.stack.pop();
+            
+            obj.value[operand.Name] = val;
+            
+            val = null; obj = null;
+            this.ip++;
+            break;
             
           //newarr <type>: Crea un array del tipo especificado sacando el tamaño de la pila
           case 0x8D:
