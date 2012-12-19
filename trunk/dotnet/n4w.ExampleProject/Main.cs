@@ -8,8 +8,10 @@ namespace n4w.ExampleProject
 {
 	public class MainClass
 	{
-		public static void Main ()
+		public string mensajito;
+		public MainClass()
 		{
+			this.mensajito = "Con un sleep me retraze";
 			var biscript = Window.Document.CreateElement("script");
 			biscript.SetAttribute("src","/bindows/html/js/application.js");
 			biscript.SetAttribute("type","application/javascript");
@@ -21,10 +23,16 @@ namespace n4w.ExampleProject
 			bistyle.SetAttribute("href","/bindows/html/css/bimain.css");
 			Window.Document.Head.AppendChild(bistyle);
 
-			biscript.AddEventListener("load", BindowsLoaded,false);
+			biscript.AddEventListener("load", this.BindowsLoaded,false);
 		}
 
-		public static void BindowsLoaded (object param)
+
+		public static void Main ()
+		{
+			new MainClass();
+		}
+
+		public void BindowsLoaded (object param)
 		{
 			Application.Start("/bindows/html", "BindowsApp.xml");
 
@@ -38,7 +46,7 @@ namespace n4w.ExampleProject
 
 			Thread.Sleep(1000);
 
-			Window.Alert("Hola mundo!!!");
+			Window.Alert(this.mensajito);
 
 
 		}

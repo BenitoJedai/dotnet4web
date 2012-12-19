@@ -25,6 +25,11 @@ namespace Net.Bindows
 
 		public string Caption { set { this.SetCaption(value); } }
 
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern void SetIcon(BiImage color);
+
+		public BiImage Icon { set { this.SetIcon(value); } }
+
 	}
 
 	public class BiButton : BiComponent
@@ -88,5 +93,11 @@ namespace Net.Bindows
 
 
 
+	}
+
+	public class BiImage
+	{
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern static BiImage FromUri(string path);
 	}
 }
