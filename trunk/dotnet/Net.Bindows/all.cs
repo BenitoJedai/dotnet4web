@@ -1,6 +1,7 @@
 
 
 using System.Runtime.CompilerServices;
+using System;
 
 namespace Net.Bindows
 {
@@ -28,11 +29,11 @@ namespace Net.Bindows
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private extern void SetHtml(string html);
 
-		public string Html { set { this.SetHtml(value); } }
+		public string HTML { set { this.SetHtml(value); } }
 
 	}
 
-	public class BiComponent
+	public class BiComponent : BiEventTarget
 	{
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern BiComponent();
@@ -41,14 +42,33 @@ namespace Net.Bindows
 		public extern void Add(BiComponent newChild);
 	}
 
-	public class Application
+	public static class Application
 	{
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		public extern static BiApplicationWindow GetWindow();
+		private extern static BiApplicationWindow GetWindow();
+
+		public static BiApplicationWindow Window {
+			get {
+				return GetWindow();
+			}
+		}
+
 	}
 
 	public class BiApplicationWindow : BiComponent
 	{
 	}
 
+
+	public class BiEventTarget
+	{
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern void AddEventListener(BiEventListener ev);
+	}
+
+	public class BiEventListener
+	{
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern BiEventListener(string sType, Action<object> fHandler);
+	}
 }

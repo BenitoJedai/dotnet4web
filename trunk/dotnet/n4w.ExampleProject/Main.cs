@@ -39,16 +39,24 @@ namespace n4w.ExampleProject
 			var b = new BiButton();
 			var w = new BiWindow();
 
-			b.Html = "<b>Estoy en negrita</b>";
+			b.HTML = "<b>Estoy en negrita</b>";
 
 			w.ContentPane.Add(b);
 
-			Application.GetWindow().Add(w);
+
+			b.AddEventListener(new BiEventListener("click", CuandoClickeeElBotonDeBindows));
+
+			Application.Window.Add(w);
 
 			Window.Alert(xhr.ResponseText);
 
 
 
+		}
+
+		public static void CuandoClickeeElBotonDeBindows(object args)
+		{
+			Window.Alert("IM SO PRO!!!");
 		}
 	}
 }
