@@ -26,7 +26,10 @@ namespace Net.Bindows
 		public extern BiButton();
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		public extern void SetHtml(string html);
+		private extern void SetHtml(string html);
+
+		public string Html { set { this.SetHtml(value); } }
+
 	}
 
 	public class BiComponent
