@@ -19,6 +19,12 @@ namespace Net.Bindows
 				return this.GetContentPane();
 			}
 		}
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern void SetCaption(string color);
+
+		public string Caption { set { this.SetCaption(value); } }
+
 	}
 
 	public class BiButton : BiComponent
@@ -60,6 +66,8 @@ namespace Net.Bindows
 			}
 		}
 
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern static void Start(string root, string adf);
 	}
 
 	public class BiApplicationWindow : BiComponent
@@ -77,5 +85,8 @@ namespace Net.Bindows
 	{
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern BiEventListener(string sType, Action<object> fHandler);
+
+
+
 	}
 }
