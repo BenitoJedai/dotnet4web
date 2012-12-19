@@ -1287,6 +1287,11 @@
             this.stack.push(this.arguments[0]);
             this.ip++;
             break;
+          //ldarg.1: Carga el primer segundo en la pila
+          case 0x03:
+            this.stack.push(this.arguments[1]);
+            this.ip++;
+            break;
           //ldloc.0: Carga la primer local en la pila
           case 0x06:
               this.stack.push(this.locals[0]);

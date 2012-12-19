@@ -39,7 +39,7 @@ namespace n4w.ExampleProject
 			var b = new BiButton();
 			var w = new BiWindow();
 
-			b.SetHtml("<b>Estoy en negrita</b>");
+			b.Html = "<b>Estoy en negrita</b>";
 
 			w.ContentPane.Add(b);
 
