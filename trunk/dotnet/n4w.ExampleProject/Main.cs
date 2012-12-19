@@ -42,7 +42,7 @@ namespace n4w.ExampleProject
 			b.HTML = "<b>Estoy en negrita</b>";
 
 			w.ContentPane.Add(b);
-
+			w.ContentPane.BackColor = "red";
 
 			b.AddEventListener(new BiEventListener("click", CuandoClickeeElBotonDeBindows));
 

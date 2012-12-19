@@ -2,13 +2,13 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.Workbench ActiveDocument="n4w.ExampleProject/Main.cs">
     <Files>
-      <File FileName="n4w.ExampleProject/Main.cs" Line="44" Column="19" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="44" Column="21" />
       <File FileName="Org.W3C/Window.cs" Line="18" Column="3" />
       <File FileName="Org.W3C/DOM/html.cs" Line="16" Column="3" />
       <File FileName="Org.W3C/DOM/core.cs" Line="46" Column="77" />
       <File FileName="mscorlib/System/Action_1.cs" Line="7" Column="3" />
       <File FileName="Org.W3C/DOM/websockets.cs" Line="15" Column="2" />
-      <File FileName="Net.Bindows/all.cs" Line="18" Column="34" />
+      <File FileName="Net.Bindows/all.cs" Line="54" Column="4" />
       <File FileName="Org.W3C/DOM/xmlhttprequest.cs" Line="16" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
