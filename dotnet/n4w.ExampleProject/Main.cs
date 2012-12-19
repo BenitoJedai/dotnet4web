@@ -41,7 +41,7 @@ namespace n4w.ExampleProject
 
 			b.SetHtml("<b>Estoy en negrita</b>");
 
-			w.GetContentPane().Add(b);
+			w.ContentPane.Add(b);
 
 			Application.GetWindow().Add(w);
 

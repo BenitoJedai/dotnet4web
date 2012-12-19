@@ -10,7 +10,14 @@ namespace Net.Bindows
 		public extern BiWindow();
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		public extern BiComponent GetContentPane();
+		private extern BiComponent GetContentPane();
+
+
+		public BiComponent ContentPane {
+			get {
+				return this.GetContentPane();
+			}
+		}
 	}
 
 	public class BiButton : BiComponent
