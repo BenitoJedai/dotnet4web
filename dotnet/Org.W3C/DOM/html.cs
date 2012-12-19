@@ -13,6 +13,12 @@ namespace Org.W3C.DOM
 			[MethodImpl(MethodImplOptions.InternalCall)]
 			get;
 		}
+
+		public extern HTMLElement Head
+		{
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			get;
+		}
 	}
 
 	public class HTMLElement : Element

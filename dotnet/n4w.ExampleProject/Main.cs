@@ -8,14 +8,25 @@ namespace n4w.ExampleProject
 {
 	public class MainClass
 	{
-		public MainClass()
-		{
-			Window.Alert("jajaja");
-		}
-
 		public static void Main ()
 		{
-			new MainClass();
+			var biscript = Window.Document.CreateElement("script");
+			biscript.SetAttribute("src","/bindows/html/js/application.js");
+			biscript.SetAttribute("type","application/javascript");
+			Window.Document.Head.AppendChild(biscript);
+
+			var bistyle = Window.Document.CreateElement("link");
+			bistyle.SetAttribute("rel","StyleSheet");
+			bistyle.SetAttribute("type","text/css");
+			bistyle.SetAttribute("href","/bindows/html/css/bimain.css");
+			Window.Document.Head.AppendChild(bistyle);
+
+			biscript.AddEventListener("load", BindowsLoaded,false);
+		}
+
+		public static void BindowsLoaded (object param)
+		{
+			Application.Start("/bindows/html", "BindowsApp.xml");
 
 			var button = Window.Document.CreateElement("button");
 
@@ -28,6 +39,8 @@ namespace n4w.ExampleProject
 			Thread.Sleep(1000);
 
 			Window.Alert("Hola mundo!!!");
+
+
 		}
 
 		public static void CuandoClickee(object param) 
@@ -43,13 +56,13 @@ namespace n4w.ExampleProject
 
 			w.ContentPane.Add(b);
 			w.ContentPane.BackColor = "red";
+			w.Caption = "Titulo RE PRO";
 
 			b.AddEventListener(new BiEventListener("click", CuandoClickeeElBotonDeBindows));
 
 			Application.Window.Add(w);
 
 			Window.Alert(xhr.ResponseText);
-
 
 
 		}
