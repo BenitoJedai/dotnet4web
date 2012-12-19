@@ -1061,7 +1061,8 @@
                   }catch(e){
                     method.Code = function()
                     {
-                       
+                       if(this.DeclaringType.TypeName == "BiEventListener")
+                           debugger;
                         
                     	var args = [];
                     	
@@ -1070,7 +1071,7 @@
                     	
                     	var instance = this.Flags.IsStatic ?
                     		window[toJsName( this.DeclaringType.TypeName)] :
-                    		args.shift();
+                    		( this.DeclaringType.TypeName == "BiEventListener" ? args.pop() : args.shift()       );
          
          				if(this.Name.substring(0,4) == "get_")
          				{
@@ -1078,8 +1079,25 @@
          				}
          				else if(this.Name == ".ctor")
                        {
+                           if(args.length == 0)
+                           {
+                                return {type:null,value:new (window[this.DeclaringType.TypeName])() };
+                           }
+                           else if(args.length == 1)
+                           {
+                                return {type:null,value:new (window[this.DeclaringType.TypeName])(args[0]) };
+                           }
+                           else if(args.length == 2)
+                           {
+                              debugger;
+                                return {type:null,value:new (window[this.DeclaringType.TypeName])(args[0], args[1]) };
+                           }
+                           else
+                           {
+                                throw new Error("Cantidad de parametos invalidos");
+                           }
                            
-                            return {type:null,value:new (window[this.DeclaringType.TypeName])() };
+                           
                        }
          				else
          				{
