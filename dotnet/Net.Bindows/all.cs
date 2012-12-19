@@ -40,6 +40,13 @@ namespace Net.Bindows
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern void Add(BiComponent newChild);
+
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern void SetBackColor(string color);
+
+		public string BackColor { set { this.SetBackColor(value); } }
+
 	}
 
 	public static class Application

@@ -175,8 +175,7 @@ namespace Org.W3C.DOM
     
   [MethodImpl(MethodImplOptions.InternalCall)]
     public extern Node Item(uint index);
-    
-	
+
     public extern uint Length
     {
       [MethodImpl(MethodImplOptions.InternalCall)]
