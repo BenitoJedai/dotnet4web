@@ -50,6 +50,7 @@ namespace Net.Bindows
 
 		public int Left { set { this.SetLeft(value); } }
 
+
 	}
 
 	public class BiComponent : BiEventTarget
@@ -65,6 +66,16 @@ namespace Net.Bindows
 		private extern void SetBackColor(string color);
 
 		public string BackColor { set { this.SetBackColor(value); } }
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern void SetEnabled(bool value);
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern bool GetEnabled();
+
+		public bool Enabled {
+			set { this.SetEnabled (value); }
+			get { return this.GetEnabled(); } }
+
 
 	}
 

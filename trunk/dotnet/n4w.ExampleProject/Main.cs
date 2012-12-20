@@ -9,8 +9,8 @@ namespace n4w.ExampleProject
 	public class MainClass
 	{
 		public string mensajito;
-		public BiTextField t;
 		public Element button;
+		public BiTextField t;
 		public BiWindow w;
 
 		public MainClass()
@@ -83,12 +83,20 @@ namespace n4w.ExampleProject
 
 		public void CuandoClickeeElBotonDeBindows (object args)
 		{
+		
 			if (t.Text == "pescado") {
 				Window.Alert ("Bien chabon, sos mas inteligente que un mono");
-				w.Close();
+				Window.SetTimeout(this.CuandoTermineElTimeout, 1000);
+				w.Enabled = false;
 			} else {
 				Window.Alert ("Dale escribi pescado man!!!");
 			}
+		}
+
+		public void CuandoTermineElTimeout (object a)
+		{
+			w.Close();
+			Window.Alert("Me cerre con el timeout nativo");
 		}
 	}
 }
