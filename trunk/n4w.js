@@ -36,14 +36,6 @@
             
             };
     
-    
-    
-    
-    
-    
-    
-    
-    
     function toJsName(str)
     {
     	return str[0].toLowerCase() + str.substring(1);
@@ -71,6 +63,12 @@
         "Action":{
             ".ctor":function(instance, method) {
               
+            }
+        },
+        "String":{
+            op_Equality:function(a, b) {
+                debugger;
+                return {type:this.domain.CoreTypes.bool,value:a.value == b.value ? 1 : 0};
             }
         }
       },
@@ -669,6 +667,9 @@
                 }
 
 
+                
+                
+                
                 offset = RVA + current.RVA;
 
 
@@ -697,6 +698,9 @@
                     limit = offset + (b >> 2);
                 }
 
+                
+                
+                
                 var params = [];
                 params[0] = noparam;
                 params[0x02] = noparam;
@@ -704,9 +708,12 @@
                 params[0x06] = noparam;
                 params[0x07] = noparam;
                 params[0x08] = noparam;
+                params[0x09] = noparam;
                 params[0x0A] = noparam;
                  params[0x0B] = noparam;
                 params[0x0C] = noparam;               
+             params[0x0D] = noparam;  
+             
              
                 params[0x14] = noparam;
                 params[0x16] = noparam;
@@ -717,6 +724,8 @@
                 params[0x26] = noparam;
                 params[0x28] = TreeAndOneByte;
                 params[0x2A] = noparam;
+                params[0x38] = dwordparam;
+                params[0x39] = dwordparam;
                 params[0x6F] = TreeAndOneByte;
                 params[0x72] = function (b) { return [b, us[dword() & 0xFFFFFF]]; };
                 params[0x73] = TreeAndOneByte;
@@ -734,6 +743,12 @@
                 
                 //0x2a
 
+                var indexes = {};
+                var indexers = [0x38,0x39];
+                var toindex = [];
+                var init = offset;
+                
+                
                 while (offset < limit)
                 {
 
@@ -749,9 +764,26 @@
                         throw new Error("0x" + opcode.toString(16));
                     }
                     else
-                        code.push(params[opcode](opcode));
-                }
+                    {
+                        indexes[offset - init - 1] = code.length;
+                       
 
+                        var ins = params[opcode](opcode);
+                         var off = offset - init;
+                        if(indexers.indexOf(opcode ) != -1) {
+                            toindex.push({ins:ins,offset:off});
+                        }
+                        
+                        code.push(ins);
+                    }
+                }
+                
+                
+                for(var j = 0; j < toindex.length; j++) {
+                    var off = toindex[j].offset;
+
+                    toindex[j].ins[1] = indexes[toindex[j].ins[1] + off];
+                }
                 delete current.RVA;
                 current.Code = code;
 
@@ -959,10 +991,16 @@
                     var t= new Type();
                     t.MethodList = [{Name:".ctor", ParamList:[1,1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(instance, method) {
                         
-
+                        
                         return {type:"METODO JS", value:function() {
                             
-                            new Thread(this.domain,method.value).start();
+                            if(method.IsStatic) {
+                                new Thread(this.domain,method.value).start();
+                            } else {
+                                new Thread(this.domain,method.value).start(instance);
+                            }
+                            
+                            
                         }.bind(this)};
                         
                         
@@ -1061,8 +1099,8 @@
                 {
                   
                   var method = methods[j];
-                  
-                  if(method.Name == "Sleep")
+
+                  if(method.Name == "Sleep" || method.Name == "op_Equality")
                       method.ImplFlags.InternalCall = true;
                   
                   if(method.ImplFlags.InternalCall)
@@ -1186,7 +1224,8 @@
        realdomain.CoreTypes = {
          int:realdomain.Assemblies.mscorlib.getType("System","Int32"),
          string:realdomain.Assemblies.mscorlib.getType("System","String"),
-         array:realdomain.Assemblies.mscorlib.getType("System","Array")
+         array:realdomain.Assemblies.mscorlib.getType("System","Array"),
+         bool:realdomain.Assemblies.mscorlib.getType("System","Boolean")
        };
         
        return realdomain;
@@ -1347,19 +1386,29 @@
               this.stack.push(this.locals[2]);
               this.ip++;
               break;
+          //ldloc.2: Carga la cuarta local en la pila
+          case 0x09:
+              this.stack.push(this.locals[3]);
+              this.ip++;
+              break;
           //stloc.0: Guarda la cima de la pila en la primer local
           case 0x0A:
             this.locals[0] = this.stack.pop();
             this.ip++;
             break;
-          //stloc.0: Guarda la cima de la pila en la segunda local
+          //stloc.1: Guarda la cima de la pila en la segunda local
           case 0x0B:
             this.locals[1] = this.stack.pop();
             this.ip++;
-            break;  
-          //stloc.0: Guarda la cima de la pila en la tercer local
+            break;
+          //stloc.2: Guarda la cima de la pila en la tercer local
           case 0x0C:
             this.locals[2] = this.stack.pop();
+            this.ip++;
+            break;  
+          //stloc.0: Guarda la cima de la pila en la cuarta local
+          case 0x0D:
+            this.locals[3] = this.stack.pop();
             this.ip++;
             break; 
           //ldnull: Carga un null en la pila
@@ -1410,6 +1459,22 @@
             this._call(operand);
             break;
 
+            
+          case 0x38:
+           this.ip = operand;
+           break;
+            
+            
+          //brfalse <int32 (target)>: Salta a la instruccion especificada si la pila tiene un false
+          //El valor original es reemplazado por el indice de instruccion
+          case 0x39:
+             
+            if(this.stack.pop().value == 0) {
+                this.ip = operand;
+            } else {
+                this.ip++;
+            }
+            break;
 
           //ret: Termina le ejecuciion de un metodo posiblemente con un valor de retorno
           //FIXME: Como no tengo la firma de los metodos asumo que si la pila
@@ -1447,9 +1512,7 @@
             
          
           case 0x7B:
-              debugger;
-              //this.stack.push(this.stack.pop().value[operand.Name]);
-              this.stack.push({type:"Que tiPO",value:"Que valor"});
+              this.stack.push(this.stack.pop().value[operand.Name]);
               console.warn("Solo estan funcionando campos publicos de instancia");
             this.ip++;
             break;
@@ -1522,3 +1585,4 @@
     
     
 })();
+

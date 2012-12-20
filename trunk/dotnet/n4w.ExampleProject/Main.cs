@@ -9,6 +9,10 @@ namespace n4w.ExampleProject
 	public class MainClass
 	{
 		public string mensajito;
+		public BiTextField t;
+		public Element button;
+		public BiWindow w;
+
 		public MainClass()
 		{
 			this.mensajito = "Con un sleep me retraze";
@@ -36,7 +40,7 @@ namespace n4w.ExampleProject
 		{
 			Application.Start("/bindows/html", "BindowsApp.xml");
 
-			var button = Window.Document.CreateElement("button");
+			button = Window.Document.CreateElement("button");
 
 			button.AppendChild(Window.Document.CreateTextNode("Clickeame"));
 
@@ -51,34 +55,40 @@ namespace n4w.ExampleProject
 
 		}
 
-		public static void CuandoClickee(object param) 
+		public void CuandoClickee(object param) 
 		{
+			Window.Document.Body.RemoveChild(this.button);
 			var xhr = new XMLHttpRequest();
 			xhr.Open("GET", "test.txt",false, null, null);
 			xhr.Send(null);
 
+			t = new BiTextField();
+
 			var b = new BiButton();
-			var w = new BiWindow();
-
 			b.HTML = "<b>Estoy en negrita</b>";
-
-			w.ContentPane.Add(b);
-			w.ContentPane.BackColor = "red";
-			w.Caption = "Titulo RE PRO";
-			w.Icon = BiImage.FromUri("/bindows/html/themes/Default/images/default.16.gif");
-
 			b.AddEventListener(new BiEventListener("click", CuandoClickeeElBotonDeBindows));
+			b.Left = 120;
+
+			w = new BiWindow();
+			w.ContentPane.Add(b);
+			w.ContentPane.Add(t);
+			w.ContentPane.BackColor = "red";
+			w.Caption = "Escribime pescado";
+			w.Icon = BiImage.FromUri("/bindows/html/themes/Default/images/default.16.gif");
 
 			Application.Window.Add(w);
 
 			Window.Alert(xhr.ResponseText);
-
-
 		}
 
-		public static void CuandoClickeeElBotonDeBindows(object args)
+		public void CuandoClickeeElBotonDeBindows (object args)
 		{
-			Window.Alert("IM SO PRO!!!");
+			if (t.Text == "pescado") {
+				Window.Alert ("Bien chabon, sos mas inteligente que un mono");
+				w.Close();
+			} else {
+				Window.Alert ("Dale escribi pescado man!!!");
+			}
 		}
 	}
 }
