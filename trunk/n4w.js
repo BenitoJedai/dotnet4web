@@ -30,6 +30,11 @@
 
     
     
+    if(!window.console.debug)
+        window.console.debug = function()
+            {
+            
+            };
     
     
     
@@ -1080,6 +1085,11 @@
                     		window[toJsName( this.DeclaringType.TypeName)] :
                     		( this.DeclaringType.TypeName == "BiEventListener" ? args.pop() : args.shift()       );
          
+                       if(this.Flags.IsStatic && !instance)
+                           instance = window[this.DeclaringType.TypeName];
+                            
+                            
+                            
          				if(this.Name.substring(0,4) == "get_")
          				{
          					return {type:null, value:instance[toJsName(this.Name.substring(4))]};

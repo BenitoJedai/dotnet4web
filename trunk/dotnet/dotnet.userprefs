@@ -2,14 +2,15 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.Workbench ActiveDocument="n4w.ExampleProject/Main.cs">
     <Files>
-      <File FileName="n4w.ExampleProject/Main.cs" Line="44" Column="21" />
-      <File FileName="Org.W3C/Window.cs" Line="18" Column="3" />
-      <File FileName="Org.W3C/DOM/html.cs" Line="16" Column="3" />
-      <File FileName="Org.W3C/DOM/core.cs" Line="46" Column="77" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="36" Column="4" />
+      <File FileName="Org.W3C/Window.cs" Line="17" Column="4" />
+      <File FileName="Org.W3C/DOM/html.cs" Line="15" Column="4" />
+      <File FileName="Org.W3C/DOM/core.cs" Line="518" Column="25" />
       <File FileName="mscorlib/System/Action_1.cs" Line="7" Column="3" />
       <File FileName="Org.W3C/DOM/websockets.cs" Line="15" Column="2" />
-      <File FileName="Net.Bindows/all.cs" Line="54" Column="4" />
+      <File FileName="Net.Bindows/all.cs" Line="91" Column="7" />
       <File FileName="Org.W3C/DOM/xmlhttprequest.cs" Line="16" Column="1" />
+      <File FileName="../example.html" Line="6" Column="34" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
