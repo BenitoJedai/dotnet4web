@@ -15,6 +15,12 @@ namespace Org.W3C
 			[MethodImpl(MethodImplOptions.InternalCall)]
 			get;
 		}
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern static int SetTimeout(Action<object> action, int milliseconds);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern static void Close();
 	}
 }
 
