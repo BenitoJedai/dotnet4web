@@ -65,6 +65,7 @@ namespace n4w.ExampleProject
 			w.ContentPane.Add(b);
 			w.ContentPane.BackColor = "red";
 			w.Caption = "Titulo RE PRO";
+			w.Icon = BiImage.FromUri("/bindows/html/themes/Default/images/default.16.gif");
 
 			b.AddEventListener(new BiEventListener("click", CuandoClickeeElBotonDeBindows));
 
