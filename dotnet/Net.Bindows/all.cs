@@ -30,6 +30,9 @@ namespace Net.Bindows
 
 		public BiImage Icon { set { this.SetIcon(value); } }
 
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern void Close();
+
 	}
 
 	public class BiButton : BiComponent
@@ -41,6 +44,11 @@ namespace Net.Bindows
 		private extern void SetHtml(string html);
 
 		public string HTML { set { this.SetHtml(value); } }
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern void SetLeft(int value);
+
+		public int Left { set { this.SetLeft(value); } }
 
 	}
 
@@ -99,5 +107,24 @@ namespace Net.Bindows
 	{
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		public extern static BiImage FromUri(string path);
+	}
+
+	public class BiTextField : BiComponent
+	{
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		public extern BiTextField();
+
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern void SetText(string value);
+
+		[MethodImpl(MethodImplOptions.InternalCall)]
+		private extern string GetText();
+
+		public string Text {
+			set { this.SetText (value);}
+			get { return this.GetText(); } }
+
+
 	}
 }
