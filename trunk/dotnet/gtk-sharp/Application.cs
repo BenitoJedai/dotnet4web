@@ -11,6 +11,10 @@ namespace Gtk
 		public static void Run()
 		{
 		}
+
+		public static void Quit()
+		{
+		}
 	}
 }
 

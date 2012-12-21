@@ -14,7 +14,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\bin</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -23,7 +23,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\bin</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -35,12 +35,21 @@
     <Compile Include="Widget.cs" />
     <Compile Include="ActionGroup.cs" />
     <Compile Include="WindowPosition.cs" />
+    <Compile Include="Bin.cs" />
+    <Compile Include="DeleteEventHandler.cs" />
+    <Compile Include="DeleteEventArgs.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="Button.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\Net.Bindows\Net.Bindows.csproj">
       <Project>{01E64EB3-93DD-4A86-99F0-4259C1AD9698}</Project>
       <Name>Net.Bindows</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\glib-sharp\glib-sharp.csproj">
+      <Project>{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}</Project>
+      <Name>glib-sharp</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
