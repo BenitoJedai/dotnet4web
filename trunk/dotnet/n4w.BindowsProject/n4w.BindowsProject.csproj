@@ -29,7 +29,7 @@
     <Externalconsole>true</Externalconsole>
     <CustomCommands>
       <CustomCommands>
-        <Command type="Execute" command="kwebapp http://localhost/d4w/bindows.html" />
+        <Command type="Execute" command="kwebapp http://dotnet4web/bindows.html" />
       </CustomCommands>
     </CustomCommands>
   </PropertyGroup>
