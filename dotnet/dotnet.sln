@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mono.Posix", "Mono.Posix\Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gdk-sharp", "gdk-sharp\gdk-sharp.csproj", "{D1E43322-EE0F-4E91-8040-065A0668023E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n4w.BindowsProject", "n4w.BindowsProject\n4w.BindowsProject.csproj", "{962FB868-3925-4496-B663-766C9DE69B29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{91D0E5C7-15F5-432C-B05D-14875F21495F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91D0E5C7-15F5-432C-B05D-14875F21495F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91D0E5C7-15F5-432C-B05D-14875F21495F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{962FB868-3925-4496-B663-766C9DE69B29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{962FB868-3925-4496-B663-766C9DE69B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{962FB868-3925-4496-B663-766C9DE69B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{962FB868-3925-4496-B663-766C9DE69B29}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BF7B0298-D2B6-488F-9E67-E6C8FA666C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BF7B0298-D2B6-488F-9E67-E6C8FA666C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF7B0298-D2B6-488F-9E67-E6C8FA666C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
