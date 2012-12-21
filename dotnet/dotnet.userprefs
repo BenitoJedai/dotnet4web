@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Net.Bindows/all.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="n4w.BindowsProject/Main.cs">
     <Files>
-      <File FileName="n4w.ExampleProject/Main.cs" Line="16" Column="3" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="16" Column="16" />
       <File FileName="n4w.GtkProject/MainWindow.cs" Line="6" Column="2" />
       <File FileName="n4w.GtkProject/gtk-gui/MainWindow.cs" Line="22" Column="1" />
       <File FileName="n4w.GtkProject/gtk-gui/generated.cs" Line="2" Column="1" />
@@ -15,8 +15,8 @@
       <File FileName="gtk-sharp/ActionGroup.cs" Line="6" Column="26" />
       <File FileName="gtk-sharp/WindowPosition.cs" Line="5" Column="28" />
       <File FileName="gdk-sharp/MyClass.cs" Line="7" Column="3" />
-      <File FileName="n4w.BindowsProject/Main.cs" Line="14" Column="50" />
-      <File FileName="Net.Bindows/all.cs" Line="101" Column="4" />
+      <File FileName="n4w.BindowsProject/Main.cs" Line="29" Column="2" />
+      <File FileName="Net.Bindows/all.cs" Line="112" Column="37" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
