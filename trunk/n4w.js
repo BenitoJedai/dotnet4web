@@ -63,6 +63,9 @@
         "Action":{
             ".ctor":function(instance, method) {
               
+            },
+            Invoke:function() {
+                alert("SI MAN EL INVOKE");
             }
         },
         "String":{
@@ -705,6 +708,7 @@
                 params[0] = noparam;
                 params[0x02] = noparam;
                 params[0x03] = noparam;
+                params[0x04] = noparam;
                 params[0x06] = noparam;
                 params[0x07] = noparam;
                 params[0x08] = noparam;
@@ -732,9 +736,13 @@
                 params[0x7D] = TreeAndOneByte;
                 
                 params[0x7B] = TreeAndOneByte;
-                params[0x7D] = TreeAndOneByte;
+                params[0x80] = TreeAndOneByte;
 
                 params[0x7D] = TreeAndOneByte;
+                params[0x7E] = TreeAndOneByte;
+                
+                params[0x28] = TreeAndOneByte;
+                
                 params[0x8D] = TreeAndOneByte;
                 params[0xA2] = noparam;
 
@@ -817,6 +825,7 @@
     //Se obtiene la lista de modulos que se van a cargar
     var modules = document.getElementsByTagName("script");
     modules = modules[modules.length - 1];
+    window.DOTNETMAIN = modules.getAttribute("main");
     var path = modules.getAttribute("path");
     modules = modules.getAttribute("load").split(";");
 
@@ -1004,6 +1013,13 @@
                         }.bind(this)};
                         
                         
+                    }}, {Name:"Invoke", ParamList:[1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(instance, param) {
+
+                        instance.value(param);
+                       
+                            
+                        
+                        
                     }}];
 
                     
@@ -1084,7 +1100,7 @@
             }
         }
 
-        var toresolve = [0x28,0x8D,0x6f,0x73, 0xFE06,0x7D,0x7B];
+        var toresolve = [0x28,0x8D,0x6f,0x73, 0xFE06,0x7D,0x7B,0x80,0x7E];
         
         //Resuelvo el bytecode
         for (var i in assemblies)
@@ -1371,6 +1387,11 @@
             this.stack.push(this.arguments[1]);
             this.ip++;
             break;
+          //ldarg.1: Carga el primer tercer en la pila
+          case 0x04:
+            this.stack.push(this.arguments[2]);
+            this.ip++;
+            break;
           //ldloc.0: Carga la primer local en la pila
           case 0x06:
               this.stack.push(this.locals[0]);
@@ -1529,10 +1550,26 @@
             val = null; obj = null;
             this.ip++;
             break;
+           
+          //stsfld
+          case 0x80:
+            if(!this.method.DeclaringType.field)
+                this.method.DeclaringType.field = {};
+            this.method.DeclaringType.field[operand.Name] = this.stack.pop();
+            this.ip++;
+            break;
+            
             
           //newarr <type>: Crea un array del tipo especificado sacando el tamaño de la pila
           case 0x8D:
             this.stack.push({type:this.domain.CoreTypes.array,elemtype:operand, value:new Array(this.stack.pop().value)});
+            this.ip++;
+            break;
+           
+            
+          //ldsfld
+          case 0x7E:
+            this.stack.push(this.method.DeclaringType.field[operand.Name])
             this.ip++;
             break;
             
@@ -1578,8 +1615,7 @@
 
     function main(domain)
     { 
-      
-      var entrythread = new Thread(domain,domain.Assemblies["n4w.ExampleProject"].getType("n4w.ExampleProject","MainClass").getMethod("Main"));
+      var entrythread = new Thread(domain,domain.Assemblies[DOTNETMAIN].getType("","MainClass").getMethod("Main"));
       entrythread.start();
     }
     
