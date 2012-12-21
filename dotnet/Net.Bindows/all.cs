@@ -2,6 +2,7 @@
 
 using System.Runtime.CompilerServices;
 using System;
+using Org.W3C;
 
 namespace Net.Bindows
 {
@@ -81,6 +82,38 @@ namespace Net.Bindows
 
 	public static class Application
 	{
+		private static Action<object> cb;
+		private static string root;
+		private static string adf;
+		public static void Initialize(Action<object> cb, string root, string adf)
+		{
+			System.Threading.Thread.Sleep(1000);
+			Application.cb = cb;
+			Application.root = root;
+			Application.adf = adf;
+
+			var biscript = Org.W3C.Window.Document.CreateElement("script");
+			biscript.SetAttribute("src","/bindows/html/js/application.js");
+			biscript.SetAttribute("type","application/javascript");
+			Org.W3C.Window.Document.Head.AppendChild(biscript);
+
+			var bistyle = Org.W3C.Window.Document.CreateElement("link");
+			bistyle.SetAttribute("rel","StyleSheet");
+			bistyle.SetAttribute("type","text/css");
+			bistyle.SetAttribute("href","/bindows/html/css/bimain.css");
+			Org.W3C.Window.Document.Head.AppendChild(bistyle);
+
+			biscript.AddEventListener("load", OnInitialized,false);
+		}
+
+		private static void OnInitialized(object arg)
+		{
+			Start(root, adf);
+			System.Threading.Thread.Sleep(500);
+			Application.cb(null);
+		}
+
+
 		[MethodImpl(MethodImplOptions.InternalCall)]
 		private extern static BiApplicationWindow GetWindow();
 
@@ -91,7 +124,7 @@ namespace Net.Bindows
 		}
 
 		[MethodImpl(MethodImplOptions.InternalCall)]
-		public extern static void Start(string root, string adf);
+		private extern static void Start(string root, string adf);
 	}
 
 	public class BiApplicationWindow : BiComponent
@@ -139,3 +172,16 @@ namespace Net.Bindows
 
 	}
 }
+
+/*var biscript = Window.Document.CreateElement("script");
+			biscript.SetAttribute("src","/bindows/html/js/application.js");
+			biscript.SetAttribute("type","application/javascript");
+			Window.Document.Head.AppendChild(biscript);
+
+			var bistyle = Window.Document.CreateElement("link");
+			bistyle.SetAttribute("rel","StyleSheet");
+			bistyle.SetAttribute("type","text/css");
+			bistyle.SetAttribute("href","/bindows/html/css/bimain.css");
+			Window.Document.Head.AppendChild(bistyle);
+
+			biscript.AddEventListener("load", this.BindowsLoaded,false);*/
