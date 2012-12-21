@@ -52,5 +52,17 @@
       <Project>{01E64EB3-93DD-4A86-99F0-4259C1AD9698}</Project>
       <Name>Net.Bindows</Name>
     </ProjectReference>
+    <ProjectReference Include="..\gtk-sharp\gtk-sharp.csproj">
+      <Project>{0F5A242B-21B2-4315-B6B9-5CB10FAFD094}</Project>
+      <Name>gtk-sharp</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Mono.Posix\Mono.Posix.csproj">
+      <Project>{13F3B4AF-8BDA-4682-B07A-B7C1E8C73606}</Project>
+      <Name>Mono.Posix</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\gdk-sharp\gdk-sharp.csproj">
+      <Project>{D1E43322-EE0F-4E91-8040-065A0668023E}</Project>
+      <Name>gdk-sharp</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
