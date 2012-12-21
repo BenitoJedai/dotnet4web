@@ -1,16 +1,20 @@
 using System;
 using Gtk;
 
-namespace n4w.GtkProject
+
+class MainClass
 {
-	class MainClass
+	public static void Main (string[] args)
 	{
-		public static void Main (string[] args)
-		{
-			Application.Init ();
-			MainWindow win = new MainWindow ();
-			win.Show ();
-			Application.Run ();
-		}
+		Net.Bindows.Application.Initialize(GtkMain,"/bindows/html","BindowsApp.xml");
+	}
+
+ 	private static void GtkMain(object param)
+	{
+		Application.Init ();
+		MainWindow win = new MainWindow ();
+		win.Show ();
+		Application.Run ();
 	}
 }
+

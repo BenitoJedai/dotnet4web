@@ -3,13 +3,13 @@ using Net.Bindows;
 
 namespace Gtk
 {
-	public class Window : Widget
+	public class Window : Bin
 	{
-		private BiWindow bi;
 		public Window (WindowType type)
 		{
-			bi = new BiWindow();
-			Net.Bindows.Application.Window.Add(bi);
+			var w  = new BiWindow();
+			Net.Bindows.Application.Window.Add(w);
+			this.bi = w;
 		}
 
 		public string Name {
@@ -23,11 +23,7 @@ namespace Gtk
 			}
 		}
 
-		public Widget Child {
-			get {
-				return null;
-			}
-		}
+
 
 		public WindowPosition WindowPosition {
 			set {

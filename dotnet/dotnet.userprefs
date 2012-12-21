@@ -1,15 +1,15 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="n4w.BindowsProject/Main.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="glib-sharp/SignalArgs.cs">
     <Files>
       <File FileName="n4w.ExampleProject/Main.cs" Line="16" Column="16" />
-      <File FileName="n4w.GtkProject/MainWindow.cs" Line="6" Column="2" />
-      <File FileName="n4w.GtkProject/gtk-gui/MainWindow.cs" Line="22" Column="1" />
-      <File FileName="n4w.GtkProject/gtk-gui/generated.cs" Line="2" Column="1" />
-      <File FileName="n4w.GtkProject/Main.cs" Line="4" Column="1" />
+      <File FileName="n4w.GtkProject/MainWindow.cs" Line="4" Column="22" />
+      <File FileName="n4w.GtkProject/gtk-gui/MainWindow.cs" Line="4" Column="22" />
+      <File FileName="n4w.GtkProject/gtk-gui/generated.cs" Line="8" Column="3" />
+      <File FileName="n4w.GtkProject/Main.cs" Line="11" Column="1" />
       <File FileName="gtk-sharp/Application.cs" Line="5" Column="26" />
-      <File FileName="gtk-sharp/Window.cs" Line="52" Column="4" />
-      <File FileName="gtk-sharp/WindowType.cs" Line="7" Column="11" />
+      <File FileName="gtk-sharp/Window.cs" Line="52" Column="1" />
+      <File FileName="gtk-sharp/WindowType.cs" Line="7" Column="1" />
       <File FileName="gtk-sharp/Widget.cs" Line="9" Column="4" />
       <File FileName="Mono.Posix/Catalog.cs" Line="14" Column="1" />
       <File FileName="gtk-sharp/ActionGroup.cs" Line="6" Column="26" />
@@ -17,6 +17,7 @@
       <File FileName="gdk-sharp/MyClass.cs" Line="7" Column="3" />
       <File FileName="n4w.BindowsProject/Main.cs" Line="29" Column="2" />
       <File FileName="Net.Bindows/all.cs" Line="112" Column="37" />
+      <File FileName="glib-sharp/SignalArgs.cs" Line="11" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

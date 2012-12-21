@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gdk-sharp", "gdk-sharp\gdk-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n4w.BindowsProject", "n4w.BindowsProject\n4w.BindowsProject.csproj", "{962FB868-3925-4496-B663-766C9DE69B29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glib-sharp", "glib-sharp\glib-sharp.csproj", "{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{13F3B4AF-8BDA-4682-B07A-B7C1E8C73606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13F3B4AF-8BDA-4682-B07A-B7C1E8C73606}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13F3B4AF-8BDA-4682-B07A-B7C1E8C73606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E1EDEBF-E72E-4F54-BF91-562B3CC89D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E1EDEBF-E72E-4F54-BF91-562B3CC89D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E1EDEBF-E72E-4F54-BF91-562B3CC89D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
