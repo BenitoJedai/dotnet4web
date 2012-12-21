@@ -2,15 +2,19 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" />
   <MonoDevelop.Ide.Workbench ActiveDocument="n4w.ExampleProject/Main.cs">
     <Files>
-      <File FileName="n4w.ExampleProject/Main.cs" Line="36" Column="4" />
-      <File FileName="Org.W3C/Window.cs" Line="17" Column="4" />
-      <File FileName="Org.W3C/DOM/html.cs" Line="15" Column="4" />
-      <File FileName="Org.W3C/DOM/core.cs" Line="518" Column="25" />
-      <File FileName="mscorlib/System/Action_1.cs" Line="7" Column="3" />
-      <File FileName="Org.W3C/DOM/websockets.cs" Line="15" Column="2" />
-      <File FileName="Net.Bindows/all.cs" Line="91" Column="7" />
-      <File FileName="Org.W3C/DOM/xmlhttprequest.cs" Line="16" Column="1" />
-      <File FileName="../example.html" Line="6" Column="34" />
+      <File FileName="n4w.ExampleProject/Main.cs" Line="102" Column="6" />
+      <File FileName="n4w.GtkProject/MainWindow.cs" Line="6" Column="2" />
+      <File FileName="n4w.GtkProject/gtk-gui/MainWindow.cs" Line="22" Column="1" />
+      <File FileName="n4w.GtkProject/gtk-gui/generated.cs" Line="2" Column="1" />
+      <File FileName="n4w.GtkProject/Main.cs" Line="4" Column="1" />
+      <File FileName="gtk-sharp/Application.cs" Line="5" Column="26" />
+      <File FileName="gtk-sharp/Window.cs" Line="52" Column="4" />
+      <File FileName="gtk-sharp/WindowType.cs" Line="7" Column="11" />
+      <File FileName="gtk-sharp/Widget.cs" Line="9" Column="4" />
+      <File FileName="Mono.Posix/Catalog.cs" Line="14" Column="1" />
+      <File FileName="gtk-sharp/ActionGroup.cs" Line="6" Column="26" />
+      <File FileName="gtk-sharp/WindowPosition.cs" Line="5" Column="28" />
+      <File FileName="gdk-sharp/MyClass.cs" Line="7" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
