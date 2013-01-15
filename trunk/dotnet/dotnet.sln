@@ -21,6 +21,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n4w.BindowsProject", "n4w.B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "glib-sharp", "glib-sharp\glib-sharp.csproj", "{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net.Sencha.ExtJS", "Net.Sencha.ExtJS\Net.Sencha.ExtJS.csproj", "{6B6517A3-36B8-48B7-A968-82E56F6F7750}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "n4w.ExtjsProject", "n4w.ExtjsProject\n4w.ExtjsProject.csproj", "{3A70D1E4-8C62-4159-A463-44C64C2C4DA3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{391C5E4C-09B0-4F5D-BE06-76A55C7D7FAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A70D1E4-8C62-4159-A463-44C64C2C4DA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A70D1E4-8C62-4159-A463-44C64C2C4DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A70D1E4-8C62-4159-A463-44C64C2C4DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A70D1E4-8C62-4159-A463-44C64C2C4DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B6517A3-36B8-48B7-A968-82E56F6F7750}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B6517A3-36B8-48B7-A968-82E56F6F7750}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B6517A3-36B8-48B7-A968-82E56F6F7750}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B6517A3-36B8-48B7-A968-82E56F6F7750}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6E1EDEBF-E72E-4F54-BF91-562B3CC89D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6E1EDEBF-E72E-4F54-BF91-562B3CC89D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E1EDEBF-E72E-4F54-BF91-562B3CC89D95}.Release|Any CPU.ActiveCfg = Release|Any CPU

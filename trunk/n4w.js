@@ -89,7 +89,6 @@
         },
         "WaitHandle":{
             WaitOne:function(self) {
-                alert("Se llama al waitone");
                 if(!self.waiting)
                     self.waiting = [];
                 self.waiting.push(this.waitone());
@@ -97,7 +96,6 @@
          },
          "EventWaitHandle":{
             Set:function(self) {
-                alert("Se llama al Set");
                 if(self.waiting) {
                     for(var i = 0; i < self.waiting.length; i++) {
                         self.waiting[i]();
