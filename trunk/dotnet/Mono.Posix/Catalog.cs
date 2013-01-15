@@ -6,7 +6,7 @@ namespace Mono.Unix
 	{
 		public static string GetString(string key)
 		{
-			return null;
+			return key;
 		}
 	}
 }

@@ -80,7 +80,31 @@
           {
             return {type:this.method.DeclaringType,value:this.sleep(milliseconds.value)};
           }
-        }
+        },
+        "AutoResetEvent":{
+          ".ctor":function()
+          {
+            alert("Ta se instancio");
+          }
+        },
+        "WaitHandle":{
+            WaitOne:function(self) {
+                alert("Se llama al waitone");
+                if(!self.waiting)
+                    self.waiting = [];
+                self.waiting.push(this.waitone());
+            }
+         },
+         "EventWaitHandle":{
+            Set:function(self) {
+                alert("Se llama al Set");
+                if(self.waiting) {
+                    for(var i = 0; i < self.waiting.length; i++) {
+                        self.waiting[i]();
+                    }
+                }
+            }
+         }
       }
     }
 
@@ -1124,8 +1148,16 @@
                   
                   var method = methods[j];
 
-                  if(method.Name == "Sleep" || method.Name == "op_Equality")
-                      method.ImplFlags.InternalCall = true;
+                  if(method.Name == "Set")
+                      debugger;
+                  
+                  if(method.DeclaringType.Assembly.Name == "mscorlib") {
+                    if(method.Name == "Sleep"
+                        || method.Name == "op_Equality"
+                        || method.Name == "Set"
+                        || method.Name == "WaitOne")
+                        method.ImplFlags.InternalCall = true;
+                  }
                   
                   if(method.ImplFlags.InternalCall)
                   {
@@ -1680,6 +1712,18 @@
         this.sleeped = false;
         this._exec();        
       }.bind(this), time);
+    }
+    
+    Thread.prototype.waitone = function()
+    {
+      this.sleeped = true;
+      var self = this;
+      return function() { 
+          setTimeout(function() {
+            self.sleeped = false;
+            self._exec();   
+          }, 1);
+      };
     }
     
 

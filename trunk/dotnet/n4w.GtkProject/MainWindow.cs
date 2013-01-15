@@ -15,7 +15,7 @@ public partial class MainWindow: Gtk.Window
 	}
 	protected void OnButtonClicked (object sender, EventArgs e)
 	{
-		Org.W3C.Window.Alert("lala");
+
 	}
 
 }

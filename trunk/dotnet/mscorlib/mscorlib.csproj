@@ -74,13 +74,16 @@
     <Compile Include="System\Collections\IEnumerator.cs" />
     <Compile Include="System\Runtime\InteropServices\OutAttribute.cs" />
     <Compile Include="System\Threading\Thread.cs" />
-    <Compile Include="System\Runtime\CompilerServices\MethodImpl.cs" />
     <Compile Include="System\Runtime\CompilerServices\MethodImplOptions.cs" />
     <Compile Include="System\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
     <Compile Include="System\Reflection\DefaultMemberAttribute.cs" />
     <Compile Include="System\Action_1.cs" />
     <Compile Include="System\EventHandler.cs" />
     <Compile Include="System\EventArgs.cs" />
+    <Compile Include="System\Threading\AutoResetEvent.cs" />
+    <Compile Include="System\Threading\EventWaitHandle.cs" />
+    <Compile Include="System\Threading\WaitHandle.cs" />
+    <Compile Include="System\Runtime\CompilerServices\MethodImplAttribute.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
