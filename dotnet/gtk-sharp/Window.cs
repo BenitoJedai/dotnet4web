@@ -10,6 +10,7 @@ namespace Gtk
 			var w  = new BiWindow();
 			Net.Bindows.Application.Window.Add(w);
 			this.bi = w;
+			this.rc = w.ContentPane;
 		}
 
 		public string Name {
@@ -22,8 +23,6 @@ namespace Gtk
 			set {
 			}
 		}
-
-
 
 		public WindowPosition WindowPosition {
 			set {

@@ -11,10 +11,10 @@ class MainClass
 
  	private static void GtkMain(object param)
 	{
-		Application.Init ();
+		//Application.Init ();
 		MainWindow win = new MainWindow ();
-		win.Show ();
-		Application.Run ();
+		/*win.Show ();
+		Application.Run ();*/
 	}
 }
 

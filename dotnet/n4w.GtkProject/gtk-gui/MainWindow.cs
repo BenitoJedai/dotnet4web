@@ -17,7 +17,7 @@ public partial class MainWindow
 		this.button1.CanFocus = true;
 		this.button1.Name = "button1";
 		this.button1.UseUnderline = true;
-		this.button1.Label = global::Mono.Unix.Catalog.GetString ("GtkButton");
+		this.button1.Label = global::Mono.Unix.Catalog.GetString ("Etiqueta man");
 		this.Add (this.button1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
@@ -26,5 +26,6 @@ public partial class MainWindow
 		this.DefaultHeight = 300;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
+		this.button1.Clicked += new global::System.EventHandler (this.OnButtonClicked);
 	}
 }

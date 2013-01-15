@@ -10,7 +10,12 @@ public partial class MainWindow: Gtk.Window
 	
 	protected void OnDeleteEvent (object sender, DeleteEventArgs a)
 	{
-		Application.Quit ();
-		a.RetVal = true;
+		/*Application.Quit ();
+		a.RetVal = true;*/
 	}
+	protected void OnButtonClicked (object sender, EventArgs e)
+	{
+		Org.W3C.Window.Alert("lala");
+	}
+
 }
