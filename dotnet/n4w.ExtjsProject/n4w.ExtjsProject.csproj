@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3A70D1E4-8C62-4159-A463-44C64C2C4DA3}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>n4w.ExtjsProject</RootNamespace>
+    <AssemblyName>n4w.ExtjsProject</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Externalconsole>true</Externalconsole>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Net.Sencha.ExtJS\Net.Sencha.ExtJS.csproj">
+      <Project>{6B6517A3-36B8-48B7-A968-82E56F6F7750}</Project>
+      <Name>Net.Sencha.ExtJS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Org.W3C\Org.W3C.csproj">
+      <Project>{BF7B0298-D2B6-488F-9E67-E6C8FA666C67}</Project>
+      <Name>Org.W3C</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
