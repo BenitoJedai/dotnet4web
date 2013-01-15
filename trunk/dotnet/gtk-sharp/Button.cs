@@ -4,11 +4,12 @@ namespace Gtk
 {
 	public class Button : Widget
 	{
+		internal Net.Bindows.BiButton _bibutton = new Net.Bindows.BiButton();
 		public Button ()
 		{
-			var b = new Net.Bindows.BiButton();
+			this._bibutton = new Net.Bindows.BiButton();
 
-			this.bi = b;
+			this.bi = this._bibutton;
 		}
 
 		public bool UseUnderline {
@@ -16,10 +17,18 @@ namespace Gtk
 			}
 		}
 
-		public bool Label {
+		public string Label {
 			set {
+				this._bibutton.HTML = value;
 			}
 		}
+
+		public void add_Clicked (EventHandler handler)
+		{
+			//this.bi.AddEventListener(new Net.Bindows.BiEventListener("click",handler));
+		}
+
+
 	}
 }
 

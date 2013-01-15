@@ -10,7 +10,7 @@ public class MainClass
 		Application.Initialize(OnBindowsLoaded,"/bindows/html","BindowsApp.xml");
 	}
 
-	private static void OnBindowsLoaded(object arg)
+	public static void OnBindowsLoaded(object arg)
 	{
 		var b = new BiButton();
 		b.HTML = "<b>Click me</b>";

@@ -79,6 +79,8 @@
     <Compile Include="System\Runtime\CompilerServices\RuntimeCompatibilityAttribute.cs" />
     <Compile Include="System\Reflection\DefaultMemberAttribute.cs" />
     <Compile Include="System\Action_1.cs" />
+    <Compile Include="System\EventHandler.cs" />
+    <Compile Include="System\EventArgs.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

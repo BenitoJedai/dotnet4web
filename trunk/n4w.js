@@ -51,7 +51,7 @@
             return {
               type:this.method.DeclaringType,
               value:instance.value[methodname.value].apply(instance.value,args.value)
-            }
+                }
          },
           op_Implicit:function(boxvalue)
           {
@@ -70,7 +70,6 @@
         },
         "String":{
             op_Equality:function(a, b) {
-                debugger;
                 return {type:this.domain.CoreTypes.bool,value:a.value == b.value ? 1 : 0};
             }
         }
@@ -541,7 +540,13 @@
             ),
             "TypeSpec":struct(
                 ["Signature", nblob]
-                       )
+            ),
+            "ManifestResource":struct(
+                ["Offset",dword],
+                ["Flags", dword],
+                ["Name", nstring],
+                ["Implementation", word]
+            )
  /*,
             "MethodSpec":struct(
               ["Method", Index.MethodDefOrMemberRef],
@@ -722,6 +727,7 @@
                 params[0x14] = noparam;
                 params[0x16] = noparam;
                 params[0x17] = noparam;
+                params[0x1A] = noparam;
                 params[0x1F] = byteparam;
                 params[0x20] = sdwordparam;
                 params[0x25] = noparam;
@@ -730,6 +736,7 @@
                 params[0x2A] = noparam;
                 params[0x38] = dwordparam;
                 params[0x39] = dwordparam;
+                params[0x3A] = dwordparam;
                 params[0x6F] = TreeAndOneByte;
                 params[0x72] = function (b) { return [b, us[dword() & 0xFFFFFF]]; };
                 params[0x73] = TreeAndOneByte;
@@ -737,7 +744,9 @@
                 
                 params[0x7B] = TreeAndOneByte;
                 params[0x80] = TreeAndOneByte;
-
+                params[0x8C] = TreeAndOneByte;
+                
+                
                 params[0x7D] = TreeAndOneByte;
                 params[0x7E] = TreeAndOneByte;
                 
@@ -752,7 +761,7 @@
                 //0x2a
 
                 var indexes = {};
-                var indexers = [0x38,0x39];
+                var indexers = [0x38,0x39,0x3A];
                 var toindex = [];
                 var init = offset;
                 
@@ -982,7 +991,15 @@
                 {
                     var ref = assembly.Module.meta.Tables.TypeRef[j];
                     var module = assembly.Module.meta.Tables[ref.ResolutionScope[0]][ref.ResolutionScope[1]];
+                    try
+                    {
                     assembly.Module.meta.Tables.TypeRef[j] = module.getType(ref.TypeNamespace, ref.TypeName);
+                    }
+                    catch(e)
+                    {
+                        debugger;
+                        throw e;
+                    }
                 }
             }
         }
@@ -998,28 +1015,19 @@
                 for (var j = 0; j < assembly.Module.meta.Tables.TypeSpec.length; j++)
                 {
                     var t= new Type();
-                    t.MethodList = [{Name:".ctor", ParamList:[1,1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(instance, method) {
-                        
-                        
-                        return {type:"METODO JS", value:function() {
+                    t.MethodList = [{Name:".ctor", ParamList:[1,1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(self, scope, method) {
+                        self.value = function() {
                             
                             if(method.IsStatic) {
                                 new Thread(this.domain,method.value).start();
                             } else {
-                                new Thread(this.domain,method.value).start(instance);
+                                new Thread(this.domain,method.value).start(scope);
                             }
-                            
-                            
-                        }.bind(this)};
-                        
-                        
-                    }}, {Name:"Invoke", ParamList:[1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(instance, param) {
+                        }.bind(this);
 
-                        instance.value(param);
-                       
-                            
-                        
-                        
+                    }}, {Name:"Invoke", ParamList:[1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(self, param) {
+
+                        self.value(param);
                     }}];
 
                     
@@ -1133,11 +1141,24 @@
                     	var args = [];
                     	
                     	for(var l = 0; l < arguments.length; l++)
-                    		args.push(arguments[l].value)
+                        {
+                            
+                            try
+                            {
+                    		args.push(arguments[l].value);
+                            }
+                            catch(e)
+                            {
+                                debugger;
+                                throw e;
+                            }
+                        }
+                    	
+                    	if(this.DeclaringType.TypeName == "BiEventListener")
+                            debugger;
                     	
                     	var instance = this.Flags.IsStatic ?
-                    		window[toJsName( this.DeclaringType.TypeName)] :
-                    		( this.DeclaringType.TypeName == "BiEventListener" ? args.pop() : args.shift()       );
+                    		window[toJsName( this.DeclaringType.TypeName)] : args.shift();
          
                        if(this.Flags.IsStatic && !instance)
                            instance = window[this.DeclaringType.TypeName];
@@ -1152,15 +1173,15 @@
                        {
                            if(args.length == 0)
                            {
-                                return {type:null,value:new (window[this.DeclaringType.TypeName])() };
+                                arguments[0].value = new (window[this.DeclaringType.TypeName])();
                            }
                            else if(args.length == 1)
                            {
-                                return {type:null,value:new (window[this.DeclaringType.TypeName])(args[0]) };
+                                arguments[0].value = new (window[this.DeclaringType.TypeName])(args[0]);
                            }
                            else if(args.length == 2)
                            {
-                                return {type:null,value:new (window[this.DeclaringType.TypeName])(args[0], args[1]) };
+                                arguments[0].value = new (window[this.DeclaringType.TypeName])(args[0],args[1]);
                            }
                            else
                            {
@@ -1302,13 +1323,20 @@
       throw new Error(message);
     }
     
-    Thread.prototype._call = function(operand)
+    Thread.prototype._call = function(operand, newobj)
     {
-      var argc = operand.ParamList.length;
-      if(!operand.Flags.IsStatic)
-        argc++;
-      
-      var args = this.stack.splice(-argc, argc);
+        var argc = operand.ParamList.length;
+        
+        if(!newobj && !operand.Flags.IsStatic) {
+            argc++;
+        }
+        
+        var args = this.stack.splice(-argc, argc);
+        if(newobj) {
+            args.unshift(newobj);
+            this.stack.push(newobj);
+        }
+        
       
       if(operand.ImplFlags.InternalCall)
       {
@@ -1316,7 +1344,7 @@
         this.method = operand;
         var rv = operand.Code.apply(this, args);
         
-        if(!this.sleeped) {
+        if(!this.sleeped && !newobj) {
           this.stack.push(rv);
         }
         this.method = backup;
@@ -1363,11 +1391,18 @@
     
     Thread.prototype._exec = function()
     {
-      while(true) {
         
+      while(true) {
+
+          
         //Comprueba que no se alla exedido el limite del sector de codigo
+        try {
         if(this.ip >= this.method.Code.length) {
           throw new Error("Se supero el limite de las instrucciones");
+        }
+        } catch(e) {
+            debugger;
+            throw e;
         }
         
         //Obtiene la instruccion actual a correr y su parametro
@@ -1444,6 +1479,12 @@
             this.ip++;
             break;
           
+          //ldc.i4.4: Carga un Int32 de valor 4 en la pila
+          case 0x1A:
+            this.stack.push(this._int(4));
+            this.ip++;
+            break;
+            
           //ldc.i4.s <int8 (num)> Carga un Int32 del argumento como int8
           case 0x1F:
             this.stack.push(this._int(operand));
@@ -1496,6 +1537,17 @@
                 this.ip++;
             }
             break;
+          
+          //brinst <int32 (target)>: Salta a la instruccion especificada si la pila tiene un valor no nulo
+          //El valor original es reemplazado por el indice de instruccion
+          case 0x3A:
+             
+            if(this.stack.pop().value != null) {
+                this.ip = operand;
+            } else {
+                this.ip++;
+            }
+            break;
 
           //ret: Termina le ejecuciion de un metodo posiblemente con un valor de retorno
           //FIXME: Como no tengo la firma de los metodos asumo que si la pila
@@ -1527,8 +1579,8 @@
             
           //newobj <ctor>: Crea una instancia indicada por el tipo del constructor
           case 0x73:
-          	this.stack.push({name:operand.DeclaringType, value:{"$":[]}});
-          	this._call(operand);
+            var self = {type:operand.DeclaringType, value:{$:[]}};
+          	this._call(operand, self);
           	break;
             
          
@@ -1538,15 +1590,21 @@
             this.ip++;
             break;
             
-          case 0x7D:
-              debugger;
-             
+          //stfld
+          case 0x7D:  
             console.warn("Solo estan funcionando campos publicos de instancia");
             var val = this.stack.pop();
             var obj = this.stack.pop();
             
+            try
+            {
             obj.value[operand.Name] = val;
-            
+            }
+            catch(e)
+            {
+                debugger;
+                throw e;
+            }
             val = null; obj = null;
             this.ip++;
             break;
@@ -1559,7 +1617,13 @@
             this.ip++;
             break;
             
-            
+           
+          //box <typeTok>:
+          //FIXME No hace nada!!!
+          case 0x8C:
+            this.ip++;
+            break;  
+          
           //newarr <type>: Crea un array del tipo especificado sacando el tamaño de la pila
           case 0x8D:
             this.stack.push({type:this.domain.CoreTypes.array,elemtype:operand, value:new Array(this.stack.pop().value)});
@@ -1569,7 +1633,13 @@
             
           //ldsfld
           case 0x7E:
-            this.stack.push(this.method.DeclaringType.field[operand.Name])
+            if(!this.method.DeclaringType.field)
+                this.method.DeclaringType.field = {};
+            
+            var val = this.method.DeclaringType.field[operand.Name];
+            
+            this.stack.push(val ? val : {type:null, value:null});
+            val = null;
             this.ip++;
             break;
             
