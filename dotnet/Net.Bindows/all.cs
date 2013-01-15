@@ -3,6 +3,7 @@
 using System.Runtime.CompilerServices;
 using System;
 using Org.W3C;
+using System.Threading;
 
 namespace Net.Bindows
 {
@@ -82,13 +83,13 @@ namespace Net.Bindows
 
 	public static class Application
 	{
-		private static Action<object> cb;
+		private static AutoResetEvent mutex;
 		private static string root;
 		private static string adf;
-		public static void Initialize(Action<object> cb, string root, string adf)
+		public static void Initialize( string root, string adf)
 		{
 			System.Threading.Thread.Sleep(1000);
-			Application.cb = cb;
+			Application.mutex = new AutoResetEvent(false);
 			Application.root = root;
 			Application.adf = adf;
 
@@ -104,13 +105,14 @@ namespace Net.Bindows
 			Org.W3C.Window.Document.Head.AppendChild(bistyle);
 
 			biscript.AddEventListener("load", OnInitialized,false);
+			Application.mutex.WaitOne();
 		}
 
 		private static void OnInitialized(object arg)
 		{
 			Start(root, adf);
-			System.Threading.Thread.Sleep(500);
-			Application.cb(null);
+			System.Threading.Thread.Sleep(300);
+			Application.mutex.Set();
 		}
 
 

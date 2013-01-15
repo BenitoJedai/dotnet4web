@@ -17,7 +17,7 @@ public partial class MainWindow
 		this.button1.CanFocus = true;
 		this.button1.Name = "button1";
 		this.button1.UseUnderline = true;
-		this.button1.Label = global::Mono.Unix.Catalog.GetString ("dadada");
+		this.button1.Label = global::Mono.Unix.Catalog.GetString ("Super texto del boton");
 		this.Add (this.button1);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();

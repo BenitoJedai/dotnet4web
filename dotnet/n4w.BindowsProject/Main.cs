@@ -7,11 +7,8 @@ public class MainClass
 {
 	public static void Main (string[] args)
 	{
-		Application.Initialize(OnBindowsLoaded,"/bindows/html","BindowsApp.xml");
-	}
+		Application.Initialize("/bindows/html","BindowsApp.xml");
 
-	public static void OnBindowsLoaded(object arg)
-	{
 		var b = new BiButton();
 		b.HTML = "<b>Click me</b>";
 		b.AddEventListener(new BiEventListener("click", OnButtonClicked));
