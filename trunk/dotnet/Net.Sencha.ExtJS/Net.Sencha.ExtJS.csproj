@@ -33,7 +33,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ext.cs" />
-    <Compile Include="Ext.MessageBox.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

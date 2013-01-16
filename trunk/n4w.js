@@ -568,6 +568,10 @@
                 ["Flags", dword],
                 ["Name", nstring],
                 ["Implementation", word]
+            ),
+            "NestedClass":struct(
+                ["NestedClass", word],
+                ["EnclosingClass",word]
             )
  /*,
             "MethodSpec":struct(
@@ -746,6 +750,7 @@
              params[0x0D] = noparam;  
              
              
+                params[0x12] = byteparam;
                 params[0x14] = noparam;
                 params[0x16] = noparam;
                 params[0x17] = noparam;
@@ -779,6 +784,7 @@
 
 
                 params[0xFE06] = TreeAndOneByte;
+                params[0xFE15] = TreeAndOneByte;
                 
                 //0x2a
 
@@ -911,9 +917,23 @@
 
     function Type(tok)
     {
+        this.Types = new Array();
         for (var i in tok)
             this[i] = tok[i];
     }
+    
+    
+    Type.prototype.getType = function (namespace, name)
+    {
+        for (var i = 0; i < this.Types.length; i++)
+        {
+            if (this.Types[i].TypeName == name && this.Types[i].TypeNamespace == namespace)
+            {
+                return this.Types[i];
+            }
+        }
+        throw new Error("Type " + name + " of " + namespace + " not found in " + this.Name);
+    };
     
     Type.prototype.getMethod = function(name, signature)
     {
@@ -995,11 +1015,40 @@
                 for (var j = 0; j < assembly.Module.meta.Tables.TypeDef.length; j++)
                 {
                     var type = assembly.Module.meta.Tables.TypeDef[j];
+                    
                     type.Assembly = assembly;
                     assembly.Types.push(type);
                 }
             }
         }
+        
+        //Pongo todos los tipos internos dentro de los otros tipos
+        for (var i in assemblies)
+        {
+            var assembly = assemblies[i];
+
+            if (assembly.Module.meta.Tables.NestedClass)
+            {
+                for (var j = 0; j < assembly.Module.meta.Tables.NestedClass.length; j++)
+                {
+                    var n =  assembly.Module.meta.Tables.NestedClass[j];
+                    
+                    var nested = assembly.Module.meta.Tables.TypeDef[n.NestedClass - 1];
+                    var enclosing = assembly.Module.meta.Tables.TypeDef[n.EnclosingClass - 1];
+                    
+                    nested.DeclaringType = enclosing;
+                    enclosing.Types.push(nested);
+                    
+                    
+                   /* var type = assembly.Module.meta.Tables.TypeDef[j];
+                    
+                    type.Assembly = assembly;
+                    assembly.Types.push(type);*/
+                }
+            }
+        }
+        
+        
 
         //lleno todas los typeref con sus correspondientes typedef
         //FIXME: No se que mierda para con los tipos dentro de tipos
@@ -1048,6 +1097,7 @@
                         }.bind(this);
 
                     }}, {Name:"Invoke", ParamList:[1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(self, param) {
+
 
                         self.value(param);
                     }}];
@@ -1146,9 +1196,7 @@
                   
                   var method = methods[j];
 
-                  if(method.Name == "Set")
-                      debugger;
-                  
+
                   if(method.DeclaringType.Assembly.Name == "mscorlib") {
                     if(method.Name == "Sleep"
                         || method.Name == "op_Equality"
@@ -1184,16 +1232,31 @@
                             }
                         }
                     	
-                    	if(this.DeclaringType.TypeName == "BiEventListener")
-                            debugger;
                     	
-                    	var instance = this.Flags.IsStatic ?
-                    		window[toJsName( this.DeclaringType.TypeName)] : args.shift();
+      
+                        
+                        var instance;
+                        
+                        if(this.Flags.IsStatic) {
+                            
+                            if(this.DeclaringType && this.DeclaringType.DeclaringType) {
+                                instance = window[this.DeclaringType.DeclaringType.TypeName][this.DeclaringType.TypeName];
+                            } else {
+                                instance = window[toJsName( this.DeclaringType.TypeName)];
+                            }
+                            
+                            
+                        } else {
+                            instance = args.shift();
+                        }
+                        
+                    
          
                        if(this.Flags.IsStatic && !instance)
-                           instance = window[this.DeclaringType.TypeName];
+                           instance = window[this.DeclaringType.TypeName.toLowerCase()];
                             
-                            
+                       if(this.Flags.IsStatic && !instance)
+                           instance = window[this.DeclaringType.TypeName];   
                             
          				if(this.Name.substring(0,4) == "get_")
          				{
@@ -1201,17 +1264,29 @@
          				}
          				else if(this.Name == ".ctor")
                        {
+                           var names = [];
+                           var aux = this.DeclaringType;
+                           while(aux) {
+                            names.unshift(aux.TypeName);
+                            aux = aux.DeclaringType;
+                           }
+                           
+                           aux = eval(names.join("."));
+                           
+                           
+                           
+                           
                            if(args.length == 0)
                            {
-                                arguments[0].value = new (window[this.DeclaringType.TypeName])();
+                                arguments[0].value = new (aux)();
                            }
                            else if(args.length == 1)
                            {
-                                arguments[0].value = new (window[this.DeclaringType.TypeName])(args[0]);
+                                arguments[0].value = new (aux)(args[0]);
                            }
                            else if(args.length == 2)
                            {
-                                arguments[0].value = new (window[this.DeclaringType.TypeName])(args[0],args[1]);
+                                arguments[0].value = new (aux)(args[0],args[1]);
                            }
                            else
                            {
@@ -1421,7 +1496,7 @@
     
     Thread.prototype._exec = function()
     {
-        
+
       while(true) {
 
           
@@ -1527,6 +1602,12 @@
             this.ip++;
             break;
             
+          case 0x12:
+            
+            this.stack.push({index:operand, location:this.locals, value:this.locals[operand]});
+            this.ip++;
+            break;
+            
           //ldc.i4.1: Carga un Int32 de valor 1 en la pila
           case 0x17:
             this.stack.push(this._int(1));
@@ -1609,6 +1690,7 @@
             
           //newobj <ctor>: Crea una instancia indicada por el tipo del constructor
           case 0x73:
+              if(operand.DeclaringType == "WindowOptions") debugger;;
             var self = {type:operand.DeclaringType, value:{$:[]}};
           	this._call(operand, self);
           	break;
@@ -1688,7 +1770,15 @@
               this.stack.push({type:"METODOLOCO",value:operand});
               this.ip++;
               break;
-            
+          
+        
+          case 0xFE15:
+              var ref = this.stack.pop();
+              debugger;
+              ref.location[ref.index] = {};
+              this.ip++;
+              break;
+              
           //En caso de no reconocer el operador
           default:
             this._throwoperr(opcode, operand);

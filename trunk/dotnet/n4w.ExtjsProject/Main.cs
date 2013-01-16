@@ -8,6 +8,11 @@ public class MainClass
 	public static void Main (string[] args)
 	{
 		Ext.Initialize();
-		Window.Alert("lala");
+		Ext.MessageBox.Confirm("Titulo", "Contenido", OnConfirmed);
+	}
+
+	public static void OnConfirmed(object o)
+	{
+		Window.Alert("Confirmo");
 	}
 }

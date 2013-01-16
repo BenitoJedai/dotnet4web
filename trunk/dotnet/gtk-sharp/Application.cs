@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Net.Sencha.ExtJS;
 
 namespace Gtk
 {
@@ -7,7 +8,7 @@ namespace Gtk
 	{
 		public static void Init()
 		{
-			Net.Bindows.Application.Initialize("/bindows/html","BindowsApp.xml");
+			Ext.Initialize();
 		}
 
 

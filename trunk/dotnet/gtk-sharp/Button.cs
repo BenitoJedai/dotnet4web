@@ -1,15 +1,15 @@
 using System;
+using Net.Sencha.ExtJS;
 
 namespace Gtk
 {
 	public class Button : Widget
 	{
-		internal Net.Bindows.BiButton _bibutton = new Net.Bindows.BiButton();
+		private Ext.Button ext_button;
 		public Button ()
 		{
-			this._bibutton = new Net.Bindows.BiButton();
-
-			this.bi = this._bibutton;
+			this.ext_button = new Ext.Button();
+			this.ext_component = this.ext_button;
 		}
 
 		public bool UseUnderline {
@@ -19,13 +19,13 @@ namespace Gtk
 
 		public string Label {
 			set {
-				this._bibutton.HTML = value;
+
 			}
 		}
 
 		public void add_Clicked (EventHandler handler)
 		{
-			//this.bi.AddEventListener(new Net.Bindows.BiEventListener("click",handler));
+
 		}
 
 
