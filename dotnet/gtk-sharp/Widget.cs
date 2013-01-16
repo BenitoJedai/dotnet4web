@@ -1,10 +1,11 @@
 using System;
+using Net.Sencha.ExtJS;
 
 namespace Gtk
 {
 	public class Widget
 	{
-		internal Net.Bindows.BiComponent bi;
+		internal Ext.AbstractComponent ext_component;
 		public void ShowAll()
 		{
 		}
@@ -14,10 +15,10 @@ namespace Gtk
 			}
 		}
 
-		public void Show()
+		public void Show() 
 		{
+			this.ext_component.Show();
 		}
-
 		public string Name
 		{
 			set

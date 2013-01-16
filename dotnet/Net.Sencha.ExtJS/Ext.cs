@@ -12,17 +12,17 @@ namespace Net.Sencha.ExtJS
 		{
 			mutex = new AutoResetEvent(false);
 
-			var link = Window.Document.CreateElement("link");
+			var link = Org.W3C.Window.Document.CreateElement("link");
 			link.SetAttribute("rel", "stylesheet");
 			link.SetAttribute("type", "text/css");
 			link.SetAttribute("href", "/extjs/resources/css/ext-all.css");
-			Window.Document.Head.AppendChild(link);
+			Org.W3C.Window.Document.Head.AppendChild(link);
 
-			var script = Window.Document.CreateElement("script");
+			var script = Org.W3C.Window.Document.CreateElement("script");
 			script.SetAttribute("src","/extjs/ext-all.js");
 			script.SetAttribute("type","text/javascript");
 			script.AddEventListener("load", kk, false);
-			Window.Document.Head.AppendChild(script);
+			Org.W3C.Window.Document.Head.AppendChild(script);
 
 			mutex.WaitOne();
 
@@ -40,5 +40,74 @@ namespace Net.Sencha.ExtJS
 
 		[MethodImplAttribute(MethodImplOptions.InternalCall)]
 		public static extern void OnReady(Action<object> cb);
+
+
+		public static class MessageBox
+		{
+			[MethodImplAttribute(MethodImplOptions.InternalCall)]
+			public static extern void Confirm(string title, string message, Action<object> cb);
+		}
+
+		public class Base
+		{
+		}
+
+
+		public class AbstractComponent
+		{
+			[MethodImplAttribute(MethodImplOptions.InternalCall)]
+			public extern AbstractComponent();
+
+			[MethodImplAttribute(MethodImplOptions.InternalCall)]
+			public extern void Show();
+		}
+
+		public class Window : container.Container
+		{
+			[MethodImplAttribute(MethodImplOptions.InternalCall)]
+			public extern Window(WindowOptions options);
+
+		}
+
+		public class Button : AbstractComponent
+		{
+			[MethodImplAttribute(MethodImplOptions.InternalCall)]
+			public extern Button();
+		}
+
+		public static class container
+		{
+			public class AbstractContainer : AbstractComponent
+			{
+				[MethodImpl(MethodImplOptions.InternalCall)]
+				public extern layout.Layout GetLayout();
+			}
+
+			public class Container : AbstractContainer
+			{
+				[MethodImplAttribute(MethodImplOptions.InternalCall)]
+				public extern void Add(AbstractComponent w);
+			}
+		}
+
+		public static class layout {
+			public class Layout {
+				internal Layout() {
+				}
+
+				[MethodImpl(MethodImplOptions.InternalCall)]
+				public extern void SetConfig(string val);
+			}
+		}
+
+		public struct WindowOptions {
+			private string layout;
+			public string Layout {
+				set {
+					this.layout = value;
+				}
+			}
+		}
+
 	}
 }
