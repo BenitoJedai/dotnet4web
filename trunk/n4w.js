@@ -55,7 +55,7 @@
          },
           op_Implicit:function(boxvalue)
           {
-            return boxvalue.value;
+            return boxvalue;
           }
         }
       },
@@ -70,7 +70,7 @@
         },
         "String":{
             op_Equality:function(a, b) {
-                return {type:this.domain.CoreTypes.bool,value:a.value == b.value ? 1 : 0};
+                return a == b ? 1 : 0;
             }
         }
       },
@@ -78,7 +78,8 @@
         "Thread":{
           Sleep:function(milliseconds)
           {
-            return {type:this.method.DeclaringType,value:this.sleep(milliseconds.value)};
+            this.sleep(milliseconds);
+            return null;
           }
         },
         "AutoResetEvent":{
@@ -749,12 +750,14 @@
                 params[0x0C] = noparam;               
              params[0x0D] = noparam;  
              
-             
+                params[0x11] = byteparam;
                 params[0x12] = byteparam;
+                params[0x13] = byteparam;
                 params[0x14] = noparam;
                 params[0x16] = noparam;
                 params[0x17] = noparam;
                 params[0x1A] = noparam;
+                params[0x1C] = noparam;
                 params[0x1F] = byteparam;
                 params[0x20] = sdwordparam;
                 params[0x25] = noparam;
@@ -767,6 +770,7 @@
                 params[0x6F] = TreeAndOneByte;
                 params[0x72] = function (b) { return [b, us[dword() & 0xFFFFFF]]; };
                 params[0x73] = TreeAndOneByte;
+                params[0x74] = TreeAndOneByte;
                 params[0x7D] = TreeAndOneByte;
                 
                 params[0x7B] = TreeAndOneByte;
@@ -1087,19 +1091,18 @@
                 {
                     var t= new Type();
                     t.MethodList = [{Name:".ctor", ParamList:[1,1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(self, scope, method) {
-                        self.value = function() {
-                            
+                        return function() {
                             if(method.IsStatic) {
-                                new Thread(this.domain,method.value).start();
+                                new Thread(this.domain,method).start();
                             } else {
-                                new Thread(this.domain,method.value).start(scope);
+                                new Thread(this.domain,method).start(scope);
                             }
                         }.bind(this);
 
                     }}, {Name:"Invoke", ParamList:[1],Flags:{IsStatic:false},ImplFlags:{InternalCall:true}, Code:function(self, param) {
 
 
-                        self.value(param);
+                        self(param);
                     }}];
 
                     
@@ -1221,21 +1224,17 @@
                     	for(var l = 0; l < arguments.length; l++)
                         {
                             
-                            try
-                            {
-                    		args.push(arguments[l].value);
-                            }
-                            catch(e)
-                            {
-                                debugger;
-                                throw e;
-                            }
+                            
+                    		args.push(arguments[l]);
+                            
                         }
                     	
                     	
       
                         
                         var instance;
+                        
+                        
                         
                         if(this.Flags.IsStatic) {
                             
@@ -1258,9 +1257,11 @@
                        if(this.Flags.IsStatic && !instance)
                            instance = window[this.DeclaringType.TypeName];   
                             
+                       debugger;
+                       
          				if(this.Name.substring(0,4) == "get_")
          				{
-         					return {type:null, value:instance[toJsName(this.Name.substring(4))]};
+         					return instance[toJsName(this.Name.substring(4))];
          				}
          				else if(this.Name == ".ctor")
                        {
@@ -1278,27 +1279,25 @@
                            
                            if(args.length == 0)
                            {
-                                arguments[0].value = new (aux)();
+                               return new (aux)();
                            }
                            else if(args.length == 1)
                            {
-                                arguments[0].value = new (aux)(args[0]);
+                               return new (aux)(args[0]);
                            }
                            else if(args.length == 2)
                            {
-                                arguments[0].value = new (aux)(args[0],args[1]);
+                               return new (aux)(args[0],args[1]);
                            }
                            else
                            {
                                 throw new Error("Cantidad de parametos invalidos");
                            }
-                           
-                           
                        }
          				else
          				{
                            
-                           return {type:null, value:instance[toJsName(this.Name)].apply(instance, args)};
+                           return instance[toJsName(this.Name)].apply(instance, args);
                         }
                     }.bind(method);
                   }
@@ -1439,7 +1438,7 @@
         var args = this.stack.splice(-argc, argc);
         if(newobj) {
             args.unshift(newobj);
-            this.stack.push(newobj);
+            
         }
         
       
@@ -1449,7 +1448,7 @@
         this.method = operand;
         var rv = operand.Code.apply(this, args);
         
-        if(!this.sleeped && !newobj) {
+        if(!this.sleeped && typeof(rv) != "undefined" ) {
           this.stack.push(rv);
         }
         this.method = backup;
@@ -1457,6 +1456,9 @@
       }
       else
       {
+          if(newobj){
+          this.stack.push(newobj);
+          }
         this.calls.push({
           stack:this.stack,
           locals:this.locals,
@@ -1486,20 +1488,31 @@
     
     Thread.prototype._int = function(number)
     {
-      return {type:this.domain.CoreTypes.int,value:number};
+        return number;
     }
     
-    Thread.prototype._string = function(number)
+    Thread.prototype._string = function(val)
     {
-      return {type:this.domain.CoreTypes.string,value:number};
+        var rv = val;
+        rv.$type = this.domain.CoreTypes.string;
+        return rv;
+      
     }
+    
+    function NetObject(type, fields) {
+        this.$type = type;
+        if(fields)
+            for(var i in fields)
+                this[i] = fields[i];
+    }
+    
     
     Thread.prototype._exec = function()
     {
 
+       
       while(true) {
 
-          
         //Comprueba que no se alla exedido el limite del sector de codigo
         try {
         if(this.ip >= this.method.Code.length) {
@@ -1572,9 +1585,21 @@
             this.locals[3] = this.stack.pop();
             this.ip++;
             break; 
+            
+           case 0x11:
+            this.stack.push(this.locals[operand]);
+            this.ip++;
+            break;
+            
+          case 0x13:
+            this.locals[operand] = this.stack.pop();
+            this.ip++;
+            break;
+            
+            
           //ldnull: Carga un null en la pila
           case 0x14:
-            this.stack.push({value:null});
+            this.stack.push(null);
             this.ip++;
             break;
             
@@ -1590,6 +1615,12 @@
             this.ip++;
             break;
             
+          //ldc.i6: Carga un Int32 de valor 4 en la pila
+          case 0x1C:
+            this.stack.push(this._int(6));
+            this.ip++;
+            break;
+            
           //ldc.i4.s <int8 (num)> Carga un Int32 del argumento como int8
           case 0x1F:
             this.stack.push(this._int(operand));
@@ -1602,11 +1633,6 @@
             this.ip++;
             break;
             
-          case 0x12:
-            
-            this.stack.push({index:operand, location:this.locals, value:this.locals[operand]});
-            this.ip++;
-            break;
             
           //ldc.i4.1: Carga un Int32 de valor 1 en la pila
           case 0x17:
@@ -1642,7 +1668,7 @@
           //El valor original es reemplazado por el indice de instruccion
           case 0x39:
              
-            if(this.stack.pop().value == 0) {
+            if(this.stack.pop() == 0) {
                 this.ip = operand;
             } else {
                 this.ip++;
@@ -1653,7 +1679,7 @@
           //El valor original es reemplazado por el indice de instruccion
           case 0x3A:
              
-            if(this.stack.pop().value != null) {
+            if(this.stack.pop() != null) {
                 this.ip = operand;
             } else {
                 this.ip++;
@@ -1691,13 +1717,24 @@
           //newobj <ctor>: Crea una instancia indicada por el tipo del constructor
           case 0x73:
               if(operand.DeclaringType == "WindowOptions") debugger;;
-            var self = {type:operand.DeclaringType, value:{$:[]}};
+            var self = new NetObject(operand.DeclaringType);
           	this._call(operand, self);
           	break;
             
+            
+          //castclass
+          case 0x73:
+//               //FIXME: No hizo nada man
+
+              this.ip++;
+            break;
          
           case 0x7B:
-              this.stack.push(this.stack.pop().value[operand.Name]);
+              
+              if(operand.Name == "hbox1")
+                  debugger;
+              
+              this.stack.push(this.stack.pop()[operand.Name]);
               console.warn("Solo estan funcionando campos publicos de instancia");
             this.ip++;
             break;
@@ -1708,15 +1745,8 @@
             var val = this.stack.pop();
             var obj = this.stack.pop();
             
-            try
-            {
-            obj.value[operand.Name] = val;
-            }
-            catch(e)
-            {
-                debugger;
-                throw e;
-            }
+            obj[operand.Name] = val;
+           
             val = null; obj = null;
             this.ip++;
             break;
@@ -1732,13 +1762,17 @@
            
           //box <typeTok>:
           //FIXME No hace nada!!!
-          case 0x8C:
+          case 0x74:
             this.ip++;
             break;  
           
           //newarr <type>: Crea un array del tipo especificado sacando el tamaño de la pila
           case 0x8D:
-            this.stack.push({type:this.domain.CoreTypes.array,elemtype:operand, value:new Array(this.stack.pop().value)});
+              var arr = new Array(this.stack.pop());
+              arr.$type = this.domain.CoreTypes.array;
+              arr.$eltype = operand;
+            this.stack.push(arr);
+            arr = null;
             this.ip++;
             break;
            
@@ -1750,14 +1784,14 @@
             
             var val = this.method.DeclaringType.field[operand.Name];
             
-            this.stack.push(val ? val : {type:null, value:null});
+            this.stack.push(val);
             val = null;
             this.ip++;
             break;
             
           //stelem.ref:
           case 0xA2:
-            var value = this.stack.pop(), index = this.stack.pop().value, array = this.stack.pop().value;
+            var value = this.stack.pop(), index = this.stack.pop(), array = this.stack.pop();
             array[index] = value;
             value = null; array = null; index = null;
             this.ip++;
@@ -1767,14 +1801,13 @@
           //ldftn <method>: Pone la referencia a una funcion javascript que
           //ejecute un metodo .net
           case 0xFE06:
-              this.stack.push({type:"METODOLOCO",value:operand});
+              this.stack.push(operand);
               this.ip++;
               break;
           
         
           case 0xFE15:
               var ref = this.stack.pop();
-              debugger;
               ref.location[ref.index] = {};
               this.ip++;
               break;

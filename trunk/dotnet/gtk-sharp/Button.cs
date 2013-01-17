@@ -19,7 +19,7 @@ namespace Gtk
 
 		public string Label {
 			set {
-
+				ext_button.SetText(value);
 			}
 		}
 

@@ -40,6 +40,8 @@
     <Compile Include="DeleteEventArgs.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="HBox.cs" />
+    <Compile Include="Box.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

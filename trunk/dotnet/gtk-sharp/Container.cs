@@ -5,7 +5,7 @@ namespace Gtk
 {
 	public class Container : Widget
 	{
-		protected Ext.container.Container ext_container;
+		protected Ext.Container ext_container;
 		public Container ()
 		{
 		}
@@ -14,6 +14,17 @@ namespace Gtk
 		{
 			this.ext_container.Add(w.ext_component);
 		}
+
+		public ContainerChild this [Widget item] {
+			get {
+				return null;
+			}
+		}
+
+		public class ContainerChild
+		{
+		}
 	}
+
 }
 

@@ -62,10 +62,13 @@ namespace Net.Sencha.ExtJS
 			public extern void Show();
 		}
 
-		public class Window : container.Container
+		public class Window : Container
 		{
 			[MethodImplAttribute(MethodImplOptions.InternalCall)]
 			public extern Window(WindowOptions options);
+
+			[MethodImpl(MethodImplOptions.InternalCall)]
+			public extern void SetTitle(string val);
 
 		}
 
@@ -73,6 +76,9 @@ namespace Net.Sencha.ExtJS
 		{
 			[MethodImplAttribute(MethodImplOptions.InternalCall)]
 			public extern Button();
+
+			[MethodImplAttribute(MethodImplOptions.InternalCall)]
+			public extern void SetText(string text);
 		}
 
 		public static class container
@@ -83,12 +89,17 @@ namespace Net.Sencha.ExtJS
 				public extern layout.Layout GetLayout();
 			}
 
-			public class Container : AbstractContainer
+
+		}
+
+		public class Container : container.AbstractContainer
 			{
+				[MethodImplAttribute(MethodImplOptions.InternalCall)]
+				public extern Container(ContainerOptions options);
+
 				[MethodImplAttribute(MethodImplOptions.InternalCall)]
 				public extern void Add(AbstractComponent w);
 			}
-		}
 
 		public static class layout {
 			public class Layout {
@@ -100,13 +111,16 @@ namespace Net.Sencha.ExtJS
 			}
 		}
 
-		public struct WindowOptions {
+		public class ContainerOptions {
 			private string layout;
 			public string Layout {
 				set {
 					this.layout = value;
 				}
 			}
+		}
+
+		public class WindowOptions : ContainerOptions {
 		}
 
 	}

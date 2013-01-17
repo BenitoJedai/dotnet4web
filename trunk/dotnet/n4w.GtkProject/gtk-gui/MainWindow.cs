@@ -3,7 +3,7 @@
 
 public partial class MainWindow
 {
-	private global::Gtk.Button button1;
+	private global::Gtk.Button button3;
 	
 	protected virtual void Build ()
 	{
@@ -13,12 +13,12 @@ public partial class MainWindow
 		this.Title = global::Mono.Unix.Catalog.GetString ("MainWindow");
 		this.WindowPosition = ((global::Gtk.WindowPosition)(4));
 		// Container child MainWindow.Gtk.Container+ContainerChild
-		this.button1 = new global::Gtk.Button ();
-		this.button1.CanFocus = true;
-		this.button1.Name = "button1";
-		this.button1.UseUnderline = true;
-		this.button1.Label = global::Mono.Unix.Catalog.GetString ("Super texto del boton");
-		this.Add (this.button1);
+		this.button3 = new global::Gtk.Button ();
+		this.button3.CanFocus = true;
+		this.button3.Name = "button3";
+		this.button3.UseUnderline = true;
+		this.button3.Label = global::Mono.Unix.Catalog.GetString ("Etiqueta del boton");
+		this.Add (this.button3);
 		if ((this.Child != null)) {
 			this.Child.ShowAll ();
 		}
@@ -26,6 +26,5 @@ public partial class MainWindow
 		this.DefaultHeight = 300;
 		this.Show ();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler (this.OnDeleteEvent);
-		this.button1.Clicked += new global::System.EventHandler (this.OnButtonClicked);
 	}
 }
