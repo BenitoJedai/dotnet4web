@@ -13,6 +13,16 @@ public class MainClass
 
 	public static void OnConfirmed(object o)
 	{
-		Window.Alert("Confirmo");
+		var win = new Ext.Window(new Ext.WindowOptions { Layout = "fit" });
+		var box = new Ext.Container(new Ext.ContainerOptions { Layout = "hbox" });
+		var b1 = new Ext.Button();
+
+		box.Add(new Ext.Button());
+		win.Add(box);
+		box.Add(b1);
+		box.Add(new Ext.Button());
+
+
+		win.Show();
 	}
 }

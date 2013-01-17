@@ -13,13 +13,12 @@
     <property name="WindowPosition">CenterOnParent</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
     <child>
-      <widget class="Gtk.Button" id="button1">
+      <widget class="Gtk.Button" id="button3">
         <property name="MemberName" />
         <property name="CanFocus">True</property>
         <property name="Type">TextOnly</property>
-        <property name="Label" translatable="yes">Super texto del boton</property>
+        <property name="Label" translatable="yes">Etiqueta del boton</property>
         <property name="UseUnderline">True</property>
-        <signal name="Clicked" handler="OnButtonClicked" />
       </widget>
     </child>
   </widget>

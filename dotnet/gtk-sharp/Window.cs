@@ -9,10 +9,7 @@ namespace Gtk
 		private Ext.Window ext_window;
 		public Window (WindowType type)
 		{
-			Ext.WindowOptions options = new Ext.WindowOptions();
-			options.Layout = "fit";
-
-			this.ext_window = new Ext.Window(options);
+			this.ext_window = new Ext.Window(new Ext.WindowOptions { Layout = "fit" });
 
 			this.ext_container = this.ext_window;
 			this.ext_component = this.ext_window;
@@ -27,6 +24,7 @@ namespace Gtk
 
 		public string Title {
 			set {
+				ext_window.SetTitle(value);
 			}
 		}
 
