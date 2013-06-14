@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{98B8235C-425B-4452-A5B3-D91981FFE7D3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>mscorlib</RootNamespace>
+    <AssemblyName>mscorlib</AssemblyName>
+    <OutputPath>..\bin</OutputPath>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <NoStdLib>true</NoStdLib>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>true</Optimize>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+    <NoStdLib>true</NoStdLib>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties>
+        <Policies>
+          <DotNetNamingPolicy DirectoryNamespaceAssociation="Hierarchical" ResourceNamePolicy="MSBuild" />
+        </Policies>
+      </Properties>
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="System\" />
+    <Folder Include="System\Collections\" />
+    <Folder Include="System\Runtime\" />
+    <Folder Include="System\Runtime\InteropServices\" />
+    <Folder Include="System\Collections\Generics\" />
+    <Folder Include="System\Runtime\CompilerServices\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="System\Object.cs" />
+    <Compile Include="System\ValueType.cs" />
+    <Compile Include="System\Attribute.cs" />
+    <Compile Include="System\Int16.cs" />
+    <Compile Include="System\Int32.cs" />
+    <Compile Include="System\Int64.cs" />
+    <Compile Include="System\UInt16.cs" />
+    <Compile Include="System\UInt32.cs" />
+    <Compile Include="System\UInt64.cs" />
+    <Compile Include="System\Single.cs" />
+    <Compile Include="System\Double.cs" />
+    <Compile Include="System\Char.cs" />
+    <Compile Include="System\Decimal.cs" />
+    <Compile Include="System\Boolean.cs" />
+    <Compile Include="System\SByte.cs" />
+    <Compile Include="System\Byte.cs" />
+    <Compile Include="System\String.cs" />
+    <Compile Include="System\Enum.cs" />
+    <Compile Include="System\Delegate.cs" />
+    <Compile Include="System\MulticastDelegate.cs" />
+    <Compile Include="System\Void.cs" />
+    <Compile Include="System\IDisposable.cs" />
+    <Compile Include="System\Exception.cs" />
+    <Compile Include="System\Array.cs" />
+    <Compile Include="System\Type.cs" />
+    <Compile Include="System\IntPtr.cs" />
+    <Compile Include="System\UIntPtr.cs" />
+    <Compile Include="System\RuntimeFieldHandle.cs" />
+    <Compile Include="System\RuntimeTypeHandle.cs" />
+    <Compile Include="System\Collections\IEnumerator.cs" />
+    <Compile Include="System\Collections\IEnumerable.cs" />
+    <Compile Include="System\ParamArrayAttribute.cs" />
+    <Compile Include="System\Runtime\InteropServices\OutAttribute.cs" />
+    <Compile Include="System\Action.cs" />
+    <Compile Include="System\Collections\Generics\IEnumerable`1.cs" />
+    <Compile Include="System\Collections\Generics\IEnumerator `1.cs" />
+    <Compile Include="System\Runtime\InteropServices\GuidAttribute.cs" />
+    <Compile Include="System\Runtime\CompilerServices\ExtensionAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="net.js">
+      <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>
