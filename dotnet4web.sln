@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mscorlib", "mscorlib\mscorlib.csproj", "{98B8235C-425B-4452-A5B3-D91981FFE7D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Org.W3C", "Org.W3C\Org.W3C.csproj", "{FBCF649A-C1B7-4398-9D8F-97DD4B0B660D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net.Js.Example", "Net.Js.Example\Net.Js.Example.csproj", "{C61399EF-B67B-4921-89A1-73FA03F2FAB4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98B8235C-425B-4452-A5B3-D91981FFE7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98B8235C-425B-4452-A5B3-D91981FFE7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98B8235C-425B-4452-A5B3-D91981FFE7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98B8235C-425B-4452-A5B3-D91981FFE7D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C61399EF-B67B-4921-89A1-73FA03F2FAB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C61399EF-B67B-4921-89A1-73FA03F2FAB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C61399EF-B67B-4921-89A1-73FA03F2FAB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C61399EF-B67B-4921-89A1-73FA03F2FAB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBCF649A-C1B7-4398-9D8F-97DD4B0B660D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBCF649A-C1B7-4398-9D8F-97DD4B0B660D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBCF649A-C1B7-4398-9D8F-97DD4B0B660D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBCF649A-C1B7-4398-9D8F-97DD4B0B660D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = mscorlib\mscorlib.csproj
+	EndGlobalSection
+EndGlobal
