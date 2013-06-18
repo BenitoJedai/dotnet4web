@@ -81,15 +81,7 @@
     <Compile Include="System\ParamArrayAttribute.cs" />
     <Compile Include="System\Runtime\InteropServices\OutAttribute.cs" />
     <Compile Include="System\Action.cs" />
-    <Compile Include="System\Collections\Generics\IEnumerable`1.cs" />
-    <Compile Include="System\Collections\Generics\IEnumerator `1.cs" />
     <Compile Include="System\Runtime\InteropServices\GuidAttribute.cs" />
     <Compile Include="System\Runtime\CompilerServices\ExtensionAttribute.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="net.js">
-      <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

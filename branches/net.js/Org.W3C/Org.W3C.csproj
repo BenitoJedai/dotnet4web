@@ -41,9 +41,7 @@
     <Compile Include="ReadyState.cs" />
     <Compile Include="XMLHttpRequestUpload.cs" />
     <Compile Include="Document.cs" />
-    <Compile Include="FormData.cs">
-      <DependentUpon>XMLHttpRequest.cs</DependentUpon>
-    </Compile>
+    <Compile Include="FormData.cs" />
     <Compile Include="ArrayBufferView.cs" />
     <Compile Include="Blob.cs" />
   </ItemGroup>
