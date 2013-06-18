@@ -17,29 +17,26 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
 
-using System;
-
-//http://www.w3.org/TR/2012/WD-XMLHttpRequest-20121206/
-namespace Org.W3C
+//http://www.w3.org/TR/2004/REC-DOM-Level-3-Core-20040407/
+namespace Org.W3C.DOM
 {
-	public class XMLHttpRequestUpload
+	/// <summary>
+	/// Numeric codes up to 200 are reserved to W3C for possible future use.
+	/// </summary>
+	public enum NodeType
 	{
-		#region constructors
-
-		internal extern XMLHttpRequestUpload();
-
-		#endregion
-
-		#region events
-
-		public extern event Action OnLoadStart;
-		public extern event Action OnProgress;
-		public extern event Action OnAbort;
-		public extern event Action OnError;
-		public extern event Action OnLoad;
-		public extern event Action OnTimeout;
-		public extern event Action OnLoadEnd;
-
-		#endregion
+		Element                = 1,
+		Attribute                 = 2,
+		Text                      = 3,
+		CDataSection            = 4,
+		EntityReference         = 5,
+		Entity                    = 6,
+		ProcessingInstruction    = 7,
+		Comment                  = 8,
+		Document                  = 9,
+		DocumentType             = 10,
+		DocumentFragment         = 11,
+		Notation                  = 12
 	}
 }
+

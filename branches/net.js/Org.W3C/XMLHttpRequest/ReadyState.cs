@@ -17,9 +17,10 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
 
-//http://www.w3.org/TR/2012/WD-XMLHttpRequest-20121206/
-namespace Org.W3C
+namespace Org.W3C.XMLHttpRequest
 {
+	//http://www.w3.org/TR/2012/WD-XMLHttpRequest-20121206/
+
 	public enum ReadyState
 	{
 		Unsent = 0,
