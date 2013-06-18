@@ -36,14 +36,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Window.cs" />
     <Compile Include="XMLHttpRequest.cs" />
     <Compile Include="ReadyState.cs" />
     <Compile Include="XMLHttpRequestUpload.cs" />
-    <Compile Include="Document.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="NodeType.cs" />
     <Compile Include="FormData.cs" />
-    <Compile Include="ArrayBufferView.cs" />
-    <Compile Include="Blob.cs" />
+    <Compile Include="XMLHttpRequestOptions.cs" />
+    <Compile Include="HTMLCollection.cs" />
+    <Compile Include="HTMLOptionsCollection.cs" />
+    <Compile Include="_.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
