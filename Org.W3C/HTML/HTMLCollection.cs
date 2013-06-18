@@ -17,9 +17,12 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
 
-//http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/html.html
+using Org.W3C.DOM;
+
 namespace Org.W3C
 {
+	//http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/html.html
+
 	/// <summary>
 	/// An HTMLCollection is a list of nodes. An individual node may be accessed by either ordinal index or the node's name or id attributes.
 	/// </summary>
