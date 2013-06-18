@@ -84,4 +84,9 @@
     <Compile Include="System\Runtime\InteropServices\GuidAttribute.cs" />
     <Compile Include="System\Runtime\CompilerServices\ExtensionAttribute.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="net.js">
+      <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
+    </None>
+  </ItemGroup>
 </Project>
