@@ -46,11 +46,11 @@ namespace Org.W3C
 		/// <summary>
 		/// This method retrieves a node specified by ordinal index. Nodes are numbered in tree order (depth-first traversal order).
 		/// </summary>
-		public extern Node Item(uint index);
+		public extern Node this[uint index] { get; }
 
 		/// <summary>
 		/// This method retrieves a Node using a name. With [HTML 4.01] documents, it first searches for a Node with a matching id attribute. If it doesn't find one, it then searches for a Node with a matching name attribute, but only on those elements that are allowed a name attribute. With [XHTML 1.0] documents, this method only searches for Nodes with a matching id attribute. This method is case insensitive in HTML documents and case sensitive in XHTML documents.
 		/// </summary>
-		public extern Node NamedItem(string name);
+		public extern Node this[string name] { get; }
 	}
 }
