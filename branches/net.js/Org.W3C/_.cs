@@ -1,4 +1,5 @@
 using System;
+using Org.W3C.DOM;
 
 namespace Org.W3C
 {
@@ -8,8 +9,6 @@ namespace Org.W3C
 		public extern void Alert(string message);
 		public extern Document Document { get; }
 	}
-
-
 
 	public class NodeList
 	{

@@ -36,16 +36,25 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="XMLHttpRequest.cs" />
-    <Compile Include="ReadyState.cs" />
-    <Compile Include="XMLHttpRequestUpload.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="NodeType.cs" />
-    <Compile Include="FormData.cs" />
-    <Compile Include="XMLHttpRequestOptions.cs" />
-    <Compile Include="HTMLCollection.cs" />
     <Compile Include="HTMLOptionsCollection.cs" />
     <Compile Include="_.cs" />
+    <Compile Include="HTMLDocument.cs" />
+    <Compile Include="DOM\Node.cs" />
+    <Compile Include="DOM\NodeType.cs">
+      <DependentUpon>Node.cs</DependentUpon>
+    </Compile>
+    <Compile Include="HTML\HTMLCollection.cs" />
+    <Compile Include="XMLHttpRequest\XMLHttpRequest.cs" />
+    <Compile Include="XMLHttpRequest\ReadyState.cs">
+      <DependentUpon>XMLHttpRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XMLHttpRequest\XMLHttpRequestOptions.cs">
+      <DependentUpon>XMLHttpRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XMLHttpRequest\FormData.cs">
+      <DependentUpon>XMLHttpRequest.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XMLHttpRequest\XMLHttpRequestUpload.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -56,4 +65,9 @@
       </Properties>
     </MonoDevelop>
   </ProjectExtensions>
+  <ItemGroup>
+    <Folder Include="DOM\" />
+    <Folder Include="HTML\" />
+    <Folder Include="XMLHttpRequest\" />
+  </ItemGroup>
 </Project>

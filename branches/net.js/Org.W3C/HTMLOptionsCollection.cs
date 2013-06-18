@@ -17,9 +17,12 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
 
-//http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/html.html
-namespace Org.W3C
+using Org.W3C.DOM;
+
+namespace Org.W3C.HTML
 {
+	//http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/html.html
+
 	/// <summary>
 	/// An HTMLOptionsCollection is a list of nodes representing HTML option element. An individual node may be accessed by either ordinal index or the node's name or id attributes.
 	/// </summary>
