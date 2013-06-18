@@ -1,0 +1,15 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Net.Js.Example/MainClass.cs">
+    <Files>
+      <File FileName="Org.W3C/FormData.cs" Line="1" Column="1" />
+      <File FileName="Net.Js.Example/MainClass.cs" Line="30" Column="11" />
+      <File FileName="Net.Js.Example/Index.html" Line="1" Column="1" />
+      <File FileName="mscorlib/net.js" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
