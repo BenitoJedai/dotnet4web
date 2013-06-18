@@ -2,7 +2,7 @@
 
 This file is part of dotnet4web.
 
-ERPS is free software: you can redistribute it and/or modify
+net.js is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
 License, or (at your option) any later version.
@@ -27,7 +27,7 @@ namespace Net.Js.Example
 	    public void OnAJAXButtonClick()
 	    {
 		    var xhr = new XMLHttpRequest ();
-		    xhr.Open("GET", "example.html");
+			xhr.Open("GET", "example.html");
 		    xhr.Send();
 		    xhr.OnReadyStateChange += delegate() {
 			    if(xhr.ReadyState == ReadyState.Done) {

@@ -1,8 +1,8 @@
 /*
 
-This file is part of dotnet4web.
+This file is part of net.js.
 
-ERPS is free software: you can redistribute it and/or modify
+net.js is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
 published by the Free Software Foundation, either version 3 of the
 License, or (at your option) any later version.
@@ -17,13 +17,15 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
 
-using System;
-
+//http://www.w3.org/TR/2012/WD-XMLHttpRequest-20121206/
 namespace Org.W3C
 {
-	public class Window
+	public class XMLHttpRequestOptions
 	{
-		protected extern Window();
-		public extern void Alert(string message);
+		#region fields
+
+		public bool Anon;
+
+		#endregion
 	}
 }
