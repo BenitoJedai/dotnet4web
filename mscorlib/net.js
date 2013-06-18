@@ -1,6 +1,5 @@
 (function () {
 
-
     function Reader(uri, callback) {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", uri, true);
@@ -204,9 +203,44 @@
         return {
             flags:this.readWord(),
             name:this.readNetString(),
-            signature:this.readHeapOffset("blob")
+            signature:this.readFieldSignature ()
         };
     };
+    
+    Reader.prototype.readFieldSignature = function() {
+      
+	var offset = this.readHeapOffset("blob");
+        offset += this.streams.Blob;
+        var backup = this.ip;
+        this.move(offset);
+        
+	var size = this.readCompressedNumber();
+	
+	var start = this.ip;
+	
+	var prolog = this.readCompressedNumber();
+	
+	
+	
+	
+	
+	
+	var rv = { 
+	  fieldType :  this.readSignatureConstant()
+	};
+        
+	
+	if(this.ip < size + start) {
+	  throw new Error("Los atributos personalizados de los campos no estan implementados aun");
+	}
+	
+	
+        
+        this.ip = backup;
+        return rv;
+      
+    };
+    
     
     Reader.prototype.readConstant = function() {
         return {
@@ -341,6 +375,33 @@
         };
     };
     
+    
+    Reader.prototype.readSignatureConstant = function() {
+      
+      var constant = this.readCompressedNumber();
+        
+        
+        if((constant > 0 && constant < 0x0F) || constant == 0x1C|| constant == 0x18|| constant == 0x19) {
+            return {table:"CoreType", index: constant};
+        } else if(constant == 0x12 || constant == 0x11) {
+	    
+	    var dato = this.readCompressedNumber();
+	    
+	    return {
+	      table: ["TypeDef","TypeRef"][dato & 1],
+	      index: (dato >> 2) - 1
+	    };
+	    
+            
+            
+        } else {
+        
+            throw new Error("La constante " + constant.toString(16) + " no esta implementada");
+        }
+      
+      
+    };
+    
    Reader.prototype.readMethodDefSignature = function() {
 
        
@@ -366,22 +427,13 @@
         
         rv.paramCount = this.readCompressedNumber();
         
-        var returnType = this.readCompressedNumber();
-        
-        
-        if(returnType > 0 && returnType < 0x0F) {
-            rv.returnType = {table:"CoreType", index: returnType};
-        } else if(returnType == 0x12) {
-            
-            rv.returnType = this.readCompressedNumber().toString(16);
-            
-            
-        } else {
-        
-            rv.returnType = returnType;
-        }
-        
-        console.debug(JSON.stringify(rv));
+	rv.returnType = this.readSignatureConstant();
+	
+	rv.parametersTypes = [];
+	
+	for(var i = 0; i < rv.paramCount; i++) {
+	  rv.parametersTypes.push(this.readSignatureConstant());
+	}
         
         this.ip = backup;
         return rv;
