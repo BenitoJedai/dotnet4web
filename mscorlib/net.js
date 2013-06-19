@@ -628,6 +628,15 @@
     };
     
     
+    function Type(assembly, namespace, name) {
+    	this.assembly = assembly;
+    	this.name = name;
+    	this.namespace = namespace;
+    }
+    
+   
+    
+    
     function Assembly(domain, metadata, callback) {
     	this.name = metadata.assembly[0].name;
     	
@@ -638,6 +647,9 @@
     	//Cuando se cargaron todas las dependencias
     	var finalize = function() {
     		
+    		//Reemplazo el indice de ensamblado por la instancia real
+    		metadata.assembly[0] = this;
+    		
     		//Si tiene referencias a ensamblados
     		if("assemblyRef" in metadata) {
     			//Cambio todos los assemblyref por ensamblados reales
@@ -645,6 +657,8 @@
     				metadata.assemblyRef[i] = this.domain.assemblies[metadata.assemblyRef[i].name];
     			}
     		}
+    		
+    		//Reemplazo todos los typedef por tipos reales
 
     		callback(this);
     	}.bind(this);
@@ -684,10 +698,12 @@
     		loader();
     	else
     		finalize();
-    	
-    	
-    	
     }
+    
+    Assembly.prototype.getType = function(namespace, name, generics) {
+    	return this.types[namespace + ":" + name + ":" +  generics];
+    }
+    
     
     
     window.onload = function() {

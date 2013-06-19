@@ -57,6 +57,12 @@ namespace Org.W3C
 	}
 
 
+	public class ExampleEnclosing
+	{
+		public class ExampleNested
+		{
+		}
+	}
 
 }
 
