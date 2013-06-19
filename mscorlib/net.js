@@ -459,8 +459,8 @@
 
     Reader.prototype.readNestedClass = function() {
         return {
-            nestedClass:this.readNetIndex("TypeDef"),
-            enclosingClass:this.readNetIndex("TypeDef")
+            nestedClass:this.readNetIndex("TypeDef") - 1,
+            enclosingClass:this.readNetIndex("TypeDef") - 1
         };
     };
     
@@ -628,19 +628,19 @@
     };
     
     
-    function Type(assembly, namespace, name) {
+    function Type(assembly, namespace, name, declaringType) {
     	this.assembly = assembly;
     	this.name = name;
     	this.namespace = namespace;
+    	this.declaringType = declaringType;
+    	this.types = {};
     }
-    
-   
-    
     
     function Assembly(domain, metadata, callback) {
     	this.name = metadata.assembly[0].name;
-    	
+    	this.types = {};
     	this.domain = domain;
+    	var self = this;
     	
     	this.domain.assemblies[this.name] =  this;
     	
@@ -648,20 +648,46 @@
     	var finalize = function() {
     		
     		//Reemplazo el indice de ensamblado por la instancia real
-    		metadata.assembly[0] = this;
+    		metadata.assembly[0] = self;
     		
     		//Si tiene referencias a ensamblados
     		if("assemblyRef" in metadata) {
     			//Cambio todos los assemblyref por ensamblados reales
     			for(var i = 0; i < metadata.assemblyRef.length; i++) {
-    				metadata.assemblyRef[i] = this.domain.assemblies[metadata.assemblyRef[i].name];
+    				metadata.assemblyRef[i] = self.domain.assemblies[metadata.assemblyRef[i].name];
     			}
     		}
     		
-    		//Reemplazo todos los typedef por tipos reales
+    		//Si se crearon tipos (?? igual pasa siempe)
+    		if("typeDef" in metadata) {
+    			//Cambios todos los typedef por tipos reales
 
-    		callback(this);
-    	}.bind(this);
+    			for(var i = 0; i < metadata.typeDef.length; i++) {
+	    			var orig = metadata.typeDef[i];
+	    			
+	    			var declaringType = null;
+	    			
+	    			//Busco si es un nesetd type
+	    			if("nestedClass" in metadata) {
+	    				for(var j = 0; j < metadata.nestedClass.length; j++) {
+	    					if(metadata.nestedClass[j].nestedClass == i) {
+	    						declaringType = metadata.nestedClass[j].enclosingClass;				
+	    					}
+	    				}
+	    			}
+	    			metadata.typeDef[i] = new Type(self, orig.namespace, orig.name, declaringType);
+	    			declaringType = null;
+	    			orig = null;
+    			}    			
+    		}
+    		
+    		//Agrego cado uno de los tipos a su declaringType si tiene, sino a su ensamblado
+    		
+    		
+    		metadata = null;
+
+    		callback(self);
+    	};
  
     	
     	var loader, i = 0;
@@ -679,19 +705,18 @@
     		
     		i++;
     		//Si el modulo no esta cargado, lo carga
-    		if(name in this.domain.assemblies)
+    		if(name in self.domain.assemblies)
     		{
     			//Incrementa para el llamado al proximo modulo
 	    		loader();
     		}
     		else
     		{
-    			this.domain.load(name + ".dll", function() {
+    			self.domain.load(name + ".dll", function() {
     				loader()
     			});
     		}
-    	
-    	}.bind(this);
+    	};
     	
     	
     	if("assemblyRef" in metadata)
@@ -700,15 +725,11 @@
     		finalize();
     }
     
-    Assembly.prototype.getType = function(namespace, name, generics) {
-    	return this.types[namespace + ":" + name + ":" +  generics];
-    }
-    
     
     
     window.onload = function() {
     	var uri = document.getElementById("3436ff6a-c82c-4e0a-b7fa-12d104074de3").getAttribute("main");
-    	 new Domain(uri, function (domain) {
+    	new Domain(uri, function (domain) {
             console.debug("Carga finalizada");
             console.debug(domain);
         });
