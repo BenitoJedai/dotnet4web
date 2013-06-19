@@ -55,6 +55,9 @@
     <Compile Include="XMLHttpRequest\XMLHttpRequestUpload.cs" />
     <Compile Include="HTML\HTMLDocument.cs" />
     <Compile Include="HTML\HTMLOptionsCollection.cs" />
+    <Compile Include="HTML\HTMLElement.cs" />
+    <Compile Include="HTML\HTMLHtmlElement.cs" />
+    <Compile Include="HTML\HTMLHeadElement.cs" />
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>

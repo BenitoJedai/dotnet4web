@@ -1,5 +1,6 @@
 using System;
 using Org.W3C.DOM;
+using Org.W3C.HTML;
 
 namespace Org.W3C
 {
@@ -7,7 +8,7 @@ namespace Org.W3C
 	{
 		protected extern Window();
 		public extern void Alert(string message);
-		public extern Document Document { get; }
+		public extern HTMLDocument Document { get; }
 	}
 
 	public class NodeList
@@ -44,10 +45,6 @@ namespace Org.W3C
 	}
 
 	public class Element : Node
-	{
-	}
-
-	public class HTMLElement : Element
 	{
 	}
 

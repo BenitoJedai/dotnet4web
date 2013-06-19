@@ -20,6 +20,7 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 using System;
 using Org.W3C;
 using Org.W3C.XMLHttpRequest;
+using Org.W3C.HTML;
 
 namespace Net.Js.Example
 {
