@@ -2,18 +2,7 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Net.Js.Example/MainClass.cs">
     <Files>
-      <File FileName="Org.W3C/FormData.cs" Line="1" Column="1" />
-      <File FileName="Net.Js.Example/MainClass.cs" Line="36" Column="9" />
-      <File FileName="Net.Js.Example/Index.html" Line="6" Column="85" />
-      <File FileName="mscorlib/System/Collections/IEnumerable.cs" Line="1" Column="1" />
-      <File FileName="mscorlib/System/Collections/IEnumerator.cs" Line="1" Column="1" />
-      <File FileName="Org.W3C/XMLHttpRequest.cs" Line="42" Column="49" />
-      <File FileName="Org.W3C/XMLHttpRequestUpload.cs" Line="17" Column="40" />
-      <File FileName="Org.W3C/Window.cs" Line="1" Column="1" />
-      <File FileName="Org.W3C/ReadyState.cs" Line="1" Column="1" />
-      <File FileName="Org.W3C/Document.cs" Line="1" Column="1" />
-      <File FileName="Org.W3C/Blob.cs" Line="1" Column="1" />
-      <File FileName="Org.W3C/ArrayBufferView.cs" Line="1" Column="1" />
+      <File FileName="Net.Js.Example/MainClass.cs" Line="37" Column="9" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
