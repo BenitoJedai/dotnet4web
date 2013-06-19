@@ -21,6 +21,7 @@ using System;
 using Org.W3C;
 using Org.W3C.XMLHttpRequest;
 using Org.W3C.HTML;
+using Org.W3C.Events;
 
 namespace Net.Js.Example
 {
@@ -28,6 +29,11 @@ namespace Net.Js.Example
     {
 	    public void OnAJAXButtonClick()
 	    {
+			Document.Body.OnClick += delegate(MouseEvent e) {
+				e.PreventDefault();
+				Alert(e.ScreenX.ToString());
+			};
+
 		    var xhr = new XMLHttpRequest ();
 			xhr.Open("GET", "example.html");
 		    xhr.Send();

@@ -17,12 +17,10 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
 
-using System;
-
-namespace System.Collections.Generics
+namespace System
 {
-	public class IEnumerable<T> : IEnumerable
+	public struct DateTime
 	{
-
 	}
 }
+

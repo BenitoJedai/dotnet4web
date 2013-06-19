@@ -58,6 +58,21 @@
     <Compile Include="HTML\HTMLElement.cs" />
     <Compile Include="HTML\HTMLHtmlElement.cs" />
     <Compile Include="HTML\HTMLHeadElement.cs" />
+    <Compile Include="Events\EventPhase.cs">
+      <DependentUpon>Event.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\UIEventHandler.cs">
+      <DependentUpon>UIEvent.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\UIEvent.cs" />
+    <Compile Include="Events\Event.cs" />
+    <Compile Include="Events\EventHandler.cs">
+      <DependentUpon>Event.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Events\MouseEvent.cs" />
+    <Compile Include="Events\MouseEventHandler.cs">
+      <DependentUpon>MouseEvent.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
@@ -72,5 +87,6 @@
     <Folder Include="DOM\" />
     <Folder Include="HTML\" />
     <Folder Include="XMLHttpRequest\" />
+    <Folder Include="Events\" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,10 @@ namespace Org.W3C
 	{
 		protected extern Window();
 		public extern void Alert(string message);
+		public void Alert(object message)
+		{
+			Alert (message.ToString());
+		}
 		public extern HTMLDocument Document { get; }
 	}
 

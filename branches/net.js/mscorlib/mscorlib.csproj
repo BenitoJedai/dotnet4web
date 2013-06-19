@@ -83,10 +83,16 @@
     <Compile Include="System\Action.cs" />
     <Compile Include="System\Runtime\InteropServices\GuidAttribute.cs" />
     <Compile Include="System\Runtime\CompilerServices\ExtensionAttribute.cs" />
+    <Compile Include="System\Collections\Generics\IEnumerator`1.cs" />
+    <Compile Include="System\Collections\Generics\IEnumerable`1.cs" />
+    <Compile Include="System\Action`1.cs" />
+    <Compile Include="System\Action`2.cs" />
+    <Compile Include="System\DateTime.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="net.js">
       <Gettext-ScanForTranslations>False</Gettext-ScanForTranslations>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>
