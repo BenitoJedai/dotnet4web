@@ -678,10 +678,32 @@
 	    			metadata.typeDef[i] = new Type(self, orig.namespace, orig.name, declaringType);
 	    			declaringType = null;
 	    			orig = null;
-    			}    			
+    			}    
+    			
+    			//Agrego cado uno de los tipos a su declaringType si tiene, sino a su ensamblado
+    			for(var i = 0; i < metadata.typeDef.length; i++) {
+    				var t = metadata.typeDef[i];
+    				
+    				
+    				
+    				
+    				if(t.declaringType == null) {
+    					self.types[t.namespace + "." + t.name] = t;
+    				} else {
+    				
+    					//metadata.typeDef[t.declaringType].types[t.namespace + "." + t.name] =  t;
+    					t.declaringType = metadata.typeDef[t.declaringType];
+    					
+    				
+    				}
+    				
+    					
+    				
+    				
+    				t = null;
+    			}
+    					
     		}
-    		
-    		//Agrego cado uno de los tipos a su declaringType si tiene, sino a su ensamblado
     		
     		
     		metadata = null;
