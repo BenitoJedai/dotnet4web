@@ -22,5 +22,6 @@ namespace System
 	public class Object
 	{
 		public extern Type GetType();
+		public virtual extern string ToString ();
 	}
 }

@@ -1,8 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Net.Js.Example/MainClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Org.W3C/Events/MouseEventHandler.cs">
     <Files>
-      <File FileName="Net.Js.Example/MainClass.cs" Line="37" Column="9" />
+      <File FileName="Org.W3C/Events/MouseEventHandler.cs" Line="6" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

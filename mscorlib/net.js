@@ -383,6 +383,8 @@
         
         if((constant > 0 && constant < 0x0F) || constant == 0x1C|| constant == 0x18|| constant == 0x19) {
             return {table:"CoreType", index: constant};
+        } else if (constant == 0x13) {
+            return {table:"OwnerTypeGeneric", index:this.readCompressedNumber()}            
         } else if(constant == 0x12 || constant == 0x11) {
 	    
 	    var dato = this.readCompressedNumber();
@@ -605,10 +607,94 @@
     
     
     
+    function Domain(path, callback) {    	
+    	this.assemblies = {};
+    	this.load(path, callback);
+    	
+    }
+    
+    
+    Domain.prototype.load = function(path, callback) {
+    	new Parser(path, function (data) {
+    		console.debug("Parseado el ensamblado " + path);
+            console.debug(data);            
+            new Assembly(this, data, function(assembly) {
+            
+            	callback(this);
+            
+            }.bind(this));
+            
+        }.bind(this));
+    };
+    
+    
+    function Assembly(domain, metadata, callback) {
+    	this.name = metadata.assembly[0].name;
+    	
+    	this.domain = domain;
+    	
+    	this.domain.assemblies[this.name] =  this;
+    	
+    	//Cuando se cargaron todas las dependencias
+    	var finalize = function() {
+    		
+    		//Si tiene referencias a ensamblados
+    		if("assemblyRef" in metadata) {
+    			//Cambio todos los assemblyref por ensamblados reales
+    			for(var i = 0; i < metadata.assemblyRef.length; i++) {
+    				metadata.assemblyRef[i] = this.domain.assemblies[metadata.assemblyRef[i].name];
+    			}
+    		}
+
+    		callback(this);
+    	}.bind(this);
+ 
+    	
+    	var loader, i = 0;
+    	
+    	loader = function() {
+    	
+    		//Ya estan todas sus referencias
+    		if(i == metadata.assemblyRef.length) {
+    			finalize();
+    			return;
+    		}
+    	
+    		var name = metadata.assemblyRef[i].name;
+    		
+    		
+    		i++;
+    		//Si el modulo no esta cargado, lo carga
+    		if(name in this.domain.assemblies)
+    		{
+    			//Incrementa para el llamado al proximo modulo
+	    		loader();
+    		}
+    		else
+    		{
+    			this.domain.load(name + ".dll", function() {
+    				loader()
+    			});
+    		}
+    	
+    	}.bind(this);
+    	
+    	
+    	if("assemblyRef" in metadata)
+    		loader();
+    	else
+    		finalize();
+    	
+    	
+    	
+    }
+    
+    
     window.onload = function() {
     	var uri = document.getElementById("3436ff6a-c82c-4e0a-b7fa-12d104074de3").getAttribute("main");
-    	 new Parser(uri, function (data) {
-            console.debug(data);
+    	 new Domain(uri, function (domain) {
+            console.debug("Carga finalizada");
+            console.debug(domain);
         });
     };
 

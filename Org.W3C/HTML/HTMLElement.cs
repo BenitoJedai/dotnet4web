@@ -17,6 +17,9 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
 
+using System;
+using Org.W3C.Events;
+
 namespace Org.W3C.HTML
 {
 	//http://www.w3.org/TR/2003/REC-DOM-Level-2-HTML-20030109/html.html
@@ -61,6 +64,12 @@ namespace Org.W3C.HTML
 		/// The element's advisory title. See the title attribute definition in HTML 4.01.
 		/// </summary>
 		public virtual string Title { get; set; }
+
+		#endregion
+
+		#region events
+
+		public extern event MouseEventHandler OnClick;
 
 		#endregion
 
