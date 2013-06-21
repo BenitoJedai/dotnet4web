@@ -55,14 +55,5 @@ namespace Org.W3C
 	public class HTMLFormElement : HTMLElement
 	{
 	}
-
-
-	public class ExampleEnclosing
-	{
-		public class ExampleNested
-		{
-		}
-	}
-
 }
 
