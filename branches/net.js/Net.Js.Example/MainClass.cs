@@ -29,11 +29,6 @@ namespace Net.Js.Example
     {
 	    public void OnAJAXButtonClick()
 	    {
-			Document.Body.OnClick += delegate(MouseEvent e) {
-				e.PreventDefault();
-				Alert(e.ScreenX.ToString());
-			};
-
 		    var xhr = new XMLHttpRequest ();
 			xhr.Open("GET", "example.html");
 		    xhr.Send();
@@ -44,4 +39,12 @@ namespace Net.Js.Example
 		    };
 	    }
     }
+
+
+	public class ExampleEnclosing
+	{
+		public class ExampleNested
+		{
+		}
+	}
 }

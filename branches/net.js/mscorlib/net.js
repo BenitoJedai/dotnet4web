@@ -195,7 +195,7 @@
         return {
             resolutionScope:this.readNetIndex("Module","ModuleRed","AssemblyRef","TypeRef"),
             typeName:this.readNetString(),
-            typeNamesppace:this.readNetString()
+            typeNamespace:this.readNetString()
         };
     };
     
@@ -568,9 +568,12 @@
                 if (names.length == 1)
                     return all == 0 ? null : all;
 
+				var table = names[((1 << indexSize) - 1) & all];
+				table = table[0].toLowerCase() + table.substring(1);
+
                 var aux = {
                     index: (all >> indexSize) - 1,
-                    table: names[((1 << indexSize) - 1) & all]
+                    table: table
                 }
 
                 return aux.index == -1 ? null : aux;
@@ -628,12 +631,13 @@
     };
     
     
-    function Type(assembly, namespace, name, declaringType) {
+    function Type(assembly, namespace, name, declaringType, baseType) {
     	this.assembly = assembly;
     	this.name = name;
     	this.namespace = namespace;
     	this.declaringType = declaringType;
     	this.types = {};
+    	this.baseType = baseType;
     }
     
     function Assembly(domain, metadata, callback) {
@@ -675,36 +679,44 @@
 	    					}
 	    				}
 	    			}
-	    			metadata.typeDef[i] = new Type(self, orig.namespace, orig.name, declaringType);
+	    			metadata.typeDef[i] = new Type(self, orig.namespace, orig.name, declaringType, orig["extends"]);
 	    			declaringType = null;
 	    			orig = null;
-    			}    
-    			
+    			}
+    
     			//Agrego cado uno de los tipos a su declaringType si tiene, sino a su ensamblado
     			for(var i = 0; i < metadata.typeDef.length; i++) {
     				var t = metadata.typeDef[i];
-    				
-    				
-    				
-    				
     				if(t.declaringType == null) {
     					self.types[t.namespace + "." + t.name] = t;
     				} else {
-    				
-    					//metadata.typeDef[t.declaringType].types[t.namespace + "." + t.name] =  t;
     					t.declaringType = metadata.typeDef[t.declaringType];
-    					
-    				
+    					t.declaringType.types[t.name] = t;
     				}
-    				
-    					
-    				
-    				
     				t = null;
     			}
-    					
     		}
     		
+    		//Cambio todos los typeref por los typeref de los otros modulos
+    			
+    		if("typeRef" in metadata) {
+    			for(var i = 0; i < metadata.typeRef.length; i++) {
+    				var ref = metadata.typeRef[i];
+    				metadata.typeRef[i] = metadata[ref.resolutionScope.table][ref.resolutionScope.index].getType(ref.typeNamespace, ref.typeName);
+    			}
+    		}
+    		
+    		//Cambio todos los basetype por lo tipos reales
+    		
+    		if("typeDef" in metadata) {
+    			for(var i = 0; i < metadata.typeDef.length; i++) {
+    				var def = metadata.typeDef[i];
+    				if(def.baseType == null)
+    					continue;
+    				def.baseType = metadata[def.baseType.table][def.baseType.index];
+    				def = null;
+    			}
+    		}
     		
     		metadata = null;
 
@@ -747,6 +759,10 @@
     		finalize();
     }
     
+    
+    Assembly.prototype.getType = function(namespace , name) {
+    	return this.types[namespace + "." + name];
+    };
     
     
     window.onload = function() {
