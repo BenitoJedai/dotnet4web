@@ -191,120 +191,118 @@
         };
     };
 
-    Reader.prototype.readTypeRef = function() {
+    Reader.prototype.readTypeRef = function () {
         return {
-            resolutionScope:this.readNetIndex("Module","ModuleRed","AssemblyRef","TypeRef"),
-            typeName:this.readNetString(),
-            typeNamespace:this.readNetString()
+            resolutionScope: this.readNetIndex("Module", "ModuleRed", "AssemblyRef", "TypeRef"),
+            typeName: this.readNetString(),
+            typeNamespace: this.readNetString()
         };
     };
-    
-    Reader.prototype.readField = function() {
+
+    Reader.prototype.readField = function () {
         return {
-            flags:this.readWord(),
-            name:this.readNetString(),
-            signature:this.readFieldSignature ()
+            flags: this.readWord(),
+            name: this.readNetString(),
+            signature: this.readFieldSignature()
         };
     };
-    
-    Reader.prototype.readFieldSignature = function() {
-      
-	var offset = this.readHeapOffset("blob");
+
+    Reader.prototype.readFieldSignature = function () {
+
+        var offset = this.readHeapOffset("blob");
         offset += this.streams.Blob;
         var backup = this.ip;
         this.move(offset);
-        
-	var size = this.readCompressedNumber();
-	
-	var start = this.ip;
-	
-	var prolog = this.readCompressedNumber();
-	
-	
-	
-	
-	
-	
-	var rv = { 
-	  fieldType :  this.readSignatureConstant()
-	};
-        
-	
-	if(this.ip < size + start) {
-	  throw new Error("Los atributos personalizados de los campos no estan implementados aun");
-	}
-	
-	
-        
+
+        var size = this.readCompressedNumber();
+
+        var start = this.ip;
+
+        var prolog = this.readCompressedNumber();
+
+
+
+
+        var rv = {
+            fieldType: this.readSignatureConstant()
+        };
+
+
+        if (this.ip < size + start) {
+            throw new Error("Los atributos personalizados de los campos no estan implementados aun");
+        }
+
+
+
         this.ip = backup;
         return rv;
-      
+
     };
-    
-    
-    Reader.prototype.readConstant = function() {
+
+
+    Reader.prototype.readConstant = function () {
         return {
-            type:this.readWord(),
-            parent:this.readNetIndex("Param","Field","Property"),
-            value:this.readHeapOffset("blob")
+            type: this.readWord(),
+            parent: this.readNetIndex("Param", "Field", "Property"),
+            value: this.readHeapOffset("blob")
         };
     };
-    
-    Reader.prototype.readEventMap = function() {
+
+    Reader.prototype.readEventMap = function () {
         return {
-            parent:this.readNetIndex("TypeDef"),
-            eventList:this.readWord()
+            parent: this.readNetIndex("TypeDef"),
+            eventList: this.readWord()
         };
     };
-    
-    Reader.prototype.readEvent = function() {
+
+    Reader.prototype.readEvent = function () {
         return {
-            flags:this.readWord(),
-            name:this.readNetString(),
-            eventType:this.readNetIndex("TypeDef","TypeRef","TypeSpec")
+            flags: this.readWord(),
+            name: this.readNetString(),
+            eventType: this.readNetIndex("TypeDef", "TypeRef", "TypeSpec")
         };
     };
-    
-    Reader.prototype.readPropertyMap = function() {
+
+    Reader.prototype.readPropertyMap = function () {
         return {
-            parent:this.readNetIndex("TypeDef"),
-            propertyList:this.readWord()
+            parent: this.readNetIndex("TypeDef"),
+            propertyList: this.readWord()
         };
     };
-    
-    Reader.prototype.readProperty = function() {
+
+    Reader.prototype.readProperty = function () {
         return {
-            flags:this.readWord(),
-            name:this.readNetString(),
-            type:this.readHeapOffset("blob")
+            flags: this.readWord(),
+            name: this.readNetString(),
+            type: this.readHeapOffset("blob")
         };
     };
-    
-    
-    Reader.prototype.readMethodSemantics = function() {
+
+
+    Reader.prototype.readMethodSemantics = function () {
         return {
-            semantics:this.readWord(),
-            method:this.readNetIndex("MethodDef"),
-            association:this.readNetIndex("Event","Property")
+            semantics: this.readWord(),
+            method: this.readNetIndex("MethodDef"),
+            association: this.readNetIndex("Event", "Property")
         };
     };
-    
-    Reader.prototype.readInterfaceImpl = function() {
+
+    Reader.prototype.readInterfaceImpl = function () {
         return {
-            "class":this.readNetIndex("TypeDef"),
-            "interface":this.readNetIndex("TypeDef","TypeRef","TypeSpec")
+            "class": this.readNetIndex("TypeDef"),
+            "interface": this.readNetIndex("TypeDef", "TypeRef", "TypeSpec")
         };
     };
-    
-    Reader.prototype.readGenericParam = function() {
+
+    Reader.prototype.readGenericParam = function () {
         return {
-            number:this.readWord(),
-            flags:this.readWord(),
-            owner:this.readNetIndex("TypeDef","MethodDef"),
-            name:this.readNetString()
+            number: this.readWord(),
+            flags: this.readWord(),
+            owner: this.readNetIndex("TypeDef", "MethodDef"),
+            name: this.readNetString()
         };
     };
-    
+
 
     Reader.prototype.readTypeDef = function () {
         return {
@@ -317,23 +315,23 @@
         };
     }
 
-    Reader.prototype.readAssemblyRef = function() {
+    Reader.prototype.readAssemblyRef = function () {
         return {
-            majorVersion:this.readWord(),
-            minorVersion:this.readWord(),
-            buildNumber:this.readWord(),
-            revisionNumber:this.readWord(),
-            flags:this.readDoubleWord(),
-            publicKeyOrToken:this.readHeapOffset("blob"),
-            name:this.readNetString(),
-            culture:this.readNetString(),
-            hashValue:this.readHeapOffset("blob")
-            
+            majorVersion: this.readWord(),
+            minorVersion: this.readWord(),
+            buildNumber: this.readWord(),
+            revisionNumber: this.readWord(),
+            flags: this.readDoubleWord(),
+            publicKeyOrToken: this.readHeapOffset("blob"),
+            name: this.readNetString(),
+            culture: this.readNetString(),
+            hashValue: this.readHeapOffset("blob")
+
         };
     };
-    
 
-    
+
+
     Reader.prototype.readParam = function () {
         return {
             flags: this.readWord(),
@@ -352,7 +350,7 @@
             flags: this.readDoubleWord(),
             publicKey: this.readHeapOffset("blob"),
             name: this.readNetString(),
-            culture:this.readNetString()
+            culture: this.readNetString()
         };
     };
 
@@ -374,96 +372,101 @@
             paramList: this.readNetIndex("Param")
         };
     };
-    
-    
-    Reader.prototype.readSignatureConstant = function() {
-      
-      var constant = this.readCompressedNumber();
-        
-        
-        if((constant > 0 && constant < 0x0F) || constant == 0x1C|| constant == 0x18|| constant == 0x19) {
-            return {table:"CoreType", index: constant};
+
+
+    Reader.prototype.readSignatureConstant = function () {
+
+        var constant = this.readCompressedNumber();
+
+        if ((constant > 0 && constant < 0x0F) || constant == 0x1C || constant == 0x18 || constant == 0x19) {
+            return {
+                table: "coreTypes",
+                index: constant
+            };
         } else if (constant == 0x13) {
-            return {table:"OwnerTypeGeneric", index:this.readCompressedNumber()}            
-        } else if(constant == 0x12 || constant == 0x11) {
-	    
-	    var dato = this.readCompressedNumber();
-	    
-	    return {
-	      table: ["TypeDef","TypeRef"][dato & 1],
-	      index: (dato >> 2) - 1
-	    };
-	    
-            
-            
+            return {
+                table: "OwnerTypeGeneric",
+                index: this.readCompressedNumber()
+            }
+        } else if (constant == 0x12 || constant == 0x11) {
+
+            var dato = this.readCompressedNumber();
+
+            return {
+                table: ["TypeDef", "TypeRef"][dato & 1],
+                index: (dato >> 2) - 1
+            };
+
+
+
         } else {
-        
+
             throw new Error("La constante " + constant.toString(16) + " no esta implementada");
         }
-      
-      
-    };
-    
-   Reader.prototype.readMethodDefSignature = function() {
 
-       
+
+    };
+
+    Reader.prototype.readMethodDefSignature = function () {
+
+
         var offset = this.readHeapOffset("blob");
         offset += this.streams.Blob;
         var backup = this.ip;
         this.move(offset);
-        
+
         var size = this.readCompressedNumber();
 
         var current = this.readCompressedNumber();
-        
+
         var rv = {
-            hasThis : (current & 0x20) != 0,
-            explicitThis : (current & 0x40) != 0,
-            varargs : (current & 0x05) != 0,
-            isGeneric : (current & 0x10) != 0
+            hasThis: (current & 0x20) != 0,
+            explicitThis: (current & 0x40) != 0,
+            varargs: (current & 0x05) != 0,
+            isGeneric: (current & 0x10) != 0
         }
-        
-        if(rv.isGeneric) {
+
+        if (rv.isGeneric) {
             rv.genericCount = this.readCompressedNumber();
         }
-        
+
         rv.paramCount = this.readCompressedNumber();
-        
-	rv.returnType = this.readSignatureConstant();
-	
-	rv.parametersTypes = [];
-	
-	for(var i = 0; i < rv.paramCount; i++) {
-	  rv.parametersTypes.push(this.readSignatureConstant());
-	}
-        
+
+        rv.returnType = this.readSignatureConstant();
+
+        rv.parametersTypes = [];
+
+        for (var i = 0; i < rv.paramCount; i++) {
+            rv.parametersTypes.push(this.readSignatureConstant());
+        }
+
         this.ip = backup;
         return rv;
-        
+
     };
-    
-    Reader.prototype.readMemberRef = function() {
+
+    Reader.prototype.readMemberRef = function () {
         return {
-            "class":this.readNetIndex("TypeRef","ModuleRef","MethodDef","TypeSpec","TypeDef"),
-            name:this.readNetString(),
-            signature:this.readHeapOffset("blob")
-        };
-    };
-    
-    
-    Reader.prototype.readStandAloneSig = function() {
-        return {
-            signature:this.readHeapOffset("blob")
+            "class": this.readNetIndex("TypeRef", "ModuleRef", "MethodDef", "TypeSpec", "TypeDef"),
+            name: this.readNetString(),
+            signature: this.readHeapOffset("blob")
         };
     };
 
-    Reader.prototype.readNestedClass = function() {
+
+    Reader.prototype.readStandAloneSig = function () {
         return {
-            nestedClass:this.readNetIndex("TypeDef") - 1,
-            enclosingClass:this.readNetIndex("TypeDef") - 1
+            signature: this.readHeapOffset("blob")
         };
     };
-    
+
+    Reader.prototype.readNestedClass = function () {
+        return {
+            nestedClass: this.readNetIndex("TypeDef") - 1,
+            enclosingClass: this.readNetIndex("TypeDef") - 1
+        };
+    };
+
     Reader.prototype.readNetString = function () {
         var start = this.readHeapOffset("string");
         var backup = this.ip;
@@ -484,7 +487,7 @@
         return aux.join("");
     };
 
-    
+
     Reader.prototype.readNetGuid = function () {
         var start = this.readHeapOffset("guid");
         if (start == 0) {
@@ -504,36 +507,36 @@
         return aux;
     };
 
-    
-    Reader.prototype.readCompressedNumber = function() {
-       
+
+    Reader.prototype.readCompressedNumber = function () {
+
         var current = this.view.getUint8(this.ip);
 
-        if(current == 0xFF) {
+        if (current == 0xFF) {
             this.ip++;
             return null;
         };
 
-        if((current >> 7) == 0) {
+        if ((current >> 7) == 0) {
             this.ip++;
             return current;
         }
 
-        current = this.view.getUint16(this.ip,false);
+        current = this.view.getUint16(this.ip, false);
 
-        if((current >> 14) == 2) {
+        if ((current >> 14) == 2) {
             this.ip += 2;
             return current & 0x3FFF;
         }
 
-        current = this.view.getUint32(this.ip,false);
+        current = this.view.getUint32(this.ip, false);
         this.ip += 4;
         return current & 0x1FFFFFFF;
-          
+
     };
 
 
-    
+
     Reader.prototype.readNetIndex = function () {
 
 
@@ -568,8 +571,8 @@
                 if (names.length == 1)
                     return all == 0 ? null : all;
 
-				var table = names[((1 << indexSize) - 1) & all];
-				table = table[0].toLowerCase() + table.substring(1);
+                var table = names[((1 << indexSize) - 1) & all];
+                table = table[0].toLowerCase() + table.substring(1);
 
                 var aux = {
                     index: (all >> indexSize) - 1,
@@ -587,15 +590,15 @@
     Reader.prototype.readHeapOffset = function (type) {
         return this[this.heapSizes[type] == 1 ? "readDoubleWord" : "readWord"]();
     };
-    
-    Reader.prototype.readCustomAttribute = function() {
+
+    Reader.prototype.readCustomAttribute = function () {
         return {
-            parent:this.readNetIndex("MethodDef","FieldDef","TypeRef","TypeDef",
+            parent: this.readNetIndex("MethodDef", "FieldDef", "TypeRef", "TypeDef",
                 "paramDef", "InterfaceImpl", "MemberRef", "Module", "Permission",
                 "Property", "Event", "StandAloneSig", "ModuleRef", "TypeSpec",
-                "Assembly","AssemblyRef", "File","ExportedType"),
-            type:this.readNetIndex("MethodDef", "MethodRef"),
-            value:this.readHeapOffset("blob")
+                "Assembly", "AssemblyRef", "File", "ExportedType"),
+            type: this.readNetIndex("MethodDef", "MethodRef"),
+            value: this.readHeapOffset("blob")
         };
     };
 
@@ -607,168 +610,278 @@
         "AssemblyProcessor", "AssemblyOS", "AssemblyRef", "AssemblyRefProcessor", "AssemblyRefOS", "File", "ExportedType", "ManifestResource",
         "NestedClass", "GenericParam", null, "GenericParamConstraint"
     ]
-    
-    
-    
-    function Domain(path, callback) {    	
-    	this.assemblies = {};
-    	this.load(path, callback);
-    	
+
+
+
+    function Domain(path, callback) {
+        this.assemblies = {};
+        this.load(path, callback);
+
     }
-    
-    
-    Domain.prototype.load = function(path, callback) {
-    	new Parser(path, function (data) {
-    		console.debug("Parseado el ensamblado " + path);
-            console.debug(data);            
-            new Assembly(this, data, function(assembly) {
-            
-            	callback(this);
-            
+
+
+    Domain.prototype.load = function (path, callback) {
+        new Parser(path, function (data) {
+            console.debug("Parseado el ensamblado " + path);
+            new Assembly(this, data, function (assembly) {
+
+                callback(this);
+
             }.bind(this));
-            
+
         }.bind(this));
     };
-    
-    
-    function Type(assembly, namespace, name, declaringType, baseType) {
-    	this.assembly = assembly;
-    	this.name = name;
-    	this.namespace = namespace;
-    	this.declaringType = declaringType;
-    	this.types = {};
-    	this.baseType = baseType;
+
+
+    function Type(assembly, namespace, name, declaringType, baseType, methods) {
+        this.assembly = assembly;
+        this.name = name;
+        this.namespace = namespace;
+        this.declaringType = declaringType;
+        this.types = {};
+        this.baseType = baseType;
+        this.methods = methods;
     }
-    
+
     function Assembly(domain, metadata, callback) {
-    	this.name = metadata.assembly[0].name;
-    	this.types = {};
-    	this.domain = domain;
-    	var self = this;
-    	
-    	this.domain.assemblies[this.name] =  this;
-    	
-    	//Cuando se cargaron todas las dependencias
-    	var finalize = function() {
-    		
-    		//Reemplazo el indice de ensamblado por la instancia real
-    		metadata.assembly[0] = self;
-    		
-    		//Si tiene referencias a ensamblados
-    		if("assemblyRef" in metadata) {
-    			//Cambio todos los assemblyref por ensamblados reales
-    			for(var i = 0; i < metadata.assemblyRef.length; i++) {
-    				metadata.assemblyRef[i] = self.domain.assemblies[metadata.assemblyRef[i].name];
-    			}
-    		}
-    		
-    		//Si se crearon tipos (?? igual pasa siempe)
-    		if("typeDef" in metadata) {
-    			//Cambios todos los typedef por tipos reales
+        this.name = metadata.assembly[0].name;
+        this.types = {};
+        this.domain = domain;
+        var self = this;
 
-    			for(var i = 0; i < metadata.typeDef.length; i++) {
-	    			var orig = metadata.typeDef[i];
-	    			
-	    			var declaringType = null;
-	    			
-	    			//Busco si es un nesetd type
-	    			if("nestedClass" in metadata) {
-	    				for(var j = 0; j < metadata.nestedClass.length; j++) {
-	    					if(metadata.nestedClass[j].nestedClass == i) {
-	    						declaringType = metadata.nestedClass[j].enclosingClass;				
-	    					}
-	    				}
-	    			}
-	    			metadata.typeDef[i] = new Type(self, orig.namespace, orig.name, declaringType, orig["extends"]);
-	    			declaringType = null;
-	    			orig = null;
-    			}
-    
-    			//Agrego cado uno de los tipos a su declaringType si tiene, sino a su ensamblado
-    			for(var i = 0; i < metadata.typeDef.length; i++) {
-    				var t = metadata.typeDef[i];
-    				if(t.declaringType == null) {
-    					self.types[t.namespace + "." + t.name] = t;
-    				} else {
-    					t.declaringType = metadata.typeDef[t.declaringType];
-    					t.declaringType.types[t.name] = t;
-    				}
-    				t = null;
-    			}
-    		}
-    		
-    		//Cambio todos los typeref por los typeref de los otros modulos
-    			
-    		if("typeRef" in metadata) {
-    			for(var i = 0; i < metadata.typeRef.length; i++) {
-    				var ref = metadata.typeRef[i];
-    				metadata.typeRef[i] = metadata[ref.resolutionScope.table][ref.resolutionScope.index].getType(ref.typeNamespace, ref.typeName);
-    			}
-    		}
-    		
-    		//Cambio todos los basetype por lo tipos reales
-    		
-    		if("typeDef" in metadata) {
-    			for(var i = 0; i < metadata.typeDef.length; i++) {
-    				var def = metadata.typeDef[i];
-    				if(def.baseType == null)
-    					continue;
-    				def.baseType = metadata[def.baseType.table][def.baseType.index];
-    				def = null;
-    			}
-    		}
-    		
-    		metadata = null;
+        this.domain.assemblies[this.name] = this;
 
-    		callback(self);
-    	};
- 
-    	
-    	var loader, i = 0;
-    	
-    	loader = function() {
-    	
-    		//Ya estan todas sus referencias
-    		if(i == metadata.assemblyRef.length) {
-    			finalize();
-    			return;
-    		}
-    	
-    		var name = metadata.assemblyRef[i].name;
-    		
-    		
-    		i++;
-    		//Si el modulo no esta cargado, lo carga
-    		if(name in self.domain.assemblies)
-    		{
-    			//Incrementa para el llamado al proximo modulo
-	    		loader();
-    		}
-    		else
-    		{
-    			self.domain.load(name + ".dll", function() {
-    				loader()
-    			});
-    		}
-    	};
-    	
-    	
-    	if("assemblyRef" in metadata)
-    		loader();
-    	else
-    		finalize();
+        //Cuando se cargaron todas las dependencias
+        var finalize = function () {
+
+            //Reemplazo el indice de ensamblado por la instancia real
+            metadata.assembly[0] = self;
+
+            //Si tiene referencias a ensamblados
+            if ("assemblyRef" in metadata) {
+                //Cambio todos los assemblyref por ensamblados reales
+                for (var i = 0; i < metadata.assemblyRef.length; i++) {
+                    metadata.assemblyRef[i] = self.domain.assemblies[metadata.assemblyRef[i].name];
+                }
+            }
+
+            //Si se crearon tipos (?? igual pasa siempe)
+            if ("typeDef" in metadata) {
+                //Cambios todos los typedef por tipos reales
+
+                for (var i = 0; i < metadata.typeDef.length; i++) {
+                    var orig = metadata.typeDef[i];
+
+                    var declaringType = null;
+
+                    //Busco si es un nesetd type
+                    if ("nestedClass" in metadata) {
+                        for (var j = 0; j < metadata.nestedClass.length; j++) {
+                            if (metadata.nestedClass[j].nestedClass == i) {
+                                declaringType = metadata.nestedClass[j].enclosingClass;
+                            }
+                        }
+                    }
+
+                    metadata.typeDef[i] = new Type(self, orig.namespace, orig.name, declaringType, orig["extends"], orig.methodList);
+                    declaringType = null;
+                    orig = null;
+                }
+
+                //Agrego cado uno de los tipos a su declaringType si tiene, sino a su ensamblado
+                for (var i = 0; i < metadata.typeDef.length; i++) {
+                    var t = metadata.typeDef[i];
+                    if (t.declaringType == null) {
+                        if (!(t.namespace in self.types)) {
+                            self.types[t.namespace] = new(function Namespace() {})();
+                        }
+
+                        self.types[t.namespace][t.name] = t;
+                    } else {
+                        t.declaringType = metadata.typeDef[t.declaringType];
+                        t.declaringType.types[t.name] = t;
+                    }
+                    t = null;
+                }
+            }
+
+
+			//Cargando los tipos del nucleo de .net
+			if(self.name == "mscorlib") {
+				
+				domain.coreTypes = [
+					self.getType("System", "Void"),
+					self.getType("System", "Boolean"),
+					self.getType("System", "Char"),
+					self.getType("System", "SByte"),
+					self.getType("System", "Byte"),
+					self.getType("System", "Int16"),
+					self.getType("System", "UInt16"),
+					self.getType("System", "Int32"),
+					self.getType("System", "UInt32"),
+					self.getType("System", "Int64"),
+					self.getType("System", "UInt64"),
+					self.getType("System", "Single"),
+					self.getType("System", "Double"),
+					self.getType("System", "String"),
+					self.getType("System", "Boolean")
+				];
+			}
+			
+
+            //Cambio todos los typeref por los typeref de los otros modulos
+
+            if ("typeRef" in metadata) {
+                for (var i = 0; i < metadata.typeRef.length; i++) {
+                    var ref = metadata.typeRef[i];
+                    metadata.typeRef[i] = metadata[ref.resolutionScope.table]
+                    [ref.resolutionScope.index].getType(ref.typeNamespace, ref.typeName);
+                }
+            }
+
+            //Cambio todos los basetype por lo tipos reales
+
+            if ("typeDef" in metadata) {
+                for (var i = 0; i < metadata.typeDef.length; i++) {
+                    var def = metadata.typeDef[i];
+                    if (def.baseType == null)
+                        continue;
+                    def.baseType = metadata[def.baseType.table][def.baseType.index];
+                    def = null;
+                }
+            }
+
+            //Reemplazo los metodDef por instancias de metodo reales
+            if ("methodDef" in metadata) {
+                for (var i = 0; i < metadata.methodDef.length; i++) {
+                    var mdef = metadata.methodDef[i];
+                    metadata.methodDef[i] = new Method(mdef.name, mdef.signature, mdef.paramList);
+                    mdef = null;
+                }
+            }
+            
+            //Reemplazo los param por instancias de parametros reales
+            if ("param" in metadata) {
+                for (var i = 0; i < metadata.param.length; i++) {
+                    var par = metadata.param[i];
+                    metadata.param[i] = new Parameter(par.name);
+                    par = null;
+                }
+            }
+
+
+
+            var replacelist = function (master, slave, reason, reverse) {
+
+                if (metadata[master] && metadata[slave]) {
+                    var methods = metadata[slave];
+                    var lastMethod = methods.length;
+
+                    for (var j = metadata[master].length - 1; j >= 0; j--) {
+                        var type = metadata[master][j];
+
+                        var newml = [];
+                        if (type[reason] - 1 != lastMethod) {
+                            newml = methods.slice(type[reason] - 1, lastMethod);
+                            lastMethod = type[reason] - 1;
+                        }
+
+                        type[reason] = newml;
+
+                        for (var k = 0; k < newml.length; k++)
+                            newml[k][reverse] = type;
+                    }
+                } else if (metadata[master]) {
+                    for (var i = 0; i < metadata[master].length; i++) {
+                        metadata[master][i][reason] = [];
+                    }
+                }
+
+            }
+
+            replacelist("typeDef", "methodDef", "methods", "declaringType");
+            replacelist("methodDef", "param", "parameters", "declaringMethod");
+
+			//Reemplazo las firmas de los metodos por los datos utiles
+
+			if("methodDef" in metadata) {
+				for(var i = 0; i < metadata.methodDef.length; i++) {
+					var mdef = metadata.methodDef[i];
+					
+					
+					var rdef = mdef.signature.returnType;
+					rdef = { table : rdef.table[0].toLowerCase() + rdef.table.substring(1), index: rdef.index };
+					
+					
+					if(rdef.table == "coreTypes") {
+						mdef.returnType = domain.coreTypes[rdef.index - 1];					
+					} else { 
+						
+						
+						mdef.returnType = metadata[rdef.table][rdef.index];
+					}
+					
+					//mref.signature.returnType = null;
+					mdef = null;
+				}
+			}
+
+            metadata = null;
+            callback(self);
+        };
+
+
+        var loader, i = 0;
+
+        loader = function () {
+
+            //Ya estan todas sus referencias
+            if (i == metadata.assemblyRef.length) {
+                finalize();
+                return;
+            }
+
+            var name = metadata.assemblyRef[i].name;
+
+
+            i++;
+            //Si el modulo no esta cargado, lo carga
+            if (name in self.domain.assemblies) {
+                //Incrementa para el llamado al proximo modulo
+                loader();
+            } else {
+                self.domain.load(name + ".dll", function () {
+                    loader()
+                });
+            }
+        };
+
+
+        if ("assemblyRef" in metadata)
+            loader();
+        else
+            finalize();
     }
-    
-    
-    Assembly.prototype.getType = function(namespace , name) {
-    	return this.types[namespace + "." + name];
+
+    Assembly.prototype.getType = function (namespace, name) {
+        return this.types[namespace][name];
     };
-    
-    
-    window.onload = function() {
-    	var uri = document.getElementById("3436ff6a-c82c-4e0a-b7fa-12d104074de3").getAttribute("main");
-    	new Domain(uri, function (domain) {
-            console.debug("Carga finalizada");
+
+    function Method(name, signature, parameters) {
+        this.name = name;
+        this.signature = signature;
+        this.parameters = parameters;
+    };
+
+	function Parameter(name) {
+		this.name = name;
+		this.parameterType = null;
+	};
+
+
+    window.onload = function () {
+        var uri = document.getElementById("3436ff6a-c82c-4e0a-b7fa-12d104074de3").getAttribute("main");
+        new Domain(uri, function (domain) {
             console.debug(domain);
         });
     };
