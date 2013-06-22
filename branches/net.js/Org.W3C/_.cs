@@ -43,9 +43,15 @@ namespace Org.W3C
 		internal extern Blob();
 	}
 
+	public class Text : Node
+	{
+	}
+
 	public class Document : Node
 	{
 		internal extern Document();
+		public extern Text CreateTextNode (string data);
+		public extern Element CreateElement (string tagname);
 	}
 
 	public class Element : Node

@@ -21,8 +21,8 @@ using System;
 
 namespace System.Collections.Generics
 {
-	public class IEnumerator<T> : IEnumerator
+	/*public class IEnumerator<T> : IEnumerator
 	{
 
-	}
+	}*/
 }

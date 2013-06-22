@@ -16,35 +16,38 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 */
-
 using System;
 using Org.W3C;
 using Org.W3C.XMLHttpRequest;
 using Org.W3C.HTML;
 using Org.W3C.Events;
 
-namespace Net.Js.Example
-{
-    public class Index : Window
-    {
-	    public void OnAJAXButtonClick()
-	    {
-		    var xhr = new XMLHttpRequest ();
-			xhr.Open("GET", "example.html");
-		    xhr.Send();
-		    xhr.OnReadyStateChange += delegate() {
-			    if(xhr.ReadyState == ReadyState.Done) {
-				    Alert(xhr.ResponseText);
-			    }
-		    };
-	    }
+namespace Net.Js.Example {
+    public class Index: Window {
+        public void OnAJAXButtonClick() {
+            var xhr = new XMLHttpRequest();
+            xhr.Open("GET", "example.html");
+            xhr.Send();
+            xhr.OnReadyStateChange += delegate() {
+                if (xhr.ReadyState == ReadyState.Done) {
+
+                    var pre = Document.CreateElement("pre");
+                    pre.AppendChild(Document.CreateTextNode(xhr.ResponseText));
+                    Alert(xhr.ResponseText);
+
+                }
+            };
+        }
     }
 
+    public static class Pruebita {
+        public static int lala(Index jajaja) {
+            return 0;
+        }
 
-	public class ExampleEnclosing
-	{
-		public class ExampleNested
-		{
-		}
-	}
+        public static Index lele(Index jajaja) {
+            return null;
+        }
+    }
+
 }
