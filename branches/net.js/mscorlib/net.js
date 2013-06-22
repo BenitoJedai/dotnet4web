@@ -622,26 +622,15 @@
 
     Domain.prototype.load = function (path, callback) {
         new Parser(path, function (data) {
-            console.debug("Parseado el ensamblado " + path);
+            
             new Assembly(this, data, function (assembly) {
-
+				console.debug("Parseado el ensamblado " + path);
                 callback(this);
 
             }.bind(this));
 
         }.bind(this));
     };
-
-
-    function Type(assembly, namespace, name, declaringType, baseType, methods) {
-        this.assembly = assembly;
-        this.name = name;
-        this.namespace = namespace;
-        this.declaringType = declaringType;
-        this.types = {};
-        this.baseType = baseType;
-        this.methods = methods;
-    }
 
     function Assembly(domain, metadata, callback) {
         this.name = metadata.assembly[0].name;
@@ -806,20 +795,28 @@
 
 			if("methodDef" in metadata) {
 				for(var i = 0; i < metadata.methodDef.length; i++) {
+				
+					//Sus tipos de retornos
 					var mdef = metadata.methodDef[i];
-					
-					
 					var rdef = mdef.signature.returnType;
 					rdef = { table : rdef.table[0].toLowerCase() + rdef.table.substring(1), index: rdef.index };
-					
-					
 					if(rdef.table == "coreTypes") {
 						mdef.returnType = domain.coreTypes[rdef.index - 1];					
 					} else { 
-						
-						
 						mdef.returnType = metadata[rdef.table][rdef.index];
 					}
+					
+					//Sus tipos de parametros
+					for(var j = 0; j < mdef.signature.parametersTypes.length; j++) {
+						var partype = mdef.signature.parametersTypes[j];
+						partype = { table : partype.table[0].toLowerCase() + partype.table.substring(1), index: partype.index };
+						if(partype.table == "coreTypes") {
+							mdef.parameters[j].parameterType = domain.coreTypes[partype.index - 1];					
+						} else { 
+							mdef.parameters[j].parameterType = metadata[partype.table][partype.index];
+						}
+					}
+					
 					
 					//mref.signature.returnType = null;
 					mdef = null;
@@ -866,16 +863,32 @@
     Assembly.prototype.getType = function (namespace, name) {
         return this.types[namespace][name];
     };
+    
+    function Type(assembly, namespace, name, declaringType, baseType, methods) {
+        this.assembly = assembly;
+        this.name = name;
+        this.namespace = namespace;
+        this.declaringType = declaringType;
+        this.types = {};
+        this.baseType = baseType;
+        this.methods = methods;
+        this.genericArguments = [];
+    }
 
     function Method(name, signature, parameters) {
         this.name = name;
         this.signature = signature;
         this.parameters = parameters;
+        this.genericArguments = [];
     };
 
 	function Parameter(name) {
 		this.name = name;
 		this.parameterType = null;
+	};
+
+	function Generic(name) {
+		this.name;
 	};
 
 

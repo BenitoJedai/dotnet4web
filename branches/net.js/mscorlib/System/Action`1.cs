@@ -2,6 +2,6 @@ using System;
 
 namespace System
 {
-	public delegate void Action<T>(T obj);
+	//public delegate void Action<T>(T obj);
 }
 
