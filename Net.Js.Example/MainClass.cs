@@ -50,4 +50,11 @@ namespace Net.Js.Example {
         }
     }
 
+	/*public class generica<T>
+	{
+		public void lala(T p1) { }
+		public void jajajaja<T2>() {
+		}
+	}*/
+
 }
