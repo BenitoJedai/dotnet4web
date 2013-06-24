@@ -21,5 +21,6 @@ namespace System
 {
 	public class Exception
 	{
+		public extern Exception();
 	}
 }

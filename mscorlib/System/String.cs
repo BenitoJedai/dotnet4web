@@ -21,5 +21,6 @@ namespace System
 {
 	public sealed class String
 	{
+		public extern String();
 	}
 }

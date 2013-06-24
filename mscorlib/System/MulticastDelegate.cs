@@ -21,5 +21,6 @@ namespace System
 {
 	public class MulticastDelegate
 	{
+		public extern MulticastDelegate();
 	}
 }

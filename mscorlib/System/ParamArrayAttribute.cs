@@ -21,5 +21,6 @@ namespace System
 {
 	public class ParamArrayAttribute : Attribute
 	{
+		public extern ParamArrayAttribute();
 	}
 }

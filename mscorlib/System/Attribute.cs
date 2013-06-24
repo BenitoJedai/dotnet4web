@@ -21,5 +21,6 @@ namespace System
 {
 	public class Attribute
 	{
+		public extern Attribute();
 	}
 }
