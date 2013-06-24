@@ -19,7 +19,8 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 namespace System
 {
-	public class Array
+	public abstract class Array
 	{
+		public extern Array();
 	}
 }

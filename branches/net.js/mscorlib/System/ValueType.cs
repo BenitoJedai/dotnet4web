@@ -21,5 +21,6 @@ namespace System
 {
 	public class ValueType
 	{
+		public extern ValueType();
 	}
 }

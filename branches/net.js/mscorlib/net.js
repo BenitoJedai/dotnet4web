@@ -1,4 +1,5 @@
 (function () {
+	"use strict";
 
     function Reader(uri, callback) {
         var xhr = new XMLHttpRequest();
@@ -361,18 +362,28 @@
             parent: this.readNetIndex("TypeDef")
         };
     };
+    
+    Reader.prototype.readMethodBody = function() {
+    
+    	var rv = this.readDoubleWord();
+    	
+    	
+    	return rv == 0 ? null : rv;
+    
+    };
 
     Reader.prototype.readMethodDef = function () {
-        return {
-            rva: this.readDoubleWord(),
+        var rv = {
+            rva: this.readMethodBody(),
             implFlags: this.readWord(),
             flags: this.readWord(),
             name: this.readNetString(),
             signature: this.readMethodDefSignature(),
             paramList: this.readNetIndex("Param")
         };
+        
+        return rv;
     };
-
 
     Reader.prototype.readSignatureConstant = function () {
 
@@ -744,7 +755,7 @@
             if ("methodDef" in metadata) {
                 for (var i = 0; i < metadata.methodDef.length; i++) {
                     var mdef = metadata.methodDef[i];
-                    metadata.methodDef[i] = new Method(mdef.name, mdef.signature, mdef.paramList);
+                    metadata.methodDef[i] = new Method(mdef.name, mdef.signature, mdef.paramList, mdef.rva);
                     mdef = null;
                 }
             }
@@ -818,7 +829,7 @@
 					}
 					
 					
-					//mref.signature.returnType = null;
+					delete mdef.signature;
 					mdef = null;
 				}
 			}
@@ -875,11 +886,12 @@
         this.genericArguments = [];
     }
 
-    function Method(name, signature, parameters) {
+    function Method(name, signature, parameters, body) {
         this.name = name;
         this.signature = signature;
         this.parameters = parameters;
         this.genericArguments = [];
+        this.body = body;
     };
 
 	function Parameter(name) {

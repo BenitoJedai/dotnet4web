@@ -19,7 +19,8 @@ along with this program.  If not, see `<http://www.gnu.org/licenses/>`.
 
 namespace System
 {
-	public class Enum
+	public abstract class Enum : ValueType
 	{
+		public extern Enum();
 	}
 }

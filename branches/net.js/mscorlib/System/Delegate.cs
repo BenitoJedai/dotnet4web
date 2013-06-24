@@ -21,5 +21,6 @@ namespace System
 {
 	public class Delegate
 	{
+		public extern Delegate();
 	}
 }

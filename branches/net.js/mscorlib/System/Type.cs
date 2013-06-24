@@ -21,6 +21,7 @@ namespace System
 {
 	public abstract class Type
 	{
+		public extern Type();
 		public extern string Name { get; set; }
 	}
 }
