@@ -750,7 +750,7 @@
                     def = null;
                 }
             }
-
+//
             //Reemplazo los metodDef por instancias de metodo reales
             if ("methodDef" in metadata) {
                 for (var i = 0; i < metadata.methodDef.length; i++) {
