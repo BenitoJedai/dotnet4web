@@ -8,10 +8,6 @@ namespace Org.W3C
 	{
 		protected extern Window();
 		public extern void Alert(string message);
-		public void Alert(object message)
-		{
-			Alert (message.ToString());
-		}
 		public extern HTMLDocument Document { get; }
 	}
 
@@ -27,10 +23,12 @@ namespace Org.W3C
 
 	public class UserData
 	{
+		internal extern UserData();
 	}
 
 	public class UserDataHandler
 	{
+		internal extern UserDataHandler();
 	}
 
 	public class ArrayBuffer
@@ -45,6 +43,7 @@ namespace Org.W3C
 
 	public class Text : Node
 	{
+		internal extern Text();
 	}
 
 	public class Document : Node
@@ -56,10 +55,12 @@ namespace Org.W3C
 
 	public class Element : Node
 	{
+		internal extern Element();
 	}
 
 	public class HTMLFormElement : HTMLElement
 	{
+		internal extern HTMLFormElement();
 	}
 }
 

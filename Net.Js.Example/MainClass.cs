@@ -39,22 +39,4 @@ namespace Net.Js.Example {
             };
         }
     }
-
-    public static class Pruebita {
-        public static int lala(Index jajaja) {
-            return 0;
-        }
-
-        public static Index lele(Index jajaja) {
-            return null;
-        }
-    }
-
-	/*public class generica<T>
-	{
-		public void lala(T p1) { }
-		public void jajajaja<T2>() {
-		}
-	}*/
-
 }

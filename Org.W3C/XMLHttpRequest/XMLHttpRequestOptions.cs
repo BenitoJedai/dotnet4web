@@ -23,6 +23,7 @@ namespace Org.W3C.XMLHttpRequest
 
 	public class XMLHttpRequestOptions
 	{
+		public extern XMLHttpRequestOptions();
 		#region fields
 
 		public bool Anon;
