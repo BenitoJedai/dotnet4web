@@ -63,7 +63,7 @@ namespace Org.W3C.HTML
 		/// <summary>
 		/// The element's advisory title. See the title attribute definition in HTML 4.01.
 		/// </summary>
-		public virtual string Title { get; set; }
+		public extern string Title { get; set; }
 
 		#endregion
 

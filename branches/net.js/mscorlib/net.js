@@ -769,8 +769,7 @@
                 }
             }
 
-
-
+			//Metodo magico de marcelo que seleciona las listas por indices
             var replacelist = function (master, slave, reason, reverse) {
 
                 if (metadata[master] && metadata[slave]) {
@@ -831,6 +830,24 @@
 					
 					delete mdef.signature;
 					mdef = null;
+				}
+			}
+			
+			//Creo los cuerpos de los metodos
+
+			if("methodDef" in metadata) {
+				for(var i = 0; i < metadata.methodDef.length; i++) {
+				
+					var methodDef = metadata.methodDef[i];
+					var body = methodDef.body;
+					
+					//Si no tiene cuerpo se continua sin parsear
+					if(body == null)
+						continue;
+					
+					
+
+					console.debug(methodDef);
 				}
 			}
 
